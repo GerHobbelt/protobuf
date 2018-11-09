@@ -218,8 +218,6 @@ project "protobuf"
 
     -- common configuration settings
 
-    buildoptions { "-std=c++11" }
-
     defines {
       "HAVE_PTHREAD"
     }
