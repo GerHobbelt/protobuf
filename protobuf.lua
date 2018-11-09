@@ -9,7 +9,7 @@ project "protobuf"
 
   -- common project settings
 
-  dofile (_BUILD_DIR .. "/3rdparty_static_project.lua")
+  dofile (_BUILD_DIR .. "/3rdparty_shared_project.lua")
 
   -- project specific settings
 
@@ -358,7 +358,7 @@ project "protobuf"
       "_CRT_SECURE_NO_WARNINGS",
     }
 
-    dofile (_BUILD_DIR .. "/static_winuwp.lua")
+    dofile (_BUILD_DIR .. "/sharedwinuwp.lua")
 
     -- project specific configuration settings
 
@@ -370,7 +370,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_winuwp_x86_debug.lua")
+    dofile (_BUILD_DIR .. "/sharedwinuwp_x86_debug.lua")
 
     -- project specific configuration settings
 
@@ -382,7 +382,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_winuwp_x86_release.lua")
+    dofile (_BUILD_DIR .. "/sharedwinuwp_x86_release.lua")
 
     -- project specific configuration settings
 
@@ -394,7 +394,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_winuwp_x64_debug.lua")
+    dofile (_BUILD_DIR .. "/sharedwinuwp_x64_debug.lua")
 
     -- project specific configuration settings
 
@@ -406,7 +406,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_winuwp_x64_release.lua")
+    dofile (_BUILD_DIR .. "/sharedwinuwp_x64_release.lua")
 
     -- project specific configuration settings
 
@@ -418,7 +418,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_winuwp_arm_debug.lua")
+    dofile (_BUILD_DIR .. "/sharedwinuwp_arm_debug.lua")
 
     -- project specific configuration settings
 
@@ -430,7 +430,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_winuwp_arm_release.lua")
+    dofile (_BUILD_DIR .. "/sharedwinuwp_arm_release.lua")
 
     -- project specific configuration settings
 
