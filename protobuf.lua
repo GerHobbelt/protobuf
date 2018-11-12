@@ -110,7 +110,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_win.lua")
+    dofile (_BUILD_DIR .. "/static_win.lua")
 
     -- project specific configuration settings
 
@@ -122,7 +122,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_win_x86_debug.lua")
+    dofile (_BUILD_DIR .. "/static_win_x86_debug.lua")
 
     -- project specific configuration settings
 
@@ -134,7 +134,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_win_x64_debug.lua")
+    dofile (_BUILD_DIR .. "/static_win_x64_debug.lua")
 
     -- project specific configuration settings
 
@@ -146,7 +146,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_win_x86_release.lua")
+    dofile (_BUILD_DIR .. "/static_win_x86_release.lua")
 
     -- project specific configuration settings
 
@@ -158,7 +158,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_win_x64_release.lua")
+    dofile (_BUILD_DIR .. "/static_win_x64_release.lua")
 
     -- project specific configuration settings
 
@@ -178,7 +178,7 @@ project "protobuf"
       "HAVE_PTHREAD"
     }
 
-    dofile (_BUILD_DIR .. "/shared_linux.lua")
+    dofile (_BUILD_DIR .. "/static_linux.lua")
 
     -- project specific configuration settings
 
@@ -190,7 +190,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_linux_x64_debug.lua")
+    dofile (_BUILD_DIR .. "/static_linux_x64_debug.lua")
 
     -- project specific configuration settings
 
@@ -202,7 +202,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_linux_x64_release.lua")
+    dofile (_BUILD_DIR .. "/static_linux_x64_release.lua")
 
     -- project specific configuration settings
 
@@ -222,7 +222,7 @@ project "protobuf"
       "HAVE_PTHREAD"
     }
 
-    dofile (_BUILD_DIR .. "/shared_mac.lua")
+    dofile (_BUILD_DIR .. "/static_mac.lua")
 
     -- project specific configuration settings
 
@@ -234,7 +234,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_mac_x64_debug.lua")
+    dofile (_BUILD_DIR .. "/static_mac_x64_debug.lua")
 
     -- project specific configuration settings
 
@@ -246,7 +246,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_mac_x64_release.lua")
+    dofile (_BUILD_DIR .. "/static_mac_x64_release.lua")
 
     -- project specific configuration settings
 
@@ -266,7 +266,7 @@ project "protobuf"
       "HAVE_PTHREAD"
     }
 
-    dofile (_BUILD_DIR .. "/shared_android.lua")
+    dofile (_BUILD_DIR .. "/static_android.lua")
 
     -- project specific configuration settings
 
@@ -278,7 +278,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_android_armv7_debug.lua")
+    dofile (_BUILD_DIR .. "/static_android_armv7_debug.lua")
 
     -- project specific configuration settings
 
@@ -290,7 +290,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_android_armv7_release.lua")
+    dofile (_BUILD_DIR .. "/static_android_armv7_release.lua")
 
     -- project specific configuration settings
 
@@ -302,7 +302,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_android_x86_debug.lua")
+    dofile (_BUILD_DIR .. "/static_android_x86_debug.lua")
 
     -- project specific configuration settings
 
@@ -314,7 +314,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_android_x86_release.lua")
+    dofile (_BUILD_DIR .. "/static_android_x86_release.lua")
 
     -- project specific configuration settings
 
@@ -326,7 +326,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_android_arm64_debug.lua")
+    dofile (_BUILD_DIR .. "/static_android_arm64_debug.lua")
 
     -- project specific configuration settings
 
@@ -338,7 +338,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/shared_android_arm64_release.lua")
+    dofile (_BUILD_DIR .. "/static_android_arm64_release.lua")
 
     -- project specific configuration settings
 
@@ -358,7 +358,7 @@ project "protobuf"
       "_CRT_SECURE_NO_WARNINGS",
     }
 
-    dofile (_BUILD_DIR .. "/sharedwinuwp.lua")
+    dofile (_BUILD_DIR .. "/static_winuwp.lua")
 
     -- project specific configuration settings
 
@@ -370,7 +370,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/sharedwinuwp_x86_debug.lua")
+    dofile (_BUILD_DIR .. "/static_winuwp_x86_debug.lua")
 
     -- project specific configuration settings
 
@@ -382,7 +382,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/sharedwinuwp_x86_release.lua")
+    dofile (_BUILD_DIR .. "/static_winuwp_x86_release.lua")
 
     -- project specific configuration settings
 
@@ -394,7 +394,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/sharedwinuwp_x64_debug.lua")
+    dofile (_BUILD_DIR .. "/static_winuwp_x64_debug.lua")
 
     -- project specific configuration settings
 
@@ -406,7 +406,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/sharedwinuwp_x64_release.lua")
+    dofile (_BUILD_DIR .. "/static_winuwp_x64_release.lua")
 
     -- project specific configuration settings
 
@@ -418,7 +418,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/sharedwinuwp_arm_debug.lua")
+    dofile (_BUILD_DIR .. "/static_winuwp_arm_debug.lua")
 
     -- project specific configuration settings
 
@@ -430,7 +430,7 @@ project "protobuf"
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/sharedwinuwp_arm_release.lua")
+    dofile (_BUILD_DIR .. "/static_winuwp_arm_release.lua")
 
     -- project specific configuration settings
 
