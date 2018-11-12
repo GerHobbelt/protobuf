@@ -9,7 +9,7 @@ project "protobuf"
 
   -- common project settings
 
-  dofile (_BUILD_DIR .. "/3rdparty_shared_project.lua")
+  dofile (_BUILD_DIR .. "/3rdparty_static_project.lua")
 
   -- project specific settings
 
