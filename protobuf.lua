@@ -15,42 +15,7 @@ project "protobuf"
 
   uuid "1A92AB33-0DCB-4953-BCB9-467862B5FE1F"
 
-  -- uncomment if the project is for runtimecore and uses a pch file
-  -- if (os.is("windows")) then
-  --   pchheader ("pch.h")
-
-  --   pchsource ("src/pch.cpp")
-  -- else
-  --   pchheader (prjDir .. "/src/pch.h")
-
-  --   pchsource (prjDir .. "/src/pch.cpp")
-  -- end
-
-  -- uncomment if the project is from 3rdparty and doesn't have a pch file
-  flags {
-    "NoPCH",
-  }
-
-  -- uncomment and specify project specific defines if any
-  -- defines {
-  --   "<PROJECT_SPECIFIC_DEFINES>"
-  -- }
-
-  includedirs {
-    prjDir .. "/../zlib",
-    prjDir .. "/src"
-  }
-
-  links {
-
-    -- Project dependencies are specifed as links as well
-    -- Ensures build order
-
-    "zlib"
-  }
-
   files {
-
     prjDir .. "/src/google/protobuf/arena.cc",
     prjDir .. "/src/google/protobuf/arenastring.cc",
     prjDir .. "/src/google/protobuf/extension_set.cc",
@@ -95,15 +60,19 @@ project "protobuf"
     prjDir .. "/src/google/protobuf/stubs/stringprintf.h",
     prjDir .. "/src/google/protobuf/stubs/strutil.h",
     prjDir .. "/src/google/protobuf/stubs/time.h",
-    prjDir .. "/src/google/protobuf/wire_format_lite.h"
+    prjDir .. "/src/google/protobuf/wire_format_lite.h",
+  }
 
+  includedirs {
+    prjDir .. "/../zlib",
+    prjDir .. "/src"
   }
 
   -- -------------------------------------------------------------
   -- configurations
   -- -------------------------------------------------------------
 
-  if (os.is("windows") and not _TARGET_IS_WINUWP) then
+  if (os.is("windows") and not _TARGET_IS_WINRT and not _TARGET_IS_WINPHONE) then
     -- -------------------------------------------------------------
     -- configuration { "windows" }
     -- -------------------------------------------------------------
@@ -175,9 +144,9 @@ project "protobuf"
     -- common configuration settings
 
     defines {
-      "HAVE_PTHREAD"
+      "HAVE_PTHREAD" 
     }
-
+  
     dofile (_BUILD_DIR .. "/static_linux.lua")
 
     -- project specific configuration settings
@@ -219,7 +188,7 @@ project "protobuf"
     -- common configuration settings
 
     defines {
-      "HAVE_PTHREAD"
+      "HAVE_PTHREAD" 
     }
 
     dofile (_BUILD_DIR .. "/static_mac.lua")
@@ -255,6 +224,122 @@ project "protobuf"
     -- -------------------------------------------------------------
   end
 
+  if (_OS_IS_IOS) then
+    -- -------------------------------------------------------------
+    -- configuration { "ios" } == _OS_IS_IOS
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+    
+    defines {
+      "HAVE_PTHREAD" 
+    }
+
+    dofile (_BUILD_DIR .. "/static_ios.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "ios*" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "ios_armv7_debug" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_ios_armv7_debug.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "ios_armv7_debug" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "ios_armv7_release" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_ios_armv7_release.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "ios_armv7_release" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "ios_sim_debug" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_ios_sim_debug.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "ios_sim_debug" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "ios_sim_release" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_ios_sim_release.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "ios_sim_release" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "ios_arm64_debug" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_ios_arm64_debug.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "ios_arm64_debug" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "ios_arm64_release" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_ios_arm64_release.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "ios_arm64_release" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "ios_sim64_debug" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_ios_sim64_debug.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "ios_sim64_debug" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "ios_sim64_release" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_ios_sim64_release.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "ios_sim64_release" }
+
+    -- -------------------------------------------------------------
+  end
+
   if (_OS_IS_ANDROID) then
     -- -------------------------------------------------------------
     -- configuration { "android" } == _OS_IS_ANDROID
@@ -263,7 +348,7 @@ project "protobuf"
     -- common configuration settings
 
     defines {
-      "HAVE_PTHREAD"
+      "HAVE_PTHREAD" 
     }
 
     dofile (_BUILD_DIR .. "/static_android.lua")
@@ -321,28 +406,100 @@ project "protobuf"
     -- configuration { "android_x86_release" }
 
     -- -------------------------------------------------------------
-    -- configuration { "android_arm64_debug" }
+    -- configuration { "androidgles3_armv7_debug" }
     -- -------------------------------------------------------------
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_android_arm64_debug.lua")
+    dofile (_BUILD_DIR .. "/static_androidgles3_armv7_debug.lua")
 
     -- project specific configuration settings
 
-    -- configuration { "android_arm64_debug" }
+    -- configuration { "androidgles3_armv7_debug" }
 
     -- -------------------------------------------------------------
-    -- configuration { "android_arm64_release" }
+    -- configuration { "androidgles3_armv7_release" }
     -- -------------------------------------------------------------
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_android_arm64_release.lua")
+    dofile (_BUILD_DIR .. "/static_androidgles3_armv7_release.lua")
 
     -- project specific configuration settings
 
-    -- configuration { "android_arm64_release" }
+    -- configuration { "androidgles3_armv7_release" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "androidgles3_x86_debug" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_androidgles3_x86_debug.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "androidgles3_x86_debug" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "androidgles3_x86_release" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_androidgles3_x86_release.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "androidgles3_x86_release" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "androidgles3_armv8_debug" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_androidgles3_armv8_debug.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "androidgles3_armv8_debug" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "androidgles3_armv8_release" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_androidgles3_armv8_release.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "androidgles3_armv8_release" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "androidgles3_x64_debug" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_androidgles3_x64_debug.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "androidgles3_x64_debug" }
+
+    -- -------------------------------------------------------------
+    -- configuration { "androidgles3_x64_release" }
+    -- -------------------------------------------------------------
+
+    -- common configuration settings
+
+    dofile (_BUILD_DIR .. "/static_androidgles3_x64_release.lua")
+
+    -- project specific configuration settings
+
+    -- configuration { "androidgles3_x64_release" }
 
     -- -------------------------------------------------------------
   end
@@ -354,15 +511,15 @@ project "protobuf"
 
     -- common configuration settings
 
-    defines {
-      "_CRT_SECURE_NO_WARNINGS",
-    }
-
     dofile (_BUILD_DIR .. "/static_winuwp.lua")
 
     -- project specific configuration settings
 
     -- configuration { "windows" }
+
+    defines {
+      "_CRT_SECURE_NO_WARNINGS",
+    }
 
     -- -------------------------------------------------------------
     -- configuration { "winuwp_debug", "x32" }
