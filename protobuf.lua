@@ -519,7 +519,7 @@ project "protobuf"
 
       defines {
         "_CRT_SECURE_NO_WARNINGS",
-        "_CRT_NONSTDC_NO_DEPRECTATE",
+        "_CRT_SECURE_NO_DEPRECATE",
       }
 
     -- -------------------------------------------------------------
