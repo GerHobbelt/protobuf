@@ -517,10 +517,6 @@ project "protobuf"
 
     configuration { "windows" }
 
-      defines {
-        "_CRT_SECURE_NO_WARNINGS",
-      }
-
       buildoptions {
         "/sdl-",
       }
