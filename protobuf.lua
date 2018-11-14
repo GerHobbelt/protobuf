@@ -143,9 +143,9 @@ project "protobuf"
 
     -- common configuration settings
 
-    defines {
-      "HAVE_PTHREAD" 
-    }
+      defines {
+        "HAVE_PTHREAD" 
+      }
   
     dofile (_BUILD_DIR .. "/static_linux.lua")
 
@@ -187,9 +187,9 @@ project "protobuf"
 
     -- common configuration settings
 
-    defines {
-      "HAVE_PTHREAD" 
-    }
+      defines {
+        "HAVE_PTHREAD" 
+      }
 
     dofile (_BUILD_DIR .. "/static_mac.lua")
 
@@ -231,9 +231,9 @@ project "protobuf"
 
     -- common configuration settings
     
-    defines {
-      "HAVE_PTHREAD" 
-    }
+      defines {
+        "HAVE_PTHREAD" 
+      }
 
     dofile (_BUILD_DIR .. "/static_ios.lua")
 
@@ -347,9 +347,9 @@ project "protobuf"
 
     -- common configuration settings
 
-    defines {
-      "HAVE_PTHREAD" 
-    }
+      defines {
+        "HAVE_PTHREAD" 
+      }
 
     dofile (_BUILD_DIR .. "/static_android.lua")
 
@@ -515,11 +515,12 @@ project "protobuf"
 
     -- project specific configuration settings
 
-    -- configuration { "windows" }
+    configuration { "windows" }
 
-    defines {
-      "_CRT_SECURE_NO_WARNINGS",
-    }
+      defines {
+        "_CRT_SECURE_NO_WARNINGS",
+        "_CRT_NONSTDC_NO_DEPRECTATE",
+      }
 
     -- -------------------------------------------------------------
     -- configuration { "winuwp_debug", "x32" }
