@@ -522,7 +522,7 @@ project "protobuf"
         "_CRT_SECURE_NO_DEPRECATE",
       }
 
-      flags {
+      buildoptions {
         "/sdl-",
       }
 
