@@ -515,7 +515,7 @@ project "protobuf"
 
     -- project specific configuration settings
 
-    configuration { "windows" }
+      configuration { "windows" }
 
       buildoptions {
         "/sdl-",
