@@ -97,7 +97,7 @@ project "protobuf"
   -- configurations
   -- -------------------------------------------------------------
 
-  if (os.is("windows") and not _TARGET_IS_WINRT and not _TARGET_IS_WINPHONE) then
+  if (os.is("windows") and not _TARGET_IS_WINUWP) then
     -- -------------------------------------------------------------
     -- configuration { "windows" }
     -- -------------------------------------------------------------
@@ -167,16 +167,16 @@ project "protobuf"
     -- -------------------------------------------------------------
 
     -- common configuration settings
-
-      defines {
-        "HAVE_PTHREAD" 
-      }
   
     dofile (_BUILD_DIR .. "/static_linux.lua")
 
     -- project specific configuration settings
 
-    -- configuration { "linux" }
+    configuration { "linux" }
+
+      defines {
+        "HAVE_PTHREAD",
+      }
 
     -- -------------------------------------------------------------
     -- configuration { "linux", "Debug", "x64" }
@@ -212,15 +212,15 @@ project "protobuf"
 
     -- common configuration settings
 
-      defines {
-        "HAVE_PTHREAD" 
-      }
-
     dofile (_BUILD_DIR .. "/static_mac.lua")
 
     -- project specific configuration settings
 
-    -- configuration { "macosx" }
+    configuration { "macosx" }
+
+      defines {
+        "HAVE_PTHREAD",
+      }
 
     -- -------------------------------------------------------------
     -- configuration { "macosx", "Debug", "x64" }
@@ -255,64 +255,16 @@ project "protobuf"
     -- -------------------------------------------------------------
 
     -- common configuration settings
-    
-      defines {
-        "HAVE_PTHREAD" 
-      }
 
     dofile (_BUILD_DIR .. "/static_ios.lua")
 
     -- project specific configuration settings
 
-    -- configuration { "ios*" }
+    configuration { "ios*" }
 
-    -- -------------------------------------------------------------
-    -- configuration { "ios_armv7_debug" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_ios_armv7_debug.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "ios_armv7_debug" }
-
-    -- -------------------------------------------------------------
-    -- configuration { "ios_armv7_release" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_ios_armv7_release.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "ios_armv7_release" }
-
-    -- -------------------------------------------------------------
-    -- configuration { "ios_sim_debug" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_ios_sim_debug.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "ios_sim_debug" }
-
-    -- -------------------------------------------------------------
-    -- configuration { "ios_sim_release" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_ios_sim_release.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "ios_sim_release" }
+      defines {
+        "HAVE_PTHREAD",
+      }
 
     -- -------------------------------------------------------------
     -- configuration { "ios_arm64_debug" }
@@ -372,15 +324,15 @@ project "protobuf"
 
     -- common configuration settings
 
-      defines {
-        "HAVE_PTHREAD" 
-      }
-
     dofile (_BUILD_DIR .. "/static_android.lua")
 
     -- project specific configuration settings
 
-    -- configuration { "android*" }
+    configuration { "android*" }
+
+      defines {
+        "HAVE_PTHREAD",
+      }
 
     -- -------------------------------------------------------------
     -- configuration { "android_armv7_debug" }
@@ -431,100 +383,28 @@ project "protobuf"
     -- configuration { "android_x86_release" }
 
     -- -------------------------------------------------------------
-    -- configuration { "androidgles3_armv7_debug" }
+    -- configuration { "android_arm64_debug" }
     -- -------------------------------------------------------------
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_androidgles3_armv7_debug.lua")
+    dofile (_BUILD_DIR .. "/static_android_arm64_debug.lua")
 
     -- project specific configuration settings
 
-    -- configuration { "androidgles3_armv7_debug" }
+    -- configuration { "android_arm64_debug" }
 
     -- -------------------------------------------------------------
-    -- configuration { "androidgles3_armv7_release" }
+    -- configuration { "android_arm64_release" }
     -- -------------------------------------------------------------
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_androidgles3_armv7_release.lua")
+    dofile (_BUILD_DIR .. "/static_android_arm64_release.lua")
 
     -- project specific configuration settings
 
-    -- configuration { "androidgles3_armv7_release" }
-
-    -- -------------------------------------------------------------
-    -- configuration { "androidgles3_x86_debug" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_androidgles3_x86_debug.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "androidgles3_x86_debug" }
-
-    -- -------------------------------------------------------------
-    -- configuration { "androidgles3_x86_release" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_androidgles3_x86_release.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "androidgles3_x86_release" }
-
-    -- -------------------------------------------------------------
-    -- configuration { "androidgles3_armv8_debug" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_androidgles3_armv8_debug.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "androidgles3_armv8_debug" }
-
-    -- -------------------------------------------------------------
-    -- configuration { "androidgles3_armv8_release" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_androidgles3_armv8_release.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "androidgles3_armv8_release" }
-
-    -- -------------------------------------------------------------
-    -- configuration { "androidgles3_x64_debug" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_androidgles3_x64_debug.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "androidgles3_x64_debug" }
-
-    -- -------------------------------------------------------------
-    -- configuration { "androidgles3_x64_release" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_androidgles3_x64_release.lua")
-
-    -- project specific configuration settings
-
-    -- configuration { "androidgles3_x64_release" }
+    -- configuration { "android_arm64_release" }
 
     -- -------------------------------------------------------------
   end
@@ -540,7 +420,7 @@ project "protobuf"
 
     -- project specific configuration settings
 
-      configuration { "windows" }
+    configuration { "windows" }
 
       buildoptions {
         "/sdl-",
