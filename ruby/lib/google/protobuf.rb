@@ -37,7 +37,6 @@ module Google
   module Protobuf
     class Error < StandardError; end
     class ParseError < Error; end
-    class TypeError < ::TypeError; end
   end
 end
 
@@ -69,8 +68,8 @@ module Google
       klass.decode(proto)
     end
 
-    def self.decode_json(klass, json, options = {})
-      klass.decode_json(json, options)
+    def self.decode_json(klass, json)
+      klass.decode_json(json)
     end
 
   end

@@ -183,7 +183,7 @@ namespace Google.Protobuf
         /// </summary>
         /// <param name="input">The coded input stream containing the field</param>
         /// <returns>false if the tag is an "end group" tag, true otherwise</returns>
-        private bool MergeFieldFrom(CodedInputStream input)
+        private void MergeFieldFrom(CodedInputStream input)
         {
             uint tag = input.LastTag;
             int number = WireFormat.GetTagFieldNumber(tag);
@@ -193,40 +193,34 @@ namespace Google.Protobuf
                     {
                         ulong uint64 = input.ReadUInt64();
                         GetOrAddField(number).AddVarint(uint64);
-                        return true;
+                        return;
                     }
                 case WireFormat.WireType.Fixed32:
                     {
                         uint uint32 = input.ReadFixed32();
                         GetOrAddField(number).AddFixed32(uint32);
-                        return true;
+                        return;
                     }
                 case WireFormat.WireType.Fixed64:
                     {
                         ulong uint64 = input.ReadFixed64();
                         GetOrAddField(number).AddFixed64(uint64);
-                        return true;
+                        return;
                     }
                 case WireFormat.WireType.LengthDelimited:
                     {
                         ByteString bytes = input.ReadBytes();
                         GetOrAddField(number).AddLengthDelimited(bytes);
-                        return true;
+                        return;
                     }
                 case WireFormat.WireType.StartGroup:
                     {
-                        uint endTag = WireFormat.MakeTag(number, WireFormat.WireType.EndGroup);
-                        UnknownFieldSet set = new UnknownFieldSet();
-                        while (input.ReadTag() != endTag)
-                        {
-                            set.MergeFieldFrom(input);
-                        }
-                        GetOrAddField(number).AddGroup(set);
-                        return true;
+                        input.SkipGroup(tag);
+                        return;
                     }
                 case WireFormat.WireType.EndGroup:
                     {
-                        return false;
+                        throw new InvalidProtocolBufferException("Merge an unknown field of end-group tag, indicating that the corresponding start-group was missing.");
                     }
                 default:
                     throw new InvalidOperationException("Wire Type is invalid.");
@@ -254,10 +248,7 @@ namespace Google.Protobuf
             {
                 unknownFields = new UnknownFieldSet();
             }
-            if (!unknownFields.MergeFieldFrom(input))
-            {
-                throw new InvalidProtocolBufferException("Merge an unknown field of end-group tag, indicating that the corresponding start-group was missing."); // match the old code-gen
-            }
+            unknownFields.MergeFieldFrom(input);
             return unknownFields;
         }
 

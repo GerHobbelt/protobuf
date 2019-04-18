@@ -438,8 +438,8 @@ class GPBUtil
                 $nanoseconds = intval($nanoseconds);
 
                 // remove the nanoseconds and preceding period from the timestamp
-                $date = substr($timestamp, 0, $periodIndex);
-                $timezone = substr($timestamp, $periodIndex + $nanosecondsLength + 1);
+                $date = substr($timestamp, 0, $periodIndex - 1);
+                $timezone = substr($timestamp, $periodIndex + $nanosecondsLength);
                 $timestamp = $date.$timezone;
             }
         }
@@ -518,11 +518,8 @@ class GPBUtil
 
     public static function parseFieldMask($paths_string)
     {
-        $field_mask = new FieldMask();
-        if (strlen($paths_string) === 0) {
-            return $field_mask;
-        }
         $path_strings = explode(",", $paths_string);
+        $field_mask = new FieldMask();
         $paths = $field_mask->getPaths();
         foreach($path_strings as &$path_string) {
             $field_strings = explode(".", $path_string);

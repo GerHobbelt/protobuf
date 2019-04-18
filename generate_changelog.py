@@ -20,10 +20,11 @@ languages = [
   ]),
   Language("Java", [
       "java",
-      "src/google/protobuf/compiler/java",
+      "javanano",
+      "src/google/protobuf/compiler/cpp",
   ]),
   Language("Python", [
-      "python",
+      "javanano",
       "src/google/protobuf/compiler/python",
   ]),
   Language("JavaScript", [
@@ -62,4 +63,4 @@ for language in languages:
   print("")
 
 print("To view a commit on GitHub: " +
-      "https://github.com/protocolbuffers/protobuf/commit/<commit id>")
+      "https://github.com/google/protobuf/commit/<commit id>")

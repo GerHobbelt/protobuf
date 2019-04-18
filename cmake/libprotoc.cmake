@@ -44,6 +44,8 @@ set(libprotoc_files
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_generator.cc
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_generator_factory.cc
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_helpers.cc
+  ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_lazy_message_field.cc
+  ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_lazy_message_field_lite.cc
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_map_field.cc
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_map_field_lite.cc
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_message.cc
@@ -126,6 +128,8 @@ set(libprotoc_headers
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_file.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_generator_factory.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_helpers.h
+  ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_lazy_message_field.h
+  ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_lazy_message_field_lite.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_map_field.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_map_field_lite.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/java/java_message.h
@@ -151,10 +155,8 @@ set(libprotoc_headers
   ${protobuf_source_dir}/src/google/protobuf/compiler/objectivec/objectivec_map_field.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/objectivec/objectivec_message.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/objectivec/objectivec_message_field.h
-  ${protobuf_source_dir}/src/google/protobuf/compiler/objectivec/objectivec_nsobject_methods.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/objectivec/objectivec_oneof.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/objectivec/objectivec_primitive_field.h
-  ${protobuf_source_dir}/src/google/protobuf/compiler/scc.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/subprocess.h
   ${protobuf_source_dir}/src/google/protobuf/compiler/zip_writer.h
 )
@@ -179,4 +181,3 @@ set_target_properties(libprotoc PROPERTIES
     OUTPUT_NAME ${LIB_PREFIX}protoc
     DEBUG_POSTFIX "${protobuf_DEBUG_POSTFIX}")
 add_library(protobuf::libprotoc ALIAS libprotoc)
-

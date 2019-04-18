@@ -342,7 +342,6 @@ namespace Google.Protobuf.TestProtos {
       }
     }
 
-
     /// <summary>Field number for the "float_field" field.</summary>
     public const int FloatFieldFieldNumber = 11;
     private static readonly pb::FieldCodec<float?> _single_floatField_codec = pb::FieldCodec.ForStructWrapper<float>(90);
@@ -354,7 +353,6 @@ namespace Google.Protobuf.TestProtos {
         floatField_ = value;
       }
     }
-
 
     /// <summary>Field number for the "int64_field" field.</summary>
     public const int Int64FieldFieldNumber = 12;
@@ -368,7 +366,6 @@ namespace Google.Protobuf.TestProtos {
       }
     }
 
-
     /// <summary>Field number for the "uint64_field" field.</summary>
     public const int Uint64FieldFieldNumber = 13;
     private static readonly pb::FieldCodec<ulong?> _single_uint64Field_codec = pb::FieldCodec.ForStructWrapper<ulong>(106);
@@ -380,7 +377,6 @@ namespace Google.Protobuf.TestProtos {
         uint64Field_ = value;
       }
     }
-
 
     /// <summary>Field number for the "int32_field" field.</summary>
     public const int Int32FieldFieldNumber = 14;
@@ -394,7 +390,6 @@ namespace Google.Protobuf.TestProtos {
       }
     }
 
-
     /// <summary>Field number for the "uint32_field" field.</summary>
     public const int Uint32FieldFieldNumber = 15;
     private static readonly pb::FieldCodec<uint?> _single_uint32Field_codec = pb::FieldCodec.ForStructWrapper<uint>(122);
@@ -406,7 +401,6 @@ namespace Google.Protobuf.TestProtos {
         uint32Field_ = value;
       }
     }
-
 
     /// <summary>Field number for the "bool_field" field.</summary>
     public const int BoolFieldFieldNumber = 16;
@@ -420,7 +414,6 @@ namespace Google.Protobuf.TestProtos {
       }
     }
 
-
     /// <summary>Field number for the "string_field" field.</summary>
     public const int StringFieldFieldNumber = 17;
     private static readonly pb::FieldCodec<string> _single_stringField_codec = pb::FieldCodec.ForClassWrapper<string>(138);
@@ -433,7 +426,6 @@ namespace Google.Protobuf.TestProtos {
       }
     }
 
-
     /// <summary>Field number for the "bytes_field" field.</summary>
     public const int BytesFieldFieldNumber = 18;
     private static readonly pb::FieldCodec<pb::ByteString> _single_bytesField_codec = pb::FieldCodec.ForClassWrapper<pb::ByteString>(146);
@@ -445,7 +437,6 @@ namespace Google.Protobuf.TestProtos {
         bytesField_ = value;
       }
     }
-
 
     /// <summary>Field number for the "value_field" field.</summary>
     public const int ValueFieldFieldNumber = 19;
@@ -676,55 +667,55 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.anyField_ != null) {
         if (anyField_ == null) {
-          AnyField = new global::Google.Protobuf.WellKnownTypes.Any();
+          anyField_ = new global::Google.Protobuf.WellKnownTypes.Any();
         }
         AnyField.MergeFrom(other.AnyField);
       }
       if (other.apiField_ != null) {
         if (apiField_ == null) {
-          ApiField = new global::Google.Protobuf.WellKnownTypes.Api();
+          apiField_ = new global::Google.Protobuf.WellKnownTypes.Api();
         }
         ApiField.MergeFrom(other.ApiField);
       }
       if (other.durationField_ != null) {
         if (durationField_ == null) {
-          DurationField = new global::Google.Protobuf.WellKnownTypes.Duration();
+          durationField_ = new global::Google.Protobuf.WellKnownTypes.Duration();
         }
         DurationField.MergeFrom(other.DurationField);
       }
       if (other.emptyField_ != null) {
         if (emptyField_ == null) {
-          EmptyField = new global::Google.Protobuf.WellKnownTypes.Empty();
+          emptyField_ = new global::Google.Protobuf.WellKnownTypes.Empty();
         }
         EmptyField.MergeFrom(other.EmptyField);
       }
       if (other.fieldMaskField_ != null) {
         if (fieldMaskField_ == null) {
-          FieldMaskField = new global::Google.Protobuf.WellKnownTypes.FieldMask();
+          fieldMaskField_ = new global::Google.Protobuf.WellKnownTypes.FieldMask();
         }
         FieldMaskField.MergeFrom(other.FieldMaskField);
       }
       if (other.sourceContextField_ != null) {
         if (sourceContextField_ == null) {
-          SourceContextField = new global::Google.Protobuf.WellKnownTypes.SourceContext();
+          sourceContextField_ = new global::Google.Protobuf.WellKnownTypes.SourceContext();
         }
         SourceContextField.MergeFrom(other.SourceContextField);
       }
       if (other.structField_ != null) {
         if (structField_ == null) {
-          StructField = new global::Google.Protobuf.WellKnownTypes.Struct();
+          structField_ = new global::Google.Protobuf.WellKnownTypes.Struct();
         }
         StructField.MergeFrom(other.StructField);
       }
       if (other.timestampField_ != null) {
         if (timestampField_ == null) {
-          TimestampField = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+          timestampField_ = new global::Google.Protobuf.WellKnownTypes.Timestamp();
         }
         TimestampField.MergeFrom(other.TimestampField);
       }
       if (other.typeField_ != null) {
         if (typeField_ == null) {
-          TypeField = new global::Google.Protobuf.WellKnownTypes.Type();
+          typeField_ = new global::Google.Protobuf.WellKnownTypes.Type();
         }
         TypeField.MergeFrom(other.TypeField);
       }
@@ -775,7 +766,7 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.valueField_ != null) {
         if (valueField_ == null) {
-          ValueField = new global::Google.Protobuf.WellKnownTypes.Value();
+          valueField_ = new global::Google.Protobuf.WellKnownTypes.Value();
         }
         ValueField.MergeFrom(other.ValueField);
       }
@@ -792,65 +783,65 @@ namespace Google.Protobuf.TestProtos {
             break;
           case 10: {
             if (anyField_ == null) {
-              AnyField = new global::Google.Protobuf.WellKnownTypes.Any();
+              anyField_ = new global::Google.Protobuf.WellKnownTypes.Any();
             }
-            input.ReadMessage(AnyField);
+            input.ReadMessage(anyField_);
             break;
           }
           case 18: {
             if (apiField_ == null) {
-              ApiField = new global::Google.Protobuf.WellKnownTypes.Api();
+              apiField_ = new global::Google.Protobuf.WellKnownTypes.Api();
             }
-            input.ReadMessage(ApiField);
+            input.ReadMessage(apiField_);
             break;
           }
           case 26: {
             if (durationField_ == null) {
-              DurationField = new global::Google.Protobuf.WellKnownTypes.Duration();
+              durationField_ = new global::Google.Protobuf.WellKnownTypes.Duration();
             }
-            input.ReadMessage(DurationField);
+            input.ReadMessage(durationField_);
             break;
           }
           case 34: {
             if (emptyField_ == null) {
-              EmptyField = new global::Google.Protobuf.WellKnownTypes.Empty();
+              emptyField_ = new global::Google.Protobuf.WellKnownTypes.Empty();
             }
-            input.ReadMessage(EmptyField);
+            input.ReadMessage(emptyField_);
             break;
           }
           case 42: {
             if (fieldMaskField_ == null) {
-              FieldMaskField = new global::Google.Protobuf.WellKnownTypes.FieldMask();
+              fieldMaskField_ = new global::Google.Protobuf.WellKnownTypes.FieldMask();
             }
-            input.ReadMessage(FieldMaskField);
+            input.ReadMessage(fieldMaskField_);
             break;
           }
           case 50: {
             if (sourceContextField_ == null) {
-              SourceContextField = new global::Google.Protobuf.WellKnownTypes.SourceContext();
+              sourceContextField_ = new global::Google.Protobuf.WellKnownTypes.SourceContext();
             }
-            input.ReadMessage(SourceContextField);
+            input.ReadMessage(sourceContextField_);
             break;
           }
           case 58: {
             if (structField_ == null) {
-              StructField = new global::Google.Protobuf.WellKnownTypes.Struct();
+              structField_ = new global::Google.Protobuf.WellKnownTypes.Struct();
             }
-            input.ReadMessage(StructField);
+            input.ReadMessage(structField_);
             break;
           }
           case 66: {
             if (timestampField_ == null) {
-              TimestampField = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+              timestampField_ = new global::Google.Protobuf.WellKnownTypes.Timestamp();
             }
-            input.ReadMessage(TimestampField);
+            input.ReadMessage(timestampField_);
             break;
           }
           case 74: {
             if (typeField_ == null) {
-              TypeField = new global::Google.Protobuf.WellKnownTypes.Type();
+              typeField_ = new global::Google.Protobuf.WellKnownTypes.Type();
             }
-            input.ReadMessage(TypeField);
+            input.ReadMessage(typeField_);
             break;
           }
           case 82: {
@@ -918,9 +909,9 @@ namespace Google.Protobuf.TestProtos {
           }
           case 154: {
             if (valueField_ == null) {
-              ValueField = new global::Google.Protobuf.WellKnownTypes.Value();
+              valueField_ = new global::Google.Protobuf.WellKnownTypes.Value();
             }
-            input.ReadMessage(ValueField);
+            input.ReadMessage(valueField_);
             break;
           }
         }

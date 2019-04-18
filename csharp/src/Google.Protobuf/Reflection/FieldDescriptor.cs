@@ -79,7 +79,8 @@ namespace Google.Protobuf.Reflection
                 throw new DescriptorValidationException(this, "Field numbers must be positive integers.");
             }
             ContainingType = parent;
-            if (proto.HasOneofIndex)
+            // OneofIndex "defaults" to -1 due to a hack in FieldDescriptor.OnConstruction.
+            if (proto.OneofIndex != -1)
             {
                 if (proto.OneofIndex < 0 || proto.OneofIndex >= parent.Proto.OneofDecl.Count)
                 {
@@ -115,17 +116,12 @@ namespace Google.Protobuf.Reflection
         /// that is the responsibility of the accessor.
         /// </para>
         /// <para>
-        /// In descriptors for generated code, the value returned by this property will be non-null for all
-        /// regular fields. However, if a message containing a map field is introspected, the list of nested messages will include
+        /// The value returned by this property will be non-null for all regular fields. However,
+        /// if a message containing a map field is introspected, the list of nested messages will include
         /// an auto-generated nested key/value pair message for the field. This is not represented in any
         /// generated type, and the value of the map field itself is represented by a dictionary in the
         /// reflection API. There are never instances of those "hidden" messages, so no accessor is provided
         /// and this property will return null.
-        /// </para>
-        /// <para>
-        /// In dynamically loaded descriptors, the value returned by this property will current be null;
-        /// if and when dynamic messages are supported, it will return a suitable accessor to work with
-        /// them.
         /// </para>
         /// </remarks>
         public IFieldAccessor Accessor => accessor;
@@ -184,11 +180,6 @@ namespace Google.Protobuf.Reflection
         public bool IsRepeated => Proto.Label == FieldDescriptorProto.Types.Label.Repeated;
 
         /// <summary>
-        /// Returns <c>true</c> if this field is a required field; <c>false</c> otherwise.
-        /// </summary>
-        public bool IsRequired => Proto.Label == FieldDescriptorProto.Types.Label.Required;
-
-        /// <summary>
         /// Returns <c>true</c> if this field is a map field; <c>false</c> otherwise.
         /// </summary>
         public bool IsMap => fieldType == FieldType.Message && messageType.Proto.Options != null && messageType.Proto.Options.MapEntry;
@@ -196,8 +187,13 @@ namespace Google.Protobuf.Reflection
         /// <summary>
         /// Returns <c>true</c> if this field is a packed, repeated field; <c>false</c> otherwise.
         /// </summary>
-        public bool IsPacked => File.Proto.Syntax == "proto2" ? Proto.Options?.Packed ?? false : !Proto.Options.HasPacked || Proto.Options.Packed;
-
+        public bool IsPacked => 
+            // Note the || rather than && here - we're effectively defaulting to packed, because that *is*
+            // the default in proto3, which is all we support. We may give the wrong result for the protos
+            // within descriptor.proto, but that's okay, as they're never exposed and we don't use IsPacked
+            // within the runtime.
+            Proto.Options == null || Proto.Options.Packed;
+        
         /// <summary>
         /// Returns the type of the field.
         /// </summary>
@@ -246,9 +242,9 @@ namespace Google.Protobuf.Reflection
         {
             get
             {
-                if (fieldType != FieldType.Message && fieldType != FieldType.Group)
+                if (fieldType != FieldType.Message)
                 {
-                    throw new InvalidOperationException("MessageType is only valid for message or group fields.");
+                    throw new InvalidOperationException("MessageType is only valid for message fields.");
                 }
                 return messageType;
             }
@@ -264,12 +260,12 @@ namespace Google.Protobuf.Reflection
         /// </summary>
         internal void CrossLink()
         {
-            if (Proto.HasTypeName)
+            if (Proto.TypeName != "")
             {
                 IDescriptor typeDescriptor =
                     File.DescriptorPool.LookupSymbol(Proto.TypeName, this);
 
-                if (Proto.HasType)
+                if (Proto.Type != 0)
                 {
                     // Choose field type based on symbol.
                     if (typeDescriptor is MessageDescriptor)
@@ -286,7 +282,7 @@ namespace Google.Protobuf.Reflection
                     }
                 }
 
-                if (fieldType == FieldType.Message || fieldType == FieldType.Group)
+                if (fieldType == FieldType.Message)
                 {
                     if (!(typeDescriptor is MessageDescriptor))
                     {
@@ -294,7 +290,7 @@ namespace Google.Protobuf.Reflection
                     }
                     messageType = (MessageDescriptor) typeDescriptor;
 
-                    if (Proto.HasDefaultValue)
+                    if (Proto.DefaultValue != "")
                     {
                         throw new DescriptorValidationException(this, "Messages can't have default values.");
                     }
@@ -324,7 +320,7 @@ namespace Google.Protobuf.Reflection
 
             File.DescriptorPool.AddFieldByNumber(this);
 
-            if (ContainingType != null && ContainingType.Proto.HasOptions && ContainingType.Proto.Options.MessageSetWireFormat)
+            if (ContainingType != null && ContainingType.Proto.Options != null && ContainingType.Proto.Options.MessageSetWireFormat)
             {
                 throw new DescriptorValidationException(this, "MessageSet format is not supported.");
             }
@@ -334,8 +330,7 @@ namespace Google.Protobuf.Reflection
         private IFieldAccessor CreateAccessor()
         {
             // If we're given no property name, that's because we really don't want an accessor.
-            // This could be because it's a map message, or it could be that we're loading a FileDescriptor dynamically.
-            // TODO: Support dynamic messages.
+            // (At the moment, that means it's a map entry message...)
             if (propertyName == null)
             {
                 return null;

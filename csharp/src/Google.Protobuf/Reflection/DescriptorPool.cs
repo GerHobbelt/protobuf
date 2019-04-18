@@ -53,13 +53,13 @@ namespace Google.Protobuf.Reflection
 
         private readonly HashSet<FileDescriptor> dependencies;
 
-        internal DescriptorPool(IEnumerable<FileDescriptor> dependencyFiles)
+        internal DescriptorPool(FileDescriptor[] dependencyFiles)
         {
             dependencies = new HashSet<FileDescriptor>();
-            foreach (var dependencyFile in dependencyFiles)
+            for (int i = 0; i < dependencyFiles.Length; i++)
             {
-                dependencies.Add(dependencyFile);
-                ImportPublicDependencies(dependencyFile);
+                dependencies.Add(dependencyFiles[i]);
+                ImportPublicDependencies(dependencyFiles[i]);
             }
 
             foreach (FileDescriptor dependency in dependencyFiles)
