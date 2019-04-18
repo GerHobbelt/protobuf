@@ -17,6 +17,7 @@ project "protobuf"
 
   files {
     prjDir .. "/src/google/protobuf/arena.cc",
+    prjDir .. "/src/google/protobuf/arenastring.cc",
     prjDir .. "/src/google/protobuf/extension_set.cc",
     prjDir .. "/src/google/protobuf/generated_message_table_driven_lite.cc",
     prjDir .. "/src/google/protobuf/generated_message_util.cc",
@@ -29,7 +30,9 @@ project "protobuf"
     prjDir .. "/src/google/protobuf/stubs/bytestream.cc",
     prjDir .. "/src/google/protobuf/stubs/common.cc",
     prjDir .. "/src/google/protobuf/stubs/int128.cc",
+    prjDir .. "/src/google/protobuf/stubs/io_win32.cc",
     prjDir .. "/src/google/protobuf/stubs/status.cc",
+    prjDir .. "/src/google/protobuf/stubs/statusor.cc",
     prjDir .. "/src/google/protobuf/stubs/stringpiece.cc",
     prjDir .. "/src/google/protobuf/stubs/stringprintf.cc",
     prjDir .. "/src/google/protobuf/stubs/structurally_valid.cc",
@@ -75,6 +78,7 @@ project "protobuf"
     prjDir .. "/src/google/protobuf/stubs/platform_macros.h",
     prjDir .. "/src/google/protobuf/stubs/port.h",
     prjDir .. "/src/google/protobuf/stubs/status.h",
+    prjDir .. "/src/google/protobuf/stubs/statusor.h",
     prjDir .. "/src/google/protobuf/stubs/stl_util.h",
     prjDir .. "/src/google/protobuf/stubs/stringpiece.h",
     prjDir .. "/src/google/protobuf/stubs/stringprintf.h",

@@ -19,7 +19,6 @@ require_once('generated/Bar/TestLegacyMessage/NestedEnum.php');
 require_once('generated/Bar/TestLegacyMessage/NestedMessage.php');
 require_once('generated/Foo/PBARRAY.php');
 require_once('generated/Foo/PBEmpty.php');
-require_once('generated/Foo/TestAny.php');
 require_once('generated/Foo/TestEnum.php');
 require_once('generated/Foo/TestIncludeNamespaceMessage.php');
 require_once('generated/Foo/TestIncludePrefixMessage.php');
@@ -50,7 +49,6 @@ require_once('test_util.php');
 
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBType;
-use Foo\TestAny;
 use Foo\TestMessage;
 use Foo\TestMessage\Sub;
 
@@ -154,7 +152,7 @@ date_default_timezone_set('UTC');
 $from = new DateTime('2011-01-01T15:03:01.012345UTC');
 $timestamp->fromDateTime($from);
 assert($from->format('U') == $timestamp->getSeconds());
-assert(1000 * $from->format('u') == $timestamp->getNanos());
+assert(0 == $timestamp->getNanos());
 
 $to = $timestamp->toDateTime();
 assert(\DateTime::class == get_class($to));
@@ -193,16 +191,3 @@ $to = new TestMessage();
 TestUtil::setTestMessage($from);
 $to->mergeFrom($from);
 TestUtil::assertTestMessage($to);
-
-// Test decode Any
-// Make sure packed message has been created at least once.
-$packed = new TestMessage();
-
-$m = new TestAny();
-$m->mergeFromJsonString(
-    "{\"any\":" .
-    "  {\"@type\":\"type.googleapis.com/foo.TestMessage\"," .
-    "   \"optionalInt32\":1}}");
-assert("type.googleapis.com/foo.TestMessage" ===
-       $m->getAny()->getTypeUrl());
-assert("0801" === bin2hex($m->getAny()->getValue()));

@@ -154,13 +154,13 @@ int SetOwner(RepeatedCompositeContainer* self,
 // Message to 'target'.
 //
 // Corresponds to reflection api method ReleaseMessage.
-void ReleaseLastTo(Message* message,
+void ReleaseLastTo(CMessage* parent,
                    const FieldDescriptor* field,
                    CMessage* target);
 
 }  // namespace repeated_composite_container
 }  // namespace python
 }  // namespace protobuf
-}  // namespace google
 
+}  // namespace google
 #endif  // GOOGLE_PROTOBUF_PYTHON_CPP_REPEATED_COMPOSITE_CONTAINER_H__

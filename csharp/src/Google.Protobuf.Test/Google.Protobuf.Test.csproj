@@ -27,8 +27,4 @@
     <TargetFrameworks>netcoreapp1.0</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="testprotos.pb" />
-  </ItemGroup>
-
 </Project>

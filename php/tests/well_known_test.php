@@ -42,13 +42,11 @@ class WellKnownTest extends TestBase {
     public function testEmpty()
     {
         $msg = new GPBEmpty();
-        $this->assertTrue($msg instanceof \Google\Protobuf\Internal\Message);
     }
 
     public function testImportDescriptorProto()
     {
         $msg = new TestImportDescriptorProto();
-        $this->assertTrue(true);
     }
 
     public function testAny()
@@ -314,12 +312,11 @@ class WellKnownTest extends TestBase {
         $from = new DateTime('2011-01-01T15:03:01.012345UTC');
         $timestamp->fromDateTime($from);
         $this->assertEquals($from->format('U'), $timestamp->getSeconds());
-        $this->assertEquals(1000 * $from->format('u'), $timestamp->getNanos());
+        $this->assertSame(0, $timestamp->getNanos());
 
         $to = $timestamp->toDateTime();
         $this->assertSame(\DateTime::class, get_class($to));
         $this->assertSame($from->format('U'), $to->format('U'));
-        $this->assertSame($from->format('u'), $to->format('u'));
     }
 
     public function testType()
@@ -392,28 +389,5 @@ class WellKnownTest extends TestBase {
         $m = new BytesValue();
         $m->setValue("a");
         $this->assertSame("a", $m->getValue());
-    }
-
-    /**
-     * @dataProvider enumNameValueConversionDataProvider
-     */
-    public function testEnumNameValueConversion($class)
-    {
-        $reflectionClass = new ReflectionClass($class);
-        $constants = $reflectionClass->getConstants();
-        foreach ($constants as $k => $v) {
-            $this->assertSame($k, $class::name($v));
-            $this->assertSame($v, $class::value($k));
-        }
-    }
-
-    public function enumNameValueConversionDataProvider()
-    {
-        return [
-            ['\Google\Protobuf\Field\Cardinality'],
-            ['\Google\Protobuf\Field\Kind'],
-            ['\Google\Protobuf\NullValue'],
-            ['\Google\Protobuf\Syntax'],
-        ];
     }
 }
