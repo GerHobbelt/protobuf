@@ -328,7 +328,7 @@ namespace Google.Protobuf.WellKnownTypes {
       }
       if (other.sourceContext_ != null) {
         if (sourceContext_ == null) {
-          SourceContext = new global::Google.Protobuf.WellKnownTypes.SourceContext();
+          sourceContext_ = new global::Google.Protobuf.WellKnownTypes.SourceContext();
         }
         SourceContext.MergeFrom(other.SourceContext);
       }
@@ -365,9 +365,9 @@ namespace Google.Protobuf.WellKnownTypes {
           }
           case 42: {
             if (sourceContext_ == null) {
-              SourceContext = new global::Google.Protobuf.WellKnownTypes.SourceContext();
+              sourceContext_ = new global::Google.Protobuf.WellKnownTypes.SourceContext();
             }
-            input.ReadMessage(SourceContext);
+            input.ReadMessage(sourceContext_);
             break;
           }
           case 50: {
@@ -375,7 +375,7 @@ namespace Google.Protobuf.WellKnownTypes {
             break;
           }
           case 56: {
-            Syntax = (global::Google.Protobuf.WellKnownTypes.Syntax) input.ReadEnum();
+            syntax_ = (global::Google.Protobuf.WellKnownTypes.Syntax) input.ReadEnum();
             break;
           }
         }
@@ -688,7 +688,7 @@ namespace Google.Protobuf.WellKnownTypes {
             break;
           }
           case 56: {
-            Syntax = (global::Google.Protobuf.WellKnownTypes.Syntax) input.ReadEnum();
+            syntax_ = (global::Google.Protobuf.WellKnownTypes.Syntax) input.ReadEnum();
             break;
           }
         }

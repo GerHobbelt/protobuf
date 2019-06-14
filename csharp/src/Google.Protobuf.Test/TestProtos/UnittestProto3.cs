@@ -139,26 +139,23 @@ namespace Google.Protobuf.TestProtos {
             "NBj//w8gAygEIigKG1Rlc3RDb21tZW50SW5qZWN0aW9uTWVzc2FnZRIJCgFh",
             "GAEgASgJIgwKCkZvb1JlcXVlc3QiDQoLRm9vUmVzcG9uc2UiEgoQRm9vQ2xp",
             "ZW50TWVzc2FnZSISChBGb29TZXJ2ZXJNZXNzYWdlIgwKCkJhclJlcXVlc3Qi",
-            "DQoLQmFyUmVzcG9uc2UiEgoQVGVzdEVtcHR5TWVzc2FnZSJwCg5Db21tZW50",
-            "TWVzc2FnZRIMCgR0ZXh0GAEgASgJGisKFE5lc3RlZENvbW1lbnRNZXNzYWdl",
-            "EhMKC25lc3RlZF90ZXh0GAEgASgJIiMKEU5lc3RlZENvbW1lbnRFbnVtEg4K",
-            "ClpFUk9fVkFMVUUQACpZCgtGb3JlaWduRW51bRIXChNGT1JFSUdOX1VOU1BF",
-            "Q0lGSUVEEAASDwoLRk9SRUlHTl9GT08QBBIPCgtGT1JFSUdOX0JBUhAFEg8K",
-            "C0ZPUkVJR05fQkFaEAYqdQoUVGVzdEVudW1XaXRoRHVwVmFsdWUSKAokVEVT",
-            "VF9FTlVNX1dJVEhfRFVQX1ZBTFVFX1VOU1BFQ0lGSUVEEAASCAoERk9PMRAB",
-            "EggKBEJBUjEQAhIHCgNCQVoQAxIICgRGT08yEAESCAoEQkFSMhACGgIQASqd",
-            "AQoOVGVzdFNwYXJzZUVudW0SIAocVEVTVF9TUEFSU0VfRU5VTV9VTlNQRUNJ",
-            "RklFRBAAEgwKCFNQQVJTRV9BEHsSDgoIU1BBUlNFX0IQpucDEg8KCFNQQVJT",
-            "RV9DELKxgAYSFQoIU1BBUlNFX0QQ8f//////////ARIVCghTUEFSU0VfRRC0",
-            "3vz///////8BEgwKCFNQQVJTRV9HEAIqHQoLQ29tbWVudEVudW0SDgoKWkVS",
-            "T19WQUxVRRAAMp0BCgtUZXN0U2VydmljZRJGCgNGb28SHi5wcm90b2J1Zl91",
-            "bml0dGVzdDMuRm9vUmVxdWVzdBofLnByb3RvYnVmX3VuaXR0ZXN0My5Gb29S",
-            "ZXNwb25zZRJGCgNCYXISHi5wcm90b2J1Zl91bml0dGVzdDMuQmFyUmVxdWVz",
-            "dBofLnByb3RvYnVmX3VuaXR0ZXN0My5CYXJSZXNwb25zZUIsQg1Vbml0dGVz",
-            "dFByb3RvqgIaR29vZ2xlLlByb3RvYnVmLlRlc3RQcm90b3NiBnByb3RvMw=="));
+            "DQoLQmFyUmVzcG9uc2UiEgoQVGVzdEVtcHR5TWVzc2FnZSpZCgtGb3JlaWdu",
+            "RW51bRIXChNGT1JFSUdOX1VOU1BFQ0lGSUVEEAASDwoLRk9SRUlHTl9GT08Q",
+            "BBIPCgtGT1JFSUdOX0JBUhAFEg8KC0ZPUkVJR05fQkFaEAYqdQoUVGVzdEVu",
+            "dW1XaXRoRHVwVmFsdWUSKAokVEVTVF9FTlVNX1dJVEhfRFVQX1ZBTFVFX1VO",
+            "U1BFQ0lGSUVEEAASCAoERk9PMRABEggKBEJBUjEQAhIHCgNCQVoQAxIICgRG",
+            "T08yEAESCAoEQkFSMhACGgIQASqdAQoOVGVzdFNwYXJzZUVudW0SIAocVEVT",
+            "VF9TUEFSU0VfRU5VTV9VTlNQRUNJRklFRBAAEgwKCFNQQVJTRV9BEHsSDgoI",
+            "U1BBUlNFX0IQpucDEg8KCFNQQVJTRV9DELKxgAYSFQoIU1BBUlNFX0QQ8f//",
+            "////////ARIVCghTUEFSU0VfRRC03vz///////8BEgwKCFNQQVJTRV9HEAIy",
+            "nQEKC1Rlc3RTZXJ2aWNlEkYKA0ZvbxIeLnByb3RvYnVmX3VuaXR0ZXN0My5G",
+            "b29SZXF1ZXN0Gh8ucHJvdG9idWZfdW5pdHRlc3QzLkZvb1Jlc3BvbnNlEkYK",
+            "A0JhchIeLnByb3RvYnVmX3VuaXR0ZXN0My5CYXJSZXF1ZXN0Gh8ucHJvdG9i",
+            "dWZfdW5pdHRlc3QzLkJhclJlc3BvbnNlQixCDVVuaXR0ZXN0UHJvdG+qAhpH",
+            "b29nbGUuUHJvdG9idWYuVGVzdFByb3Rvc2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.TestProtos.UnittestImportProto3Reflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.TestProtos.ForeignEnum), typeof(global::Google.Protobuf.TestProtos.TestEnumWithDupValue), typeof(global::Google.Protobuf.TestProtos.TestSparseEnum), typeof(global::Google.Protobuf.TestProtos.CommentEnum), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.TestProtos.ForeignEnum), typeof(global::Google.Protobuf.TestProtos.TestEnumWithDupValue), typeof(global::Google.Protobuf.TestProtos.TestSparseEnum), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.TestAllTypes), global::Google.Protobuf.TestProtos.TestAllTypes.Parser, new[]{ "SingleInt32", "SingleInt64", "SingleUint32", "SingleUint64", "SingleSint32", "SingleSint64", "SingleFixed32", "SingleFixed64", "SingleSfixed32", "SingleSfixed64", "SingleFloat", "SingleDouble", "SingleBool", "SingleString", "SingleBytes", "SingleNestedMessage", "SingleForeignMessage", "SingleImportMessage", "SingleNestedEnum", "SingleForeignEnum", "SingleImportEnum", "SinglePublicImportMessage", "RepeatedInt32", "RepeatedInt64", "RepeatedUint32", "RepeatedUint64", "RepeatedSint32", "RepeatedSint64", "RepeatedFixed32", "RepeatedFixed64", "RepeatedSfixed32", "RepeatedSfixed64", "RepeatedFloat", "RepeatedDouble", "RepeatedBool", "RepeatedString", "RepeatedBytes", "RepeatedNestedMessage", "RepeatedForeignMessage", "RepeatedImportMessage", "RepeatedNestedEnum", "RepeatedForeignEnum", "RepeatedImportEnum", "RepeatedPublicImportMessage", "OneofUint32", "OneofNestedMessage", "OneofString", "OneofBytes" }, new[]{ "OneofField" }, new[]{ typeof(global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedEnum) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage), global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage.Parser, new[]{ "Bb" }, null, null, null)}),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.NestedTestAllTypes), global::Google.Protobuf.TestProtos.NestedTestAllTypes.Parser, new[]{ "Child", "Payload", "RepeatedChild" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.TestDeprecatedFields), global::Google.Protobuf.TestProtos.TestDeprecatedFields.Parser, new[]{ "DeprecatedInt32" }, null, null, null),
@@ -193,8 +190,7 @@ namespace Google.Protobuf.TestProtos {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.FooServerMessage), global::Google.Protobuf.TestProtos.FooServerMessage.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.BarRequest), global::Google.Protobuf.TestProtos.BarRequest.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.BarResponse), global::Google.Protobuf.TestProtos.BarResponse.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.TestEmptyMessage), global::Google.Protobuf.TestProtos.TestEmptyMessage.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.CommentMessage), global::Google.Protobuf.TestProtos.CommentMessage.Parser, new[]{ "Text" }, null, new[]{ typeof(global::Google.Protobuf.TestProtos.CommentMessage.Types.NestedCommentEnum) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.CommentMessage.Types.NestedCommentMessage), global::Google.Protobuf.TestProtos.CommentMessage.Types.NestedCommentMessage.Parser, new[]{ "NestedText" }, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.TestProtos.TestEmptyMessage), global::Google.Protobuf.TestProtos.TestEmptyMessage.Parser, null, null, null, null)
           }));
     }
     #endregion
@@ -235,16 +231,6 @@ namespace Google.Protobuf.TestProtos {
     /// SPARSE_F = 0;
     /// </summary>
     [pbr::OriginalName("SPARSE_G")] SparseG = 2,
-  }
-
-  /// <summary>
-  /// Leading enum comment
-  /// </summary>
-  public enum CommentEnum {
-    /// <summary>
-    /// Zero value comment
-    /// </summary>
-    [pbr::OriginalName("ZERO_VALUE")] ZeroValue = 0,
   }
 
   #endregion
@@ -1307,19 +1293,19 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.singleNestedMessage_ != null) {
         if (singleNestedMessage_ == null) {
-          SingleNestedMessage = new global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage();
+          singleNestedMessage_ = new global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage();
         }
         SingleNestedMessage.MergeFrom(other.SingleNestedMessage);
       }
       if (other.singleForeignMessage_ != null) {
         if (singleForeignMessage_ == null) {
-          SingleForeignMessage = new global::Google.Protobuf.TestProtos.ForeignMessage();
+          singleForeignMessage_ = new global::Google.Protobuf.TestProtos.ForeignMessage();
         }
         SingleForeignMessage.MergeFrom(other.SingleForeignMessage);
       }
       if (other.singleImportMessage_ != null) {
         if (singleImportMessage_ == null) {
-          SingleImportMessage = new global::Google.Protobuf.TestProtos.ImportMessage();
+          singleImportMessage_ = new global::Google.Protobuf.TestProtos.ImportMessage();
         }
         SingleImportMessage.MergeFrom(other.SingleImportMessage);
       }
@@ -1334,7 +1320,7 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.singlePublicImportMessage_ != null) {
         if (singlePublicImportMessage_ == null) {
-          SinglePublicImportMessage = new global::Google.Protobuf.TestProtos.PublicImportMessage();
+          singlePublicImportMessage_ = new global::Google.Protobuf.TestProtos.PublicImportMessage();
         }
         SinglePublicImportMessage.MergeFrom(other.SinglePublicImportMessage);
       }
@@ -1451,42 +1437,42 @@ namespace Google.Protobuf.TestProtos {
           }
           case 146: {
             if (singleNestedMessage_ == null) {
-              SingleNestedMessage = new global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage();
+              singleNestedMessage_ = new global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage();
             }
-            input.ReadMessage(SingleNestedMessage);
+            input.ReadMessage(singleNestedMessage_);
             break;
           }
           case 154: {
             if (singleForeignMessage_ == null) {
-              SingleForeignMessage = new global::Google.Protobuf.TestProtos.ForeignMessage();
+              singleForeignMessage_ = new global::Google.Protobuf.TestProtos.ForeignMessage();
             }
-            input.ReadMessage(SingleForeignMessage);
+            input.ReadMessage(singleForeignMessage_);
             break;
           }
           case 162: {
             if (singleImportMessage_ == null) {
-              SingleImportMessage = new global::Google.Protobuf.TestProtos.ImportMessage();
+              singleImportMessage_ = new global::Google.Protobuf.TestProtos.ImportMessage();
             }
-            input.ReadMessage(SingleImportMessage);
+            input.ReadMessage(singleImportMessage_);
             break;
           }
           case 168: {
-            SingleNestedEnum = (global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedEnum) input.ReadEnum();
+            singleNestedEnum_ = (global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedEnum) input.ReadEnum();
             break;
           }
           case 176: {
-            SingleForeignEnum = (global::Google.Protobuf.TestProtos.ForeignEnum) input.ReadEnum();
+            singleForeignEnum_ = (global::Google.Protobuf.TestProtos.ForeignEnum) input.ReadEnum();
             break;
           }
           case 184: {
-            SingleImportEnum = (global::Google.Protobuf.TestProtos.ImportEnum) input.ReadEnum();
+            singleImportEnum_ = (global::Google.Protobuf.TestProtos.ImportEnum) input.ReadEnum();
             break;
           }
           case 210: {
             if (singlePublicImportMessage_ == null) {
-              SinglePublicImportMessage = new global::Google.Protobuf.TestProtos.PublicImportMessage();
+              singlePublicImportMessage_ = new global::Google.Protobuf.TestProtos.PublicImportMessage();
             }
-            input.ReadMessage(SinglePublicImportMessage);
+            input.ReadMessage(singlePublicImportMessage_);
             break;
           }
           case 250:
@@ -1918,13 +1904,13 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.child_ != null) {
         if (child_ == null) {
-          Child = new global::Google.Protobuf.TestProtos.NestedTestAllTypes();
+          child_ = new global::Google.Protobuf.TestProtos.NestedTestAllTypes();
         }
         Child.MergeFrom(other.Child);
       }
       if (other.payload_ != null) {
         if (payload_ == null) {
-          Payload = new global::Google.Protobuf.TestProtos.TestAllTypes();
+          payload_ = new global::Google.Protobuf.TestProtos.TestAllTypes();
         }
         Payload.MergeFrom(other.Payload);
       }
@@ -1942,16 +1928,16 @@ namespace Google.Protobuf.TestProtos {
             break;
           case 10: {
             if (child_ == null) {
-              Child = new global::Google.Protobuf.TestProtos.NestedTestAllTypes();
+              child_ = new global::Google.Protobuf.TestProtos.NestedTestAllTypes();
             }
-            input.ReadMessage(Child);
+            input.ReadMessage(child_);
             break;
           }
           case 18: {
             if (payload_ == null) {
-              Payload = new global::Google.Protobuf.TestProtos.TestAllTypes();
+              payload_ = new global::Google.Protobuf.TestProtos.TestAllTypes();
             }
-            input.ReadMessage(Payload);
+            input.ReadMessage(payload_);
             break;
           }
           case 26: {
@@ -2438,7 +2424,7 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.foreignNested_ != null) {
         if (foreignNested_ == null) {
-          ForeignNested = new global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage();
+          foreignNested_ = new global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage();
         }
         ForeignNested.MergeFrom(other.ForeignNested);
       }
@@ -2455,9 +2441,9 @@ namespace Google.Protobuf.TestProtos {
             break;
           case 10: {
             if (foreignNested_ == null) {
-              ForeignNested = new global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage();
+              foreignNested_ = new global::Google.Protobuf.TestProtos.TestAllTypes.Types.NestedMessage();
             }
-            input.ReadMessage(ForeignNested);
+            input.ReadMessage(foreignNested_);
             break;
           }
         }
@@ -2758,7 +2744,7 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.a_ != null) {
         if (a_ == null) {
-          A = new global::Google.Protobuf.TestProtos.TestRecursiveMessage();
+          a_ = new global::Google.Protobuf.TestProtos.TestRecursiveMessage();
         }
         A.MergeFrom(other.A);
       }
@@ -2778,9 +2764,9 @@ namespace Google.Protobuf.TestProtos {
             break;
           case 10: {
             if (a_ == null) {
-              A = new global::Google.Protobuf.TestProtos.TestRecursiveMessage();
+              a_ = new global::Google.Protobuf.TestProtos.TestRecursiveMessage();
             }
-            input.ReadMessage(A);
+            input.ReadMessage(a_);
             break;
           }
           case 16: {
@@ -2903,7 +2889,7 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.bb_ != null) {
         if (bb_ == null) {
-          Bb = new global::Google.Protobuf.TestProtos.TestMutualRecursionB();
+          bb_ = new global::Google.Protobuf.TestProtos.TestMutualRecursionB();
         }
         Bb.MergeFrom(other.Bb);
       }
@@ -2920,9 +2906,9 @@ namespace Google.Protobuf.TestProtos {
             break;
           case 10: {
             if (bb_ == null) {
-              Bb = new global::Google.Protobuf.TestProtos.TestMutualRecursionB();
+              bb_ = new global::Google.Protobuf.TestProtos.TestMutualRecursionB();
             }
-            input.ReadMessage(Bb);
+            input.ReadMessage(bb_);
             break;
           }
         }
@@ -3059,7 +3045,7 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.a_ != null) {
         if (a_ == null) {
-          A = new global::Google.Protobuf.TestProtos.TestMutualRecursionA();
+          a_ = new global::Google.Protobuf.TestProtos.TestMutualRecursionA();
         }
         A.MergeFrom(other.A);
       }
@@ -3079,9 +3065,9 @@ namespace Google.Protobuf.TestProtos {
             break;
           case 10: {
             if (a_ == null) {
-              A = new global::Google.Protobuf.TestProtos.TestMutualRecursionA();
+              a_ = new global::Google.Protobuf.TestProtos.TestMutualRecursionA();
             }
-            input.ReadMessage(A);
+            input.ReadMessage(a_);
             break;
           }
           case 16: {
@@ -3214,7 +3200,7 @@ namespace Google.Protobuf.TestProtos {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Value = (global::Google.Protobuf.TestProtos.TestEnumWithDupValue) input.ReadEnum();
+            value_ = (global::Google.Protobuf.TestProtos.TestEnumWithDupValue) input.ReadEnum();
             break;
           }
         }
@@ -3466,7 +3452,7 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.messageField_ != null) {
         if (messageField_ == null) {
-          MessageField = new global::Google.Protobuf.TestProtos.ForeignMessage();
+          messageField_ = new global::Google.Protobuf.TestProtos.ForeignMessage();
         }
         MessageField.MergeFrom(other.MessageField);
       }
@@ -3494,14 +3480,14 @@ namespace Google.Protobuf.TestProtos {
             break;
           }
           case 24: {
-            EnumField = (global::Google.Protobuf.TestProtos.ForeignEnum) input.ReadEnum();
+            enumField_ = (global::Google.Protobuf.TestProtos.ForeignEnum) input.ReadEnum();
             break;
           }
           case 34: {
             if (messageField_ == null) {
-              MessageField = new global::Google.Protobuf.TestProtos.ForeignMessage();
+              messageField_ = new global::Google.Protobuf.TestProtos.ForeignMessage();
             }
-            input.ReadMessage(MessageField);
+            input.ReadMessage(messageField_);
             break;
           }
           case 58:
@@ -3711,7 +3697,7 @@ namespace Google.Protobuf.TestProtos {
       }
       if (other.singleNestedMessage_ != null) {
         if (singleNestedMessage_ == null) {
-          SingleNestedMessage = new global::Google.Protobuf.TestProtos.TestFieldOrderings.Types.NestedMessage();
+          singleNestedMessage_ = new global::Google.Protobuf.TestProtos.TestFieldOrderings.Types.NestedMessage();
         }
         SingleNestedMessage.MergeFrom(other.SingleNestedMessage);
       }
@@ -3740,9 +3726,9 @@ namespace Google.Protobuf.TestProtos {
           }
           case 1602: {
             if (singleNestedMessage_ == null) {
-              SingleNestedMessage = new global::Google.Protobuf.TestProtos.TestFieldOrderings.Types.NestedMessage();
+              singleNestedMessage_ = new global::Google.Protobuf.TestProtos.TestFieldOrderings.Types.NestedMessage();
             }
-            input.ReadMessage(SingleNestedMessage);
+            input.ReadMessage(singleNestedMessage_);
             break;
           }
         }
@@ -4040,7 +4026,7 @@ namespace Google.Protobuf.TestProtos {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            SparseEnum = (global::Google.Protobuf.TestProtos.TestSparseEnum) input.ReadEnum();
+            sparseEnum_ = (global::Google.Protobuf.TestProtos.TestSparseEnum) input.ReadEnum();
             break;
           }
         }
@@ -7312,293 +7298,6 @@ namespace Google.Protobuf.TestProtos {
         }
       }
     }
-
-  }
-
-  /// <summary>
-  /// This is a leading comment
-  /// </summary>
-  public sealed partial class CommentMessage : pb::IMessage<CommentMessage> {
-    private static readonly pb::MessageParser<CommentMessage> _parser = new pb::MessageParser<CommentMessage>(() => new CommentMessage());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<CommentMessage> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.TestProtos.UnittestProto3Reflection.Descriptor.MessageTypes[35]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public CommentMessage() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public CommentMessage(CommentMessage other) : this() {
-      text_ = other.text_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public CommentMessage Clone() {
-      return new CommentMessage(this);
-    }
-
-    /// <summary>Field number for the "text" field.</summary>
-    public const int TextFieldNumber = 1;
-    private string text_ = "";
-    /// <summary>
-    /// Leading field comment
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Text {
-      get { return text_; }
-      set {
-        text_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as CommentMessage);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(CommentMessage other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Text != other.Text) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Text.Length != 0) hash ^= Text.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (Text.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Text);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (Text.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Text);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(CommentMessage other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Text.Length != 0) {
-        Text = other.Text;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            Text = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-
-    #region Nested types
-    /// <summary>Container for nested types declared in the CommentMessage message type.</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static partial class Types {
-      /// <summary>
-      /// Leading nested enum comment
-      /// </summary>
-      public enum NestedCommentEnum {
-        /// <summary>
-        /// Zero value comment
-        /// </summary>
-        [pbr::OriginalName("ZERO_VALUE")] ZeroValue = 0,
-      }
-
-      /// <summary>
-      /// Leading nested message comment
-      /// </summary>
-      public sealed partial class NestedCommentMessage : pb::IMessage<NestedCommentMessage> {
-        private static readonly pb::MessageParser<NestedCommentMessage> _parser = new pb::MessageParser<NestedCommentMessage>(() => new NestedCommentMessage());
-        private pb::UnknownFieldSet _unknownFields;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pb::MessageParser<NestedCommentMessage> Parser { get { return _parser; } }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pbr::MessageDescriptor Descriptor {
-          get { return global::Google.Protobuf.TestProtos.CommentMessage.Descriptor.NestedTypes[0]; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        pbr::MessageDescriptor pb::IMessage.Descriptor {
-          get { return Descriptor; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NestedCommentMessage() {
-          OnConstruction();
-        }
-
-        partial void OnConstruction();
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NestedCommentMessage(NestedCommentMessage other) : this() {
-          nestedText_ = other.nestedText_;
-          _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NestedCommentMessage Clone() {
-          return new NestedCommentMessage(this);
-        }
-
-        /// <summary>Field number for the "nested_text" field.</summary>
-        public const int NestedTextFieldNumber = 1;
-        private string nestedText_ = "";
-        /// <summary>
-        /// Leading nested message field comment
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string NestedText {
-          get { return nestedText_; }
-          set {
-            nestedText_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-          }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override bool Equals(object other) {
-          return Equals(other as NestedCommentMessage);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool Equals(NestedCommentMessage other) {
-          if (ReferenceEquals(other, null)) {
-            return false;
-          }
-          if (ReferenceEquals(other, this)) {
-            return true;
-          }
-          if (NestedText != other.NestedText) return false;
-          return Equals(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override int GetHashCode() {
-          int hash = 1;
-          if (NestedText.Length != 0) hash ^= NestedText.GetHashCode();
-          if (_unknownFields != null) {
-            hash ^= _unknownFields.GetHashCode();
-          }
-          return hash;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override string ToString() {
-          return pb::JsonFormatter.ToDiagnosticString(this);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void WriteTo(pb::CodedOutputStream output) {
-          if (NestedText.Length != 0) {
-            output.WriteRawTag(10);
-            output.WriteString(NestedText);
-          }
-          if (_unknownFields != null) {
-            _unknownFields.WriteTo(output);
-          }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int CalculateSize() {
-          int size = 0;
-          if (NestedText.Length != 0) {
-            size += 1 + pb::CodedOutputStream.ComputeStringSize(NestedText);
-          }
-          if (_unknownFields != null) {
-            size += _unknownFields.CalculateSize();
-          }
-          return size;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(NestedCommentMessage other) {
-          if (other == null) {
-            return;
-          }
-          if (other.NestedText.Length != 0) {
-            NestedText = other.NestedText;
-          }
-          _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(pb::CodedInputStream input) {
-          uint tag;
-          while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
-              default:
-                _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-                break;
-              case 10: {
-                NestedText = input.ReadString();
-                break;
-              }
-            }
-          }
-        }
-
-      }
-
-    }
-    #endregion
 
   }
 

@@ -351,8 +351,8 @@ namespace Google.Protobuf.Reflection {
       enumType_ = other.enumType_.Clone();
       service_ = other.service_.Clone();
       extension_ = other.extension_.Clone();
-      options_ = other.HasOptions ? other.options_.Clone() : null;
-      sourceCodeInfo_ = other.HasSourceCodeInfo ? other.sourceCodeInfo_.Clone() : null;
+      options_ = other.options_ != null ? other.options_.Clone() : null;
+      sourceCodeInfo_ = other.sourceCodeInfo_ != null ? other.sourceCodeInfo_.Clone() : null;
       syntax_ = other.syntax_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -364,54 +364,30 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
-    private readonly static string NameDefaultValue = "";
-
-    private string name_;
+    private string name_ = "";
     /// <summary>
     /// file name, relative to root of source tree
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
-      get { return name_ ?? NameDefaultValue; }
+      get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasName {
-      get { return name_ != null; }
-    }
-    /// <summary>Clears the value of the "name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearName() {
-      name_ = null;
-    }
 
     /// <summary>Field number for the "package" field.</summary>
     public const int PackageFieldNumber = 2;
-    private readonly static string PackageDefaultValue = "";
-
-    private string package_;
+    private string package_ = "";
     /// <summary>
     /// e.g. "foo", "foo.bar", etc.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Package {
-      get { return package_ ?? PackageDefaultValue; }
+      get { return package_; }
       set {
         package_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "package" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasPackage {
-      get { return package_ != null; }
-    }
-    /// <summary>Clears the value of the "package" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearPackage() {
-      package_ = null;
     }
 
     /// <summary>Field number for the "dependency" field.</summary>
@@ -507,16 +483,6 @@ namespace Google.Protobuf.Reflection {
         options_ = value;
       }
     }
-    /// <summary>Gets whether the options field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOptions {
-      get { return options_ != null; }
-    }
-    /// <summary>Clears the value of the options field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOptions() {
-      options_ = null;
-    }
 
     /// <summary>Field number for the "source_code_info" field.</summary>
     public const int SourceCodeInfoFieldNumber = 9;
@@ -534,42 +500,20 @@ namespace Google.Protobuf.Reflection {
         sourceCodeInfo_ = value;
       }
     }
-    /// <summary>Gets whether the source_code_info field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasSourceCodeInfo {
-      get { return sourceCodeInfo_ != null; }
-    }
-    /// <summary>Clears the value of the source_code_info field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearSourceCodeInfo() {
-      sourceCodeInfo_ = null;
-    }
 
     /// <summary>Field number for the "syntax" field.</summary>
     public const int SyntaxFieldNumber = 12;
-    private readonly static string SyntaxDefaultValue = "";
-
-    private string syntax_;
+    private string syntax_ = "";
     /// <summary>
     /// The syntax of the proto file.
     /// The supported values are "proto2" and "proto3".
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Syntax {
-      get { return syntax_ ?? SyntaxDefaultValue; }
+      get { return syntax_; }
       set {
         syntax_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "syntax" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasSyntax {
-      get { return syntax_ != null; }
-    }
-    /// <summary>Clears the value of the "syntax" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearSyntax() {
-      syntax_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -603,8 +547,8 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasName) hash ^= Name.GetHashCode();
-      if (HasPackage) hash ^= Package.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Package.Length != 0) hash ^= Package.GetHashCode();
       hash ^= dependency_.GetHashCode();
       hash ^= publicDependency_.GetHashCode();
       hash ^= weakDependency_.GetHashCode();
@@ -612,9 +556,9 @@ namespace Google.Protobuf.Reflection {
       hash ^= enumType_.GetHashCode();
       hash ^= service_.GetHashCode();
       hash ^= extension_.GetHashCode();
-      if (HasOptions) hash ^= Options.GetHashCode();
-      if (HasSourceCodeInfo) hash ^= SourceCodeInfo.GetHashCode();
-      if (HasSyntax) hash ^= Syntax.GetHashCode();
+      if (options_ != null) hash ^= Options.GetHashCode();
+      if (sourceCodeInfo_ != null) hash ^= SourceCodeInfo.GetHashCode();
+      if (Syntax.Length != 0) hash ^= Syntax.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -628,11 +572,11 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasName) {
+      if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (HasPackage) {
+      if (Package.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(Package);
       }
@@ -641,17 +585,17 @@ namespace Google.Protobuf.Reflection {
       enumType_.WriteTo(output, _repeated_enumType_codec);
       service_.WriteTo(output, _repeated_service_codec);
       extension_.WriteTo(output, _repeated_extension_codec);
-      if (HasOptions) {
+      if (options_ != null) {
         output.WriteRawTag(66);
         output.WriteMessage(Options);
       }
-      if (HasSourceCodeInfo) {
+      if (sourceCodeInfo_ != null) {
         output.WriteRawTag(74);
         output.WriteMessage(SourceCodeInfo);
       }
       publicDependency_.WriteTo(output, _repeated_publicDependency_codec);
       weakDependency_.WriteTo(output, _repeated_weakDependency_codec);
-      if (HasSyntax) {
+      if (Syntax.Length != 0) {
         output.WriteRawTag(98);
         output.WriteString(Syntax);
       }
@@ -663,10 +607,10 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasName) {
+      if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (HasPackage) {
+      if (Package.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Package);
       }
       size += dependency_.CalculateSize(_repeated_dependency_codec);
@@ -676,13 +620,13 @@ namespace Google.Protobuf.Reflection {
       size += enumType_.CalculateSize(_repeated_enumType_codec);
       size += service_.CalculateSize(_repeated_service_codec);
       size += extension_.CalculateSize(_repeated_extension_codec);
-      if (HasOptions) {
+      if (options_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
       }
-      if (HasSourceCodeInfo) {
+      if (sourceCodeInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(SourceCodeInfo);
       }
-      if (HasSyntax) {
+      if (Syntax.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Syntax);
       }
       if (_unknownFields != null) {
@@ -696,10 +640,10 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasName) {
+      if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.HasPackage) {
+      if (other.Package.Length != 0) {
         Package = other.Package;
       }
       dependency_.Add(other.dependency_);
@@ -709,19 +653,19 @@ namespace Google.Protobuf.Reflection {
       enumType_.Add(other.enumType_);
       service_.Add(other.service_);
       extension_.Add(other.extension_);
-      if (other.HasOptions) {
-        if (!HasOptions) {
-          Options = new global::Google.Protobuf.Reflection.FileOptions();
+      if (other.options_ != null) {
+        if (options_ == null) {
+          options_ = new global::Google.Protobuf.Reflection.FileOptions();
         }
         Options.MergeFrom(other.Options);
       }
-      if (other.HasSourceCodeInfo) {
-        if (!HasSourceCodeInfo) {
-          SourceCodeInfo = new global::Google.Protobuf.Reflection.SourceCodeInfo();
+      if (other.sourceCodeInfo_ != null) {
+        if (sourceCodeInfo_ == null) {
+          sourceCodeInfo_ = new global::Google.Protobuf.Reflection.SourceCodeInfo();
         }
         SourceCodeInfo.MergeFrom(other.SourceCodeInfo);
       }
-      if (other.HasSyntax) {
+      if (other.Syntax.Length != 0) {
         Syntax = other.Syntax;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -764,17 +708,17 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 66: {
-            if (!HasOptions) {
-              Options = new global::Google.Protobuf.Reflection.FileOptions();
+            if (options_ == null) {
+              options_ = new global::Google.Protobuf.Reflection.FileOptions();
             }
-            input.ReadMessage(Options);
+            input.ReadMessage(options_);
             break;
           }
           case 74: {
-            if (!HasSourceCodeInfo) {
-              SourceCodeInfo = new global::Google.Protobuf.Reflection.SourceCodeInfo();
+            if (sourceCodeInfo_ == null) {
+              sourceCodeInfo_ = new global::Google.Protobuf.Reflection.SourceCodeInfo();
             }
-            input.ReadMessage(SourceCodeInfo);
+            input.ReadMessage(sourceCodeInfo_);
             break;
           }
           case 82:
@@ -832,7 +776,7 @@ namespace Google.Protobuf.Reflection {
       enumType_ = other.enumType_.Clone();
       extensionRange_ = other.extensionRange_.Clone();
       oneofDecl_ = other.oneofDecl_.Clone();
-      options_ = other.HasOptions ? other.options_.Clone() : null;
+      options_ = other.options_ != null ? other.options_.Clone() : null;
       reservedRange_ = other.reservedRange_.Clone();
       reservedName_ = other.reservedName_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -845,25 +789,13 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
-    private readonly static string NameDefaultValue = "";
-
-    private string name_;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
-      get { return name_ ?? NameDefaultValue; }
+      get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasName {
-      get { return name_ != null; }
-    }
-    /// <summary>Clears the value of the "name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearName() {
-      name_ = null;
     }
 
     /// <summary>Field number for the "field" field.</summary>
@@ -936,16 +868,6 @@ namespace Google.Protobuf.Reflection {
         options_ = value;
       }
     }
-    /// <summary>Gets whether the options field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOptions {
-      get { return options_ != null; }
-    }
-    /// <summary>Clears the value of the options field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOptions() {
-      options_ = null;
-    }
 
     /// <summary>Field number for the "reserved_range" field.</summary>
     public const int ReservedRangeFieldNumber = 9;
@@ -1000,14 +922,14 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasName) hash ^= Name.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
       hash ^= field_.GetHashCode();
       hash ^= extension_.GetHashCode();
       hash ^= nestedType_.GetHashCode();
       hash ^= enumType_.GetHashCode();
       hash ^= extensionRange_.GetHashCode();
       hash ^= oneofDecl_.GetHashCode();
-      if (HasOptions) hash ^= Options.GetHashCode();
+      if (options_ != null) hash ^= Options.GetHashCode();
       hash ^= reservedRange_.GetHashCode();
       hash ^= reservedName_.GetHashCode();
       if (_unknownFields != null) {
@@ -1023,7 +945,7 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasName) {
+      if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
@@ -1032,7 +954,7 @@ namespace Google.Protobuf.Reflection {
       enumType_.WriteTo(output, _repeated_enumType_codec);
       extensionRange_.WriteTo(output, _repeated_extensionRange_codec);
       extension_.WriteTo(output, _repeated_extension_codec);
-      if (HasOptions) {
+      if (options_ != null) {
         output.WriteRawTag(58);
         output.WriteMessage(Options);
       }
@@ -1047,7 +969,7 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasName) {
+      if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
       size += field_.CalculateSize(_repeated_field_codec);
@@ -1056,7 +978,7 @@ namespace Google.Protobuf.Reflection {
       size += enumType_.CalculateSize(_repeated_enumType_codec);
       size += extensionRange_.CalculateSize(_repeated_extensionRange_codec);
       size += oneofDecl_.CalculateSize(_repeated_oneofDecl_codec);
-      if (HasOptions) {
+      if (options_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
       }
       size += reservedRange_.CalculateSize(_repeated_reservedRange_codec);
@@ -1072,7 +994,7 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasName) {
+      if (other.Name.Length != 0) {
         Name = other.Name;
       }
       field_.Add(other.field_);
@@ -1081,9 +1003,9 @@ namespace Google.Protobuf.Reflection {
       enumType_.Add(other.enumType_);
       extensionRange_.Add(other.extensionRange_);
       oneofDecl_.Add(other.oneofDecl_);
-      if (other.HasOptions) {
-        if (!HasOptions) {
-          Options = new global::Google.Protobuf.Reflection.MessageOptions();
+      if (other.options_ != null) {
+        if (options_ == null) {
+          options_ = new global::Google.Protobuf.Reflection.MessageOptions();
         }
         Options.MergeFrom(other.Options);
       }
@@ -1125,10 +1047,10 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 58: {
-            if (!HasOptions) {
-              Options = new global::Google.Protobuf.Reflection.MessageOptions();
+            if (options_ == null) {
+              options_ = new global::Google.Protobuf.Reflection.MessageOptions();
             }
-            input.ReadMessage(Options);
+            input.ReadMessage(options_);
             break;
           }
           case 66: {
@@ -1154,7 +1076,6 @@ namespace Google.Protobuf.Reflection {
       internal sealed partial class ExtensionRange : pb::IMessage<ExtensionRange> {
         private static readonly pb::MessageParser<ExtensionRange> _parser = new pb::MessageParser<ExtensionRange>(() => new ExtensionRange());
         private pb::UnknownFieldSet _unknownFields;
-        private int _hasBits0;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pb::MessageParser<ExtensionRange> Parser { get { return _parser; } }
 
@@ -1177,10 +1098,9 @@ namespace Google.Protobuf.Reflection {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public ExtensionRange(ExtensionRange other) : this() {
-          _hasBits0 = other._hasBits0;
           start_ = other.start_;
           end_ = other.end_;
-          options_ = other.HasOptions ? other.options_.Clone() : null;
+          options_ = other.options_ != null ? other.options_.Clone() : null;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
@@ -1191,50 +1111,24 @@ namespace Google.Protobuf.Reflection {
 
         /// <summary>Field number for the "start" field.</summary>
         public const int StartFieldNumber = 1;
-        private readonly static int StartDefaultValue = 0;
-
         private int start_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int Start {
-          get { if ((_hasBits0 & 1) != 0) { return start_; } else { return StartDefaultValue; } }
+          get { return start_; }
           set {
-            _hasBits0 |= 1;
             start_ = value;
           }
-        }
-        /// <summary>Gets whether the "start" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasStart {
-          get { return (_hasBits0 & 1) != 0; }
-        }
-        /// <summary>Clears the value of the "start" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearStart() {
-          _hasBits0 &= ~1;
         }
 
         /// <summary>Field number for the "end" field.</summary>
         public const int EndFieldNumber = 2;
-        private readonly static int EndDefaultValue = 0;
-
         private int end_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int End {
-          get { if ((_hasBits0 & 2) != 0) { return end_; } else { return EndDefaultValue; } }
+          get { return end_; }
           set {
-            _hasBits0 |= 2;
             end_ = value;
           }
-        }
-        /// <summary>Gets whether the "end" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasEnd {
-          get { return (_hasBits0 & 2) != 0; }
-        }
-        /// <summary>Clears the value of the "end" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearEnd() {
-          _hasBits0 &= ~2;
         }
 
         /// <summary>Field number for the "options" field.</summary>
@@ -1246,16 +1140,6 @@ namespace Google.Protobuf.Reflection {
           set {
             options_ = value;
           }
-        }
-        /// <summary>Gets whether the options field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasOptions {
-          get { return options_ != null; }
-        }
-        /// <summary>Clears the value of the options field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearOptions() {
-          options_ = null;
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1280,9 +1164,9 @@ namespace Google.Protobuf.Reflection {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override int GetHashCode() {
           int hash = 1;
-          if (HasStart) hash ^= Start.GetHashCode();
-          if (HasEnd) hash ^= End.GetHashCode();
-          if (HasOptions) hash ^= Options.GetHashCode();
+          if (Start != 0) hash ^= Start.GetHashCode();
+          if (End != 0) hash ^= End.GetHashCode();
+          if (options_ != null) hash ^= Options.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -1296,15 +1180,15 @@ namespace Google.Protobuf.Reflection {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
-          if (HasStart) {
+          if (Start != 0) {
             output.WriteRawTag(8);
             output.WriteInt32(Start);
           }
-          if (HasEnd) {
+          if (End != 0) {
             output.WriteRawTag(16);
             output.WriteInt32(End);
           }
-          if (HasOptions) {
+          if (options_ != null) {
             output.WriteRawTag(26);
             output.WriteMessage(Options);
           }
@@ -1316,13 +1200,13 @@ namespace Google.Protobuf.Reflection {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize() {
           int size = 0;
-          if (HasStart) {
+          if (Start != 0) {
             size += 1 + pb::CodedOutputStream.ComputeInt32Size(Start);
           }
-          if (HasEnd) {
+          if (End != 0) {
             size += 1 + pb::CodedOutputStream.ComputeInt32Size(End);
           }
-          if (HasOptions) {
+          if (options_ != null) {
             size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
           }
           if (_unknownFields != null) {
@@ -1336,15 +1220,15 @@ namespace Google.Protobuf.Reflection {
           if (other == null) {
             return;
           }
-          if (other.HasStart) {
+          if (other.Start != 0) {
             Start = other.Start;
           }
-          if (other.HasEnd) {
+          if (other.End != 0) {
             End = other.End;
           }
-          if (other.HasOptions) {
-            if (!HasOptions) {
-              Options = new global::Google.Protobuf.Reflection.ExtensionRangeOptions();
+          if (other.options_ != null) {
+            if (options_ == null) {
+              options_ = new global::Google.Protobuf.Reflection.ExtensionRangeOptions();
             }
             Options.MergeFrom(other.Options);
           }
@@ -1368,10 +1252,10 @@ namespace Google.Protobuf.Reflection {
                 break;
               }
               case 26: {
-                if (!HasOptions) {
-                  Options = new global::Google.Protobuf.Reflection.ExtensionRangeOptions();
+                if (options_ == null) {
+                  options_ = new global::Google.Protobuf.Reflection.ExtensionRangeOptions();
                 }
-                input.ReadMessage(Options);
+                input.ReadMessage(options_);
                 break;
               }
             }
@@ -1388,7 +1272,6 @@ namespace Google.Protobuf.Reflection {
       internal sealed partial class ReservedRange : pb::IMessage<ReservedRange> {
         private static readonly pb::MessageParser<ReservedRange> _parser = new pb::MessageParser<ReservedRange>(() => new ReservedRange());
         private pb::UnknownFieldSet _unknownFields;
-        private int _hasBits0;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pb::MessageParser<ReservedRange> Parser { get { return _parser; } }
 
@@ -1411,7 +1294,6 @@ namespace Google.Protobuf.Reflection {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public ReservedRange(ReservedRange other) : this() {
-          _hasBits0 = other._hasBits0;
           start_ = other.start_;
           end_ = other.end_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -1424,56 +1306,30 @@ namespace Google.Protobuf.Reflection {
 
         /// <summary>Field number for the "start" field.</summary>
         public const int StartFieldNumber = 1;
-        private readonly static int StartDefaultValue = 0;
-
         private int start_;
         /// <summary>
         /// Inclusive.
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int Start {
-          get { if ((_hasBits0 & 1) != 0) { return start_; } else { return StartDefaultValue; } }
+          get { return start_; }
           set {
-            _hasBits0 |= 1;
             start_ = value;
           }
-        }
-        /// <summary>Gets whether the "start" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasStart {
-          get { return (_hasBits0 & 1) != 0; }
-        }
-        /// <summary>Clears the value of the "start" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearStart() {
-          _hasBits0 &= ~1;
         }
 
         /// <summary>Field number for the "end" field.</summary>
         public const int EndFieldNumber = 2;
-        private readonly static int EndDefaultValue = 0;
-
         private int end_;
         /// <summary>
         /// Exclusive.
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int End {
-          get { if ((_hasBits0 & 2) != 0) { return end_; } else { return EndDefaultValue; } }
+          get { return end_; }
           set {
-            _hasBits0 |= 2;
             end_ = value;
           }
-        }
-        /// <summary>Gets whether the "end" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasEnd {
-          get { return (_hasBits0 & 2) != 0; }
-        }
-        /// <summary>Clears the value of the "end" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearEnd() {
-          _hasBits0 &= ~2;
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1497,8 +1353,8 @@ namespace Google.Protobuf.Reflection {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override int GetHashCode() {
           int hash = 1;
-          if (HasStart) hash ^= Start.GetHashCode();
-          if (HasEnd) hash ^= End.GetHashCode();
+          if (Start != 0) hash ^= Start.GetHashCode();
+          if (End != 0) hash ^= End.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -1512,11 +1368,11 @@ namespace Google.Protobuf.Reflection {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
-          if (HasStart) {
+          if (Start != 0) {
             output.WriteRawTag(8);
             output.WriteInt32(Start);
           }
-          if (HasEnd) {
+          if (End != 0) {
             output.WriteRawTag(16);
             output.WriteInt32(End);
           }
@@ -1528,10 +1384,10 @@ namespace Google.Protobuf.Reflection {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize() {
           int size = 0;
-          if (HasStart) {
+          if (Start != 0) {
             size += 1 + pb::CodedOutputStream.ComputeInt32Size(Start);
           }
-          if (HasEnd) {
+          if (End != 0) {
             size += 1 + pb::CodedOutputStream.ComputeInt32Size(End);
           }
           if (_unknownFields != null) {
@@ -1545,10 +1401,10 @@ namespace Google.Protobuf.Reflection {
           if (other == null) {
             return;
           }
-          if (other.HasStart) {
+          if (other.Start != 0) {
             Start = other.Start;
           }
-          if (other.HasEnd) {
+          if (other.End != 0) {
             End = other.End;
           }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -1711,7 +1567,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class FieldDescriptorProto : pb::IMessage<FieldDescriptorProto> {
     private static readonly pb::MessageParser<FieldDescriptorProto> _parser = new pb::MessageParser<FieldDescriptorProto>(() => new FieldDescriptorProto());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<FieldDescriptorProto> Parser { get { return _parser; } }
 
@@ -1734,7 +1589,6 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public FieldDescriptorProto(FieldDescriptorProto other) : this() {
-      _hasBits0 = other._hasBits0;
       name_ = other.name_;
       number_ = other.number_;
       label_ = other.label_;
@@ -1744,7 +1598,7 @@ namespace Google.Protobuf.Reflection {
       defaultValue_ = other.defaultValue_;
       oneofIndex_ = other.oneofIndex_;
       jsonName_ = other.jsonName_;
-      options_ = other.HasOptions ? other.options_.Clone() : null;
+      options_ = other.options_ != null ? other.options_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1755,108 +1609,55 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
-    private readonly static string NameDefaultValue = "";
-
-    private string name_;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
-      get { return name_ ?? NameDefaultValue; }
+      get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasName {
-      get { return name_ != null; }
-    }
-    /// <summary>Clears the value of the "name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearName() {
-      name_ = null;
-    }
 
     /// <summary>Field number for the "number" field.</summary>
     public const int NumberFieldNumber = 3;
-    private readonly static int NumberDefaultValue = 0;
-
     private int number_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int Number {
-      get { if ((_hasBits0 & 1) != 0) { return number_; } else { return NumberDefaultValue; } }
+      get { return number_; }
       set {
-        _hasBits0 |= 1;
         number_ = value;
       }
-    }
-    /// <summary>Gets whether the "number" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasNumber {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "number" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearNumber() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "label" field.</summary>
     public const int LabelFieldNumber = 4;
-    private readonly static global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Label LabelDefaultValue = global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Label.Optional;
-
-    private global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Label label_;
+    private global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Label label_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Label Label {
-      get { if ((_hasBits0 & 2) != 0) { return label_; } else { return LabelDefaultValue; } }
+      get { return label_; }
       set {
-        _hasBits0 |= 2;
         label_ = value;
       }
-    }
-    /// <summary>Gets whether the "label" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasLabel {
-      get { return (_hasBits0 & 2) != 0; }
-    }
-    /// <summary>Clears the value of the "label" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearLabel() {
-      _hasBits0 &= ~2;
     }
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 5;
-    private readonly static global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Type TypeDefaultValue = global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Type.Double;
-
-    private global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Type type_;
+    private global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Type type_ = 0;
     /// <summary>
     /// If type_name is set, this need not be set.  If both this and type_name
     /// are set, this must be one of TYPE_ENUM, TYPE_MESSAGE or TYPE_GROUP.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Type Type {
-      get { if ((_hasBits0 & 4) != 0) { return type_; } else { return TypeDefaultValue; } }
+      get { return type_; }
       set {
-        _hasBits0 |= 4;
         type_ = value;
       }
-    }
-    /// <summary>Gets whether the "type" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasType {
-      get { return (_hasBits0 & 4) != 0; }
-    }
-    /// <summary>Clears the value of the "type" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearType() {
-      _hasBits0 &= ~4;
     }
 
     /// <summary>Field number for the "type_name" field.</summary>
     public const int TypeNameFieldNumber = 6;
-    private readonly static string TypeNameDefaultValue = "";
-
-    private string typeName_;
+    private string typeName_ = "";
     /// <summary>
     /// For message and enum types, this is the name of the type.  If the name
     /// starts with a '.', it is fully-qualified.  Otherwise, C++-like scoping
@@ -1866,54 +1667,30 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string TypeName {
-      get { return typeName_ ?? TypeNameDefaultValue; }
+      get { return typeName_; }
       set {
         typeName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "type_name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasTypeName {
-      get { return typeName_ != null; }
-    }
-    /// <summary>Clears the value of the "type_name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearTypeName() {
-      typeName_ = null;
-    }
 
     /// <summary>Field number for the "extendee" field.</summary>
     public const int ExtendeeFieldNumber = 2;
-    private readonly static string ExtendeeDefaultValue = "";
-
-    private string extendee_;
+    private string extendee_ = "";
     /// <summary>
     /// For extensions, this is the name of the type being extended.  It is
     /// resolved in the same manner as type_name.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Extendee {
-      get { return extendee_ ?? ExtendeeDefaultValue; }
+      get { return extendee_; }
       set {
         extendee_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "extendee" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasExtendee {
-      get { return extendee_ != null; }
-    }
-    /// <summary>Clears the value of the "extendee" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearExtendee() {
-      extendee_ = null;
-    }
 
     /// <summary>Field number for the "default_value" field.</summary>
     public const int DefaultValueFieldNumber = 7;
-    private readonly static string DefaultValueDefaultValue = "";
-
-    private string defaultValue_;
+    private string defaultValue_ = "";
     /// <summary>
     /// For numeric types, contains the original text representation of the value.
     /// For booleans, "true" or "false".
@@ -1923,26 +1700,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string DefaultValue {
-      get { return defaultValue_ ?? DefaultValueDefaultValue; }
+      get { return defaultValue_; }
       set {
         defaultValue_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "default_value" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasDefaultValue {
-      get { return defaultValue_ != null; }
-    }
-    /// <summary>Clears the value of the "default_value" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearDefaultValue() {
-      defaultValue_ = null;
-    }
 
     /// <summary>Field number for the "oneof_index" field.</summary>
     public const int OneofIndexFieldNumber = 9;
-    private readonly static int OneofIndexDefaultValue = 0;
-
     private int oneofIndex_;
     /// <summary>
     /// If set, gives the index of a oneof in the containing type's oneof_decl
@@ -1950,28 +1715,15 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int OneofIndex {
-      get { if ((_hasBits0 & 8) != 0) { return oneofIndex_; } else { return OneofIndexDefaultValue; } }
+      get { return oneofIndex_; }
       set {
-        _hasBits0 |= 8;
         oneofIndex_ = value;
       }
-    }
-    /// <summary>Gets whether the "oneof_index" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOneofIndex {
-      get { return (_hasBits0 & 8) != 0; }
-    }
-    /// <summary>Clears the value of the "oneof_index" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOneofIndex() {
-      _hasBits0 &= ~8;
     }
 
     /// <summary>Field number for the "json_name" field.</summary>
     public const int JsonNameFieldNumber = 10;
-    private readonly static string JsonNameDefaultValue = "";
-
-    private string jsonName_;
+    private string jsonName_ = "";
     /// <summary>
     /// JSON name of this field. The value is set by protocol compiler. If the
     /// user has set a "json_name" option on this field, that option's value
@@ -1980,20 +1732,10 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string JsonName {
-      get { return jsonName_ ?? JsonNameDefaultValue; }
+      get { return jsonName_; }
       set {
         jsonName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "json_name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasJsonName {
-      get { return jsonName_ != null; }
-    }
-    /// <summary>Clears the value of the "json_name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearJsonName() {
-      jsonName_ = null;
     }
 
     /// <summary>Field number for the "options" field.</summary>
@@ -2005,16 +1747,6 @@ namespace Google.Protobuf.Reflection {
       set {
         options_ = value;
       }
-    }
-    /// <summary>Gets whether the options field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOptions {
-      get { return options_ != null; }
-    }
-    /// <summary>Clears the value of the options field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOptions() {
-      options_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2046,16 +1778,16 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasName) hash ^= Name.GetHashCode();
-      if (HasNumber) hash ^= Number.GetHashCode();
-      if (HasLabel) hash ^= Label.GetHashCode();
-      if (HasType) hash ^= Type.GetHashCode();
-      if (HasTypeName) hash ^= TypeName.GetHashCode();
-      if (HasExtendee) hash ^= Extendee.GetHashCode();
-      if (HasDefaultValue) hash ^= DefaultValue.GetHashCode();
-      if (HasOneofIndex) hash ^= OneofIndex.GetHashCode();
-      if (HasJsonName) hash ^= JsonName.GetHashCode();
-      if (HasOptions) hash ^= Options.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Number != 0) hash ^= Number.GetHashCode();
+      if (Label != 0) hash ^= Label.GetHashCode();
+      if (Type != 0) hash ^= Type.GetHashCode();
+      if (TypeName.Length != 0) hash ^= TypeName.GetHashCode();
+      if (Extendee.Length != 0) hash ^= Extendee.GetHashCode();
+      if (DefaultValue.Length != 0) hash ^= DefaultValue.GetHashCode();
+      if (OneofIndex != 0) hash ^= OneofIndex.GetHashCode();
+      if (JsonName.Length != 0) hash ^= JsonName.GetHashCode();
+      if (options_ != null) hash ^= Options.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2069,43 +1801,43 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasName) {
+      if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (HasExtendee) {
+      if (Extendee.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(Extendee);
       }
-      if (HasNumber) {
+      if (Number != 0) {
         output.WriteRawTag(24);
         output.WriteInt32(Number);
       }
-      if (HasLabel) {
+      if (Label != 0) {
         output.WriteRawTag(32);
         output.WriteEnum((int) Label);
       }
-      if (HasType) {
+      if (Type != 0) {
         output.WriteRawTag(40);
         output.WriteEnum((int) Type);
       }
-      if (HasTypeName) {
+      if (TypeName.Length != 0) {
         output.WriteRawTag(50);
         output.WriteString(TypeName);
       }
-      if (HasDefaultValue) {
+      if (DefaultValue.Length != 0) {
         output.WriteRawTag(58);
         output.WriteString(DefaultValue);
       }
-      if (HasOptions) {
+      if (options_ != null) {
         output.WriteRawTag(66);
         output.WriteMessage(Options);
       }
-      if (HasOneofIndex) {
+      if (OneofIndex != 0) {
         output.WriteRawTag(72);
         output.WriteInt32(OneofIndex);
       }
-      if (HasJsonName) {
+      if (JsonName.Length != 0) {
         output.WriteRawTag(82);
         output.WriteString(JsonName);
       }
@@ -2117,34 +1849,34 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasName) {
+      if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (HasNumber) {
+      if (Number != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Number);
       }
-      if (HasLabel) {
+      if (Label != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Label);
       }
-      if (HasType) {
+      if (Type != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
-      if (HasTypeName) {
+      if (TypeName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(TypeName);
       }
-      if (HasExtendee) {
+      if (Extendee.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Extendee);
       }
-      if (HasDefaultValue) {
+      if (DefaultValue.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(DefaultValue);
       }
-      if (HasOneofIndex) {
+      if (OneofIndex != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(OneofIndex);
       }
-      if (HasJsonName) {
+      if (JsonName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(JsonName);
       }
-      if (HasOptions) {
+      if (options_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
       }
       if (_unknownFields != null) {
@@ -2158,36 +1890,36 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasName) {
+      if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.HasNumber) {
+      if (other.Number != 0) {
         Number = other.Number;
       }
-      if (other.HasLabel) {
+      if (other.Label != 0) {
         Label = other.Label;
       }
-      if (other.HasType) {
+      if (other.Type != 0) {
         Type = other.Type;
       }
-      if (other.HasTypeName) {
+      if (other.TypeName.Length != 0) {
         TypeName = other.TypeName;
       }
-      if (other.HasExtendee) {
+      if (other.Extendee.Length != 0) {
         Extendee = other.Extendee;
       }
-      if (other.HasDefaultValue) {
+      if (other.DefaultValue.Length != 0) {
         DefaultValue = other.DefaultValue;
       }
-      if (other.HasOneofIndex) {
+      if (other.OneofIndex != 0) {
         OneofIndex = other.OneofIndex;
       }
-      if (other.HasJsonName) {
+      if (other.JsonName.Length != 0) {
         JsonName = other.JsonName;
       }
-      if (other.HasOptions) {
-        if (!HasOptions) {
-          Options = new global::Google.Protobuf.Reflection.FieldOptions();
+      if (other.options_ != null) {
+        if (options_ == null) {
+          options_ = new global::Google.Protobuf.Reflection.FieldOptions();
         }
         Options.MergeFrom(other.Options);
       }
@@ -2215,11 +1947,11 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 32: {
-            Label = (global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Label) input.ReadEnum();
+            label_ = (global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Label) input.ReadEnum();
             break;
           }
           case 40: {
-            Type = (global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Type) input.ReadEnum();
+            type_ = (global::Google.Protobuf.Reflection.FieldDescriptorProto.Types.Type) input.ReadEnum();
             break;
           }
           case 50: {
@@ -2231,10 +1963,10 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 66: {
-            if (!HasOptions) {
-              Options = new global::Google.Protobuf.Reflection.FieldOptions();
+            if (options_ == null) {
+              options_ = new global::Google.Protobuf.Reflection.FieldOptions();
             }
-            input.ReadMessage(Options);
+            input.ReadMessage(options_);
             break;
           }
           case 72: {
@@ -2347,7 +2079,7 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public OneofDescriptorProto(OneofDescriptorProto other) : this() {
       name_ = other.name_;
-      options_ = other.HasOptions ? other.options_.Clone() : null;
+      options_ = other.options_ != null ? other.options_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2358,25 +2090,13 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
-    private readonly static string NameDefaultValue = "";
-
-    private string name_;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
-      get { return name_ ?? NameDefaultValue; }
+      get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasName {
-      get { return name_ != null; }
-    }
-    /// <summary>Clears the value of the "name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearName() {
-      name_ = null;
     }
 
     /// <summary>Field number for the "options" field.</summary>
@@ -2388,16 +2108,6 @@ namespace Google.Protobuf.Reflection {
       set {
         options_ = value;
       }
-    }
-    /// <summary>Gets whether the options field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOptions {
-      get { return options_ != null; }
-    }
-    /// <summary>Clears the value of the options field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOptions() {
-      options_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2421,8 +2131,8 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasName) hash ^= Name.GetHashCode();
-      if (HasOptions) hash ^= Options.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (options_ != null) hash ^= Options.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2436,11 +2146,11 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasName) {
+      if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (HasOptions) {
+      if (options_ != null) {
         output.WriteRawTag(18);
         output.WriteMessage(Options);
       }
@@ -2452,10 +2162,10 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasName) {
+      if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (HasOptions) {
+      if (options_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
       }
       if (_unknownFields != null) {
@@ -2469,12 +2179,12 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasName) {
+      if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.HasOptions) {
-        if (!HasOptions) {
-          Options = new global::Google.Protobuf.Reflection.OneofOptions();
+      if (other.options_ != null) {
+        if (options_ == null) {
+          options_ = new global::Google.Protobuf.Reflection.OneofOptions();
         }
         Options.MergeFrom(other.Options);
       }
@@ -2494,10 +2204,10 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 18: {
-            if (!HasOptions) {
-              Options = new global::Google.Protobuf.Reflection.OneofOptions();
+            if (options_ == null) {
+              options_ = new global::Google.Protobuf.Reflection.OneofOptions();
             }
-            input.ReadMessage(Options);
+            input.ReadMessage(options_);
             break;
           }
         }
@@ -2536,7 +2246,7 @@ namespace Google.Protobuf.Reflection {
     public EnumDescriptorProto(EnumDescriptorProto other) : this() {
       name_ = other.name_;
       value_ = other.value_.Clone();
-      options_ = other.HasOptions ? other.options_.Clone() : null;
+      options_ = other.options_ != null ? other.options_.Clone() : null;
       reservedRange_ = other.reservedRange_.Clone();
       reservedName_ = other.reservedName_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -2549,25 +2259,13 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
-    private readonly static string NameDefaultValue = "";
-
-    private string name_;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
-      get { return name_ ?? NameDefaultValue; }
+      get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasName {
-      get { return name_ != null; }
-    }
-    /// <summary>Clears the value of the "name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearName() {
-      name_ = null;
     }
 
     /// <summary>Field number for the "value" field.</summary>
@@ -2589,16 +2287,6 @@ namespace Google.Protobuf.Reflection {
       set {
         options_ = value;
       }
-    }
-    /// <summary>Gets whether the options field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOptions {
-      get { return options_ != null; }
-    }
-    /// <summary>Clears the value of the options field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOptions() {
-      options_ = null;
     }
 
     /// <summary>Field number for the "reserved_range" field.</summary>
@@ -2654,9 +2342,9 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasName) hash ^= Name.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
       hash ^= value_.GetHashCode();
-      if (HasOptions) hash ^= Options.GetHashCode();
+      if (options_ != null) hash ^= Options.GetHashCode();
       hash ^= reservedRange_.GetHashCode();
       hash ^= reservedName_.GetHashCode();
       if (_unknownFields != null) {
@@ -2672,12 +2360,12 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasName) {
+      if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
       value_.WriteTo(output, _repeated_value_codec);
-      if (HasOptions) {
+      if (options_ != null) {
         output.WriteRawTag(26);
         output.WriteMessage(Options);
       }
@@ -2691,11 +2379,11 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasName) {
+      if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
       size += value_.CalculateSize(_repeated_value_codec);
-      if (HasOptions) {
+      if (options_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
       }
       size += reservedRange_.CalculateSize(_repeated_reservedRange_codec);
@@ -2711,13 +2399,13 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasName) {
+      if (other.Name.Length != 0) {
         Name = other.Name;
       }
       value_.Add(other.value_);
-      if (other.HasOptions) {
-        if (!HasOptions) {
-          Options = new global::Google.Protobuf.Reflection.EnumOptions();
+      if (other.options_ != null) {
+        if (options_ == null) {
+          options_ = new global::Google.Protobuf.Reflection.EnumOptions();
         }
         Options.MergeFrom(other.Options);
       }
@@ -2743,10 +2431,10 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 26: {
-            if (!HasOptions) {
-              Options = new global::Google.Protobuf.Reflection.EnumOptions();
+            if (options_ == null) {
+              options_ = new global::Google.Protobuf.Reflection.EnumOptions();
             }
-            input.ReadMessage(Options);
+            input.ReadMessage(options_);
             break;
           }
           case 34: {
@@ -2776,7 +2464,6 @@ namespace Google.Protobuf.Reflection {
       internal sealed partial class EnumReservedRange : pb::IMessage<EnumReservedRange> {
         private static readonly pb::MessageParser<EnumReservedRange> _parser = new pb::MessageParser<EnumReservedRange>(() => new EnumReservedRange());
         private pb::UnknownFieldSet _unknownFields;
-        private int _hasBits0;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pb::MessageParser<EnumReservedRange> Parser { get { return _parser; } }
 
@@ -2799,7 +2486,6 @@ namespace Google.Protobuf.Reflection {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public EnumReservedRange(EnumReservedRange other) : this() {
-          _hasBits0 = other._hasBits0;
           start_ = other.start_;
           end_ = other.end_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -2812,56 +2498,30 @@ namespace Google.Protobuf.Reflection {
 
         /// <summary>Field number for the "start" field.</summary>
         public const int StartFieldNumber = 1;
-        private readonly static int StartDefaultValue = 0;
-
         private int start_;
         /// <summary>
         /// Inclusive.
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int Start {
-          get { if ((_hasBits0 & 1) != 0) { return start_; } else { return StartDefaultValue; } }
+          get { return start_; }
           set {
-            _hasBits0 |= 1;
             start_ = value;
           }
-        }
-        /// <summary>Gets whether the "start" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasStart {
-          get { return (_hasBits0 & 1) != 0; }
-        }
-        /// <summary>Clears the value of the "start" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearStart() {
-          _hasBits0 &= ~1;
         }
 
         /// <summary>Field number for the "end" field.</summary>
         public const int EndFieldNumber = 2;
-        private readonly static int EndDefaultValue = 0;
-
         private int end_;
         /// <summary>
         /// Inclusive.
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int End {
-          get { if ((_hasBits0 & 2) != 0) { return end_; } else { return EndDefaultValue; } }
+          get { return end_; }
           set {
-            _hasBits0 |= 2;
             end_ = value;
           }
-        }
-        /// <summary>Gets whether the "end" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasEnd {
-          get { return (_hasBits0 & 2) != 0; }
-        }
-        /// <summary>Clears the value of the "end" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearEnd() {
-          _hasBits0 &= ~2;
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2885,8 +2545,8 @@ namespace Google.Protobuf.Reflection {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override int GetHashCode() {
           int hash = 1;
-          if (HasStart) hash ^= Start.GetHashCode();
-          if (HasEnd) hash ^= End.GetHashCode();
+          if (Start != 0) hash ^= Start.GetHashCode();
+          if (End != 0) hash ^= End.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -2900,11 +2560,11 @@ namespace Google.Protobuf.Reflection {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
-          if (HasStart) {
+          if (Start != 0) {
             output.WriteRawTag(8);
             output.WriteInt32(Start);
           }
-          if (HasEnd) {
+          if (End != 0) {
             output.WriteRawTag(16);
             output.WriteInt32(End);
           }
@@ -2916,10 +2576,10 @@ namespace Google.Protobuf.Reflection {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize() {
           int size = 0;
-          if (HasStart) {
+          if (Start != 0) {
             size += 1 + pb::CodedOutputStream.ComputeInt32Size(Start);
           }
-          if (HasEnd) {
+          if (End != 0) {
             size += 1 + pb::CodedOutputStream.ComputeInt32Size(End);
           }
           if (_unknownFields != null) {
@@ -2933,10 +2593,10 @@ namespace Google.Protobuf.Reflection {
           if (other == null) {
             return;
           }
-          if (other.HasStart) {
+          if (other.Start != 0) {
             Start = other.Start;
           }
-          if (other.HasEnd) {
+          if (other.End != 0) {
             End = other.End;
           }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -2975,7 +2635,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class EnumValueDescriptorProto : pb::IMessage<EnumValueDescriptorProto> {
     private static readonly pb::MessageParser<EnumValueDescriptorProto> _parser = new pb::MessageParser<EnumValueDescriptorProto>(() => new EnumValueDescriptorProto());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<EnumValueDescriptorProto> Parser { get { return _parser; } }
 
@@ -2998,10 +2657,9 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public EnumValueDescriptorProto(EnumValueDescriptorProto other) : this() {
-      _hasBits0 = other._hasBits0;
       name_ = other.name_;
       number_ = other.number_;
-      options_ = other.HasOptions ? other.options_.Clone() : null;
+      options_ = other.options_ != null ? other.options_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3012,49 +2670,24 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
-    private readonly static string NameDefaultValue = "";
-
-    private string name_;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
-      get { return name_ ?? NameDefaultValue; }
+      get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasName {
-      get { return name_ != null; }
-    }
-    /// <summary>Clears the value of the "name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearName() {
-      name_ = null;
-    }
 
     /// <summary>Field number for the "number" field.</summary>
     public const int NumberFieldNumber = 2;
-    private readonly static int NumberDefaultValue = 0;
-
     private int number_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int Number {
-      get { if ((_hasBits0 & 1) != 0) { return number_; } else { return NumberDefaultValue; } }
+      get { return number_; }
       set {
-        _hasBits0 |= 1;
         number_ = value;
       }
-    }
-    /// <summary>Gets whether the "number" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasNumber {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "number" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearNumber() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "options" field.</summary>
@@ -3066,16 +2699,6 @@ namespace Google.Protobuf.Reflection {
       set {
         options_ = value;
       }
-    }
-    /// <summary>Gets whether the options field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOptions {
-      get { return options_ != null; }
-    }
-    /// <summary>Clears the value of the options field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOptions() {
-      options_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3100,9 +2723,9 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasName) hash ^= Name.GetHashCode();
-      if (HasNumber) hash ^= Number.GetHashCode();
-      if (HasOptions) hash ^= Options.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Number != 0) hash ^= Number.GetHashCode();
+      if (options_ != null) hash ^= Options.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3116,15 +2739,15 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasName) {
+      if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (HasNumber) {
+      if (Number != 0) {
         output.WriteRawTag(16);
         output.WriteInt32(Number);
       }
-      if (HasOptions) {
+      if (options_ != null) {
         output.WriteRawTag(26);
         output.WriteMessage(Options);
       }
@@ -3136,13 +2759,13 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasName) {
+      if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (HasNumber) {
+      if (Number != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Number);
       }
-      if (HasOptions) {
+      if (options_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
       }
       if (_unknownFields != null) {
@@ -3156,15 +2779,15 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasName) {
+      if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.HasNumber) {
+      if (other.Number != 0) {
         Number = other.Number;
       }
-      if (other.HasOptions) {
-        if (!HasOptions) {
-          Options = new global::Google.Protobuf.Reflection.EnumValueOptions();
+      if (other.options_ != null) {
+        if (options_ == null) {
+          options_ = new global::Google.Protobuf.Reflection.EnumValueOptions();
         }
         Options.MergeFrom(other.Options);
       }
@@ -3188,10 +2811,10 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 26: {
-            if (!HasOptions) {
-              Options = new global::Google.Protobuf.Reflection.EnumValueOptions();
+            if (options_ == null) {
+              options_ = new global::Google.Protobuf.Reflection.EnumValueOptions();
             }
-            input.ReadMessage(Options);
+            input.ReadMessage(options_);
             break;
           }
         }
@@ -3230,7 +2853,7 @@ namespace Google.Protobuf.Reflection {
     public ServiceDescriptorProto(ServiceDescriptorProto other) : this() {
       name_ = other.name_;
       method_ = other.method_.Clone();
-      options_ = other.HasOptions ? other.options_.Clone() : null;
+      options_ = other.options_ != null ? other.options_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3241,25 +2864,13 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
-    private readonly static string NameDefaultValue = "";
-
-    private string name_;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
-      get { return name_ ?? NameDefaultValue; }
+      get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasName {
-      get { return name_ != null; }
-    }
-    /// <summary>Clears the value of the "name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearName() {
-      name_ = null;
     }
 
     /// <summary>Field number for the "method" field.</summary>
@@ -3281,16 +2892,6 @@ namespace Google.Protobuf.Reflection {
       set {
         options_ = value;
       }
-    }
-    /// <summary>Gets whether the options field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOptions {
-      get { return options_ != null; }
-    }
-    /// <summary>Clears the value of the options field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOptions() {
-      options_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3315,9 +2916,9 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasName) hash ^= Name.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
       hash ^= method_.GetHashCode();
-      if (HasOptions) hash ^= Options.GetHashCode();
+      if (options_ != null) hash ^= Options.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3331,12 +2932,12 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasName) {
+      if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
       method_.WriteTo(output, _repeated_method_codec);
-      if (HasOptions) {
+      if (options_ != null) {
         output.WriteRawTag(26);
         output.WriteMessage(Options);
       }
@@ -3348,11 +2949,11 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasName) {
+      if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
       size += method_.CalculateSize(_repeated_method_codec);
-      if (HasOptions) {
+      if (options_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
       }
       if (_unknownFields != null) {
@@ -3366,13 +2967,13 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasName) {
+      if (other.Name.Length != 0) {
         Name = other.Name;
       }
       method_.Add(other.method_);
-      if (other.HasOptions) {
-        if (!HasOptions) {
-          Options = new global::Google.Protobuf.Reflection.ServiceOptions();
+      if (other.options_ != null) {
+        if (options_ == null) {
+          options_ = new global::Google.Protobuf.Reflection.ServiceOptions();
         }
         Options.MergeFrom(other.Options);
       }
@@ -3396,10 +2997,10 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 26: {
-            if (!HasOptions) {
-              Options = new global::Google.Protobuf.Reflection.ServiceOptions();
+            if (options_ == null) {
+              options_ = new global::Google.Protobuf.Reflection.ServiceOptions();
             }
-            input.ReadMessage(Options);
+            input.ReadMessage(options_);
             break;
           }
         }
@@ -3414,7 +3015,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class MethodDescriptorProto : pb::IMessage<MethodDescriptorProto> {
     private static readonly pb::MessageParser<MethodDescriptorProto> _parser = new pb::MessageParser<MethodDescriptorProto>(() => new MethodDescriptorProto());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<MethodDescriptorProto> Parser { get { return _parser; } }
 
@@ -3437,11 +3037,10 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public MethodDescriptorProto(MethodDescriptorProto other) : this() {
-      _hasBits0 = other._hasBits0;
       name_ = other.name_;
       inputType_ = other.inputType_;
       outputType_ = other.outputType_;
-      options_ = other.HasOptions ? other.options_.Clone() : null;
+      options_ = other.options_ != null ? other.options_.Clone() : null;
       clientStreaming_ = other.clientStreaming_;
       serverStreaming_ = other.serverStreaming_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -3454,75 +3053,39 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
-    private readonly static string NameDefaultValue = "";
-
-    private string name_;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
-      get { return name_ ?? NameDefaultValue; }
+      get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "name" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasName {
-      get { return name_ != null; }
-    }
-    /// <summary>Clears the value of the "name" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearName() {
-      name_ = null;
-    }
 
     /// <summary>Field number for the "input_type" field.</summary>
     public const int InputTypeFieldNumber = 2;
-    private readonly static string InputTypeDefaultValue = "";
-
-    private string inputType_;
+    private string inputType_ = "";
     /// <summary>
     /// Input and output type names.  These are resolved in the same way as
     /// FieldDescriptorProto.type_name, but must refer to a message type.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string InputType {
-      get { return inputType_ ?? InputTypeDefaultValue; }
+      get { return inputType_; }
       set {
         inputType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "input_type" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasInputType {
-      get { return inputType_ != null; }
-    }
-    /// <summary>Clears the value of the "input_type" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearInputType() {
-      inputType_ = null;
-    }
 
     /// <summary>Field number for the "output_type" field.</summary>
     public const int OutputTypeFieldNumber = 3;
-    private readonly static string OutputTypeDefaultValue = "";
-
-    private string outputType_;
+    private string outputType_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string OutputType {
-      get { return outputType_ ?? OutputTypeDefaultValue; }
+      get { return outputType_; }
       set {
         outputType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "output_type" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOutputType {
-      get { return outputType_ != null; }
-    }
-    /// <summary>Clears the value of the "output_type" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOutputType() {
-      outputType_ = null;
     }
 
     /// <summary>Field number for the "options" field.</summary>
@@ -3535,69 +3098,33 @@ namespace Google.Protobuf.Reflection {
         options_ = value;
       }
     }
-    /// <summary>Gets whether the options field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOptions {
-      get { return options_ != null; }
-    }
-    /// <summary>Clears the value of the options field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOptions() {
-      options_ = null;
-    }
 
     /// <summary>Field number for the "client_streaming" field.</summary>
     public const int ClientStreamingFieldNumber = 5;
-    private readonly static bool ClientStreamingDefaultValue = false;
-
     private bool clientStreaming_;
     /// <summary>
     /// Identifies if client streams multiple client messages
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool ClientStreaming {
-      get { if ((_hasBits0 & 1) != 0) { return clientStreaming_; } else { return ClientStreamingDefaultValue; } }
+      get { return clientStreaming_; }
       set {
-        _hasBits0 |= 1;
         clientStreaming_ = value;
       }
-    }
-    /// <summary>Gets whether the "client_streaming" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasClientStreaming {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "client_streaming" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearClientStreaming() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "server_streaming" field.</summary>
     public const int ServerStreamingFieldNumber = 6;
-    private readonly static bool ServerStreamingDefaultValue = false;
-
     private bool serverStreaming_;
     /// <summary>
     /// Identifies if server streams multiple server messages
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool ServerStreaming {
-      get { if ((_hasBits0 & 2) != 0) { return serverStreaming_; } else { return ServerStreamingDefaultValue; } }
+      get { return serverStreaming_; }
       set {
-        _hasBits0 |= 2;
         serverStreaming_ = value;
       }
-    }
-    /// <summary>Gets whether the "server_streaming" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasServerStreaming {
-      get { return (_hasBits0 & 2) != 0; }
-    }
-    /// <summary>Clears the value of the "server_streaming" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearServerStreaming() {
-      _hasBits0 &= ~2;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3625,12 +3152,12 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasName) hash ^= Name.GetHashCode();
-      if (HasInputType) hash ^= InputType.GetHashCode();
-      if (HasOutputType) hash ^= OutputType.GetHashCode();
-      if (HasOptions) hash ^= Options.GetHashCode();
-      if (HasClientStreaming) hash ^= ClientStreaming.GetHashCode();
-      if (HasServerStreaming) hash ^= ServerStreaming.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (InputType.Length != 0) hash ^= InputType.GetHashCode();
+      if (OutputType.Length != 0) hash ^= OutputType.GetHashCode();
+      if (options_ != null) hash ^= Options.GetHashCode();
+      if (ClientStreaming != false) hash ^= ClientStreaming.GetHashCode();
+      if (ServerStreaming != false) hash ^= ServerStreaming.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3644,27 +3171,27 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasName) {
+      if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (HasInputType) {
+      if (InputType.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(InputType);
       }
-      if (HasOutputType) {
+      if (OutputType.Length != 0) {
         output.WriteRawTag(26);
         output.WriteString(OutputType);
       }
-      if (HasOptions) {
+      if (options_ != null) {
         output.WriteRawTag(34);
         output.WriteMessage(Options);
       }
-      if (HasClientStreaming) {
+      if (ClientStreaming != false) {
         output.WriteRawTag(40);
         output.WriteBool(ClientStreaming);
       }
-      if (HasServerStreaming) {
+      if (ServerStreaming != false) {
         output.WriteRawTag(48);
         output.WriteBool(ServerStreaming);
       }
@@ -3676,22 +3203,22 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasName) {
+      if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (HasInputType) {
+      if (InputType.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(InputType);
       }
-      if (HasOutputType) {
+      if (OutputType.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(OutputType);
       }
-      if (HasOptions) {
+      if (options_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
       }
-      if (HasClientStreaming) {
+      if (ClientStreaming != false) {
         size += 1 + 1;
       }
-      if (HasServerStreaming) {
+      if (ServerStreaming != false) {
         size += 1 + 1;
       }
       if (_unknownFields != null) {
@@ -3705,25 +3232,25 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasName) {
+      if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.HasInputType) {
+      if (other.InputType.Length != 0) {
         InputType = other.InputType;
       }
-      if (other.HasOutputType) {
+      if (other.OutputType.Length != 0) {
         OutputType = other.OutputType;
       }
-      if (other.HasOptions) {
-        if (!HasOptions) {
-          Options = new global::Google.Protobuf.Reflection.MethodOptions();
+      if (other.options_ != null) {
+        if (options_ == null) {
+          options_ = new global::Google.Protobuf.Reflection.MethodOptions();
         }
         Options.MergeFrom(other.Options);
       }
-      if (other.HasClientStreaming) {
+      if (other.ClientStreaming != false) {
         ClientStreaming = other.ClientStreaming;
       }
-      if (other.HasServerStreaming) {
+      if (other.ServerStreaming != false) {
         ServerStreaming = other.ServerStreaming;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -3750,10 +3277,10 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 34: {
-            if (!HasOptions) {
-              Options = new global::Google.Protobuf.Reflection.MethodOptions();
+            if (options_ == null) {
+              options_ = new global::Google.Protobuf.Reflection.MethodOptions();
             }
-            input.ReadMessage(Options);
+            input.ReadMessage(options_);
             break;
           }
           case 40: {
@@ -3773,7 +3300,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class FileOptions : pb::IMessage<FileOptions> {
     private static readonly pb::MessageParser<FileOptions> _parser = new pb::MessageParser<FileOptions>(() => new FileOptions());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<FileOptions> Parser { get { return _parser; } }
 
@@ -3798,7 +3324,6 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public FileOptions(FileOptions other) : this() {
-      _hasBits0 = other._hasBits0;
       javaPackage_ = other.javaPackage_;
       javaOuterClassname_ = other.javaOuterClassname_;
       javaMultipleFiles_ = other.javaMultipleFiles_;
@@ -3830,9 +3355,7 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "java_package" field.</summary>
     public const int JavaPackageFieldNumber = 1;
-    private readonly static string JavaPackageDefaultValue = "";
-
-    private string javaPackage_;
+    private string javaPackage_ = "";
     /// <summary>
     /// Sets the Java package where classes generated from this .proto will be
     /// placed.  By default, the proto package is used, but this is often
@@ -3841,27 +3364,15 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string JavaPackage {
-      get { return javaPackage_ ?? JavaPackageDefaultValue; }
+      get { return javaPackage_; }
       set {
         javaPackage_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "java_package" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasJavaPackage {
-      get { return javaPackage_ != null; }
-    }
-    /// <summary>Clears the value of the "java_package" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearJavaPackage() {
-      javaPackage_ = null;
-    }
 
     /// <summary>Field number for the "java_outer_classname" field.</summary>
     public const int JavaOuterClassnameFieldNumber = 8;
-    private readonly static string JavaOuterClassnameDefaultValue = "";
-
-    private string javaOuterClassname_;
+    private string javaOuterClassname_ = "";
     /// <summary>
     /// If set, all the classes from the .proto file are wrapped in a single
     /// outer class with the given name.  This applies to both Proto1
@@ -3871,26 +3382,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string JavaOuterClassname {
-      get { return javaOuterClassname_ ?? JavaOuterClassnameDefaultValue; }
+      get { return javaOuterClassname_; }
       set {
         javaOuterClassname_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "java_outer_classname" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasJavaOuterClassname {
-      get { return javaOuterClassname_ != null; }
-    }
-    /// <summary>Clears the value of the "java_outer_classname" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearJavaOuterClassname() {
-      javaOuterClassname_ = null;
-    }
 
     /// <summary>Field number for the "java_multiple_files" field.</summary>
     public const int JavaMultipleFilesFieldNumber = 10;
-    private readonly static bool JavaMultipleFilesDefaultValue = false;
-
     private bool javaMultipleFiles_;
     /// <summary>
     /// If set true, then the Java code generator will generate a separate .java
@@ -3902,27 +3401,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool JavaMultipleFiles {
-      get { if ((_hasBits0 & 2) != 0) { return javaMultipleFiles_; } else { return JavaMultipleFilesDefaultValue; } }
+      get { return javaMultipleFiles_; }
       set {
-        _hasBits0 |= 2;
         javaMultipleFiles_ = value;
       }
-    }
-    /// <summary>Gets whether the "java_multiple_files" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasJavaMultipleFiles {
-      get { return (_hasBits0 & 2) != 0; }
-    }
-    /// <summary>Clears the value of the "java_multiple_files" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearJavaMultipleFiles() {
-      _hasBits0 &= ~2;
     }
 
     /// <summary>Field number for the "java_generate_equals_and_hash" field.</summary>
     public const int JavaGenerateEqualsAndHashFieldNumber = 20;
-    private readonly static bool JavaGenerateEqualsAndHashDefaultValue = false;
-
     private bool javaGenerateEqualsAndHash_;
     /// <summary>
     /// This option does nothing.
@@ -3930,29 +3416,14 @@ namespace Google.Protobuf.Reflection {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool JavaGenerateEqualsAndHash {
-      get { if ((_hasBits0 & 32) != 0) { return javaGenerateEqualsAndHash_; } else { return JavaGenerateEqualsAndHashDefaultValue; } }
+      get { return javaGenerateEqualsAndHash_; }
       set {
-        _hasBits0 |= 32;
         javaGenerateEqualsAndHash_ = value;
       }
-    }
-    /// <summary>Gets whether the "java_generate_equals_and_hash" field is set</summary>
-    [global::System.ObsoleteAttribute]
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasJavaGenerateEqualsAndHash {
-      get { return (_hasBits0 & 32) != 0; }
-    }
-    /// <summary>Clears the value of the "java_generate_equals_and_hash" field</summary>
-    [global::System.ObsoleteAttribute]
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearJavaGenerateEqualsAndHash() {
-      _hasBits0 &= ~32;
     }
 
     /// <summary>Field number for the "java_string_check_utf8" field.</summary>
     public const int JavaStringCheckUtf8FieldNumber = 27;
-    private readonly static bool JavaStringCheckUtf8DefaultValue = false;
-
     private bool javaStringCheckUtf8_;
     /// <summary>
     /// If set true, then the Java2 code generator will generate code that
@@ -3964,52 +3435,26 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool JavaStringCheckUtf8 {
-      get { if ((_hasBits0 & 128) != 0) { return javaStringCheckUtf8_; } else { return JavaStringCheckUtf8DefaultValue; } }
+      get { return javaStringCheckUtf8_; }
       set {
-        _hasBits0 |= 128;
         javaStringCheckUtf8_ = value;
       }
-    }
-    /// <summary>Gets whether the "java_string_check_utf8" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasJavaStringCheckUtf8 {
-      get { return (_hasBits0 & 128) != 0; }
-    }
-    /// <summary>Clears the value of the "java_string_check_utf8" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearJavaStringCheckUtf8() {
-      _hasBits0 &= ~128;
     }
 
     /// <summary>Field number for the "optimize_for" field.</summary>
     public const int OptimizeForFieldNumber = 9;
-    private readonly static global::Google.Protobuf.Reflection.FileOptions.Types.OptimizeMode OptimizeForDefaultValue = global::Google.Protobuf.Reflection.FileOptions.Types.OptimizeMode.Speed;
-
-    private global::Google.Protobuf.Reflection.FileOptions.Types.OptimizeMode optimizeFor_;
+    private global::Google.Protobuf.Reflection.FileOptions.Types.OptimizeMode optimizeFor_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Reflection.FileOptions.Types.OptimizeMode OptimizeFor {
-      get { if ((_hasBits0 & 1) != 0) { return optimizeFor_; } else { return OptimizeForDefaultValue; } }
+      get { return optimizeFor_; }
       set {
-        _hasBits0 |= 1;
         optimizeFor_ = value;
       }
-    }
-    /// <summary>Gets whether the "optimize_for" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasOptimizeFor {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "optimize_for" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOptimizeFor() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "go_package" field.</summary>
     public const int GoPackageFieldNumber = 11;
-    private readonly static string GoPackageDefaultValue = "";
-
-    private string goPackage_;
+    private string goPackage_ = "";
     /// <summary>
     /// Sets the Go package where structs generated from this .proto will be
     /// placed. If omitted, the Go package will be derived from the following:
@@ -4019,26 +3464,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string GoPackage {
-      get { return goPackage_ ?? GoPackageDefaultValue; }
+      get { return goPackage_; }
       set {
         goPackage_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "go_package" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasGoPackage {
-      get { return goPackage_ != null; }
-    }
-    /// <summary>Clears the value of the "go_package" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearGoPackage() {
-      goPackage_ = null;
-    }
 
     /// <summary>Field number for the "cc_generic_services" field.</summary>
     public const int CcGenericServicesFieldNumber = 16;
-    private readonly static bool CcGenericServicesDefaultValue = false;
-
     private bool ccGenericServices_;
     /// <summary>
     /// Should generic services be generated in each language?  "Generic" services
@@ -4054,99 +3487,47 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool CcGenericServices {
-      get { if ((_hasBits0 & 4) != 0) { return ccGenericServices_; } else { return CcGenericServicesDefaultValue; } }
+      get { return ccGenericServices_; }
       set {
-        _hasBits0 |= 4;
         ccGenericServices_ = value;
       }
-    }
-    /// <summary>Gets whether the "cc_generic_services" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasCcGenericServices {
-      get { return (_hasBits0 & 4) != 0; }
-    }
-    /// <summary>Clears the value of the "cc_generic_services" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearCcGenericServices() {
-      _hasBits0 &= ~4;
     }
 
     /// <summary>Field number for the "java_generic_services" field.</summary>
     public const int JavaGenericServicesFieldNumber = 17;
-    private readonly static bool JavaGenericServicesDefaultValue = false;
-
     private bool javaGenericServices_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool JavaGenericServices {
-      get { if ((_hasBits0 & 8) != 0) { return javaGenericServices_; } else { return JavaGenericServicesDefaultValue; } }
+      get { return javaGenericServices_; }
       set {
-        _hasBits0 |= 8;
         javaGenericServices_ = value;
       }
-    }
-    /// <summary>Gets whether the "java_generic_services" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasJavaGenericServices {
-      get { return (_hasBits0 & 8) != 0; }
-    }
-    /// <summary>Clears the value of the "java_generic_services" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearJavaGenericServices() {
-      _hasBits0 &= ~8;
     }
 
     /// <summary>Field number for the "py_generic_services" field.</summary>
     public const int PyGenericServicesFieldNumber = 18;
-    private readonly static bool PyGenericServicesDefaultValue = false;
-
     private bool pyGenericServices_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool PyGenericServices {
-      get { if ((_hasBits0 & 16) != 0) { return pyGenericServices_; } else { return PyGenericServicesDefaultValue; } }
+      get { return pyGenericServices_; }
       set {
-        _hasBits0 |= 16;
         pyGenericServices_ = value;
       }
-    }
-    /// <summary>Gets whether the "py_generic_services" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasPyGenericServices {
-      get { return (_hasBits0 & 16) != 0; }
-    }
-    /// <summary>Clears the value of the "py_generic_services" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearPyGenericServices() {
-      _hasBits0 &= ~16;
     }
 
     /// <summary>Field number for the "php_generic_services" field.</summary>
     public const int PhpGenericServicesFieldNumber = 42;
-    private readonly static bool PhpGenericServicesDefaultValue = false;
-
     private bool phpGenericServices_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool PhpGenericServices {
-      get { if ((_hasBits0 & 512) != 0) { return phpGenericServices_; } else { return PhpGenericServicesDefaultValue; } }
+      get { return phpGenericServices_; }
       set {
-        _hasBits0 |= 512;
         phpGenericServices_ = value;
       }
-    }
-    /// <summary>Gets whether the "php_generic_services" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasPhpGenericServices {
-      get { return (_hasBits0 & 512) != 0; }
-    }
-    /// <summary>Clears the value of the "php_generic_services" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearPhpGenericServices() {
-      _hasBits0 &= ~512;
     }
 
     /// <summary>Field number for the "deprecated" field.</summary>
     public const int DeprecatedFieldNumber = 23;
-    private readonly static bool DeprecatedDefaultValue = false;
-
     private bool deprecated_;
     /// <summary>
     /// Is this file deprecated?
@@ -4156,27 +3537,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Deprecated {
-      get { if ((_hasBits0 & 64) != 0) { return deprecated_; } else { return DeprecatedDefaultValue; } }
+      get { return deprecated_; }
       set {
-        _hasBits0 |= 64;
         deprecated_ = value;
       }
-    }
-    /// <summary>Gets whether the "deprecated" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasDeprecated {
-      get { return (_hasBits0 & 64) != 0; }
-    }
-    /// <summary>Clears the value of the "deprecated" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearDeprecated() {
-      _hasBits0 &= ~64;
     }
 
     /// <summary>Field number for the "cc_enable_arenas" field.</summary>
     public const int CcEnableArenasFieldNumber = 31;
-    private readonly static bool CcEnableArenasDefaultValue = false;
-
     private bool ccEnableArenas_;
     /// <summary>
     /// Enables the use of arenas for the proto messages in this file. This applies
@@ -4184,81 +3552,44 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool CcEnableArenas {
-      get { if ((_hasBits0 & 256) != 0) { return ccEnableArenas_; } else { return CcEnableArenasDefaultValue; } }
+      get { return ccEnableArenas_; }
       set {
-        _hasBits0 |= 256;
         ccEnableArenas_ = value;
       }
-    }
-    /// <summary>Gets whether the "cc_enable_arenas" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasCcEnableArenas {
-      get { return (_hasBits0 & 256) != 0; }
-    }
-    /// <summary>Clears the value of the "cc_enable_arenas" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearCcEnableArenas() {
-      _hasBits0 &= ~256;
     }
 
     /// <summary>Field number for the "objc_class_prefix" field.</summary>
     public const int ObjcClassPrefixFieldNumber = 36;
-    private readonly static string ObjcClassPrefixDefaultValue = "";
-
-    private string objcClassPrefix_;
+    private string objcClassPrefix_ = "";
     /// <summary>
     /// Sets the objective c class prefix which is prepended to all objective c
     /// generated classes from this .proto. There is no default.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string ObjcClassPrefix {
-      get { return objcClassPrefix_ ?? ObjcClassPrefixDefaultValue; }
+      get { return objcClassPrefix_; }
       set {
         objcClassPrefix_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "objc_class_prefix" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasObjcClassPrefix {
-      get { return objcClassPrefix_ != null; }
-    }
-    /// <summary>Clears the value of the "objc_class_prefix" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearObjcClassPrefix() {
-      objcClassPrefix_ = null;
-    }
 
     /// <summary>Field number for the "csharp_namespace" field.</summary>
     public const int CsharpNamespaceFieldNumber = 37;
-    private readonly static string CsharpNamespaceDefaultValue = "";
-
-    private string csharpNamespace_;
+    private string csharpNamespace_ = "";
     /// <summary>
     /// Namespace for generated classes; defaults to the package.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string CsharpNamespace {
-      get { return csharpNamespace_ ?? CsharpNamespaceDefaultValue; }
+      get { return csharpNamespace_; }
       set {
         csharpNamespace_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "csharp_namespace" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasCsharpNamespace {
-      get { return csharpNamespace_ != null; }
-    }
-    /// <summary>Clears the value of the "csharp_namespace" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearCsharpNamespace() {
-      csharpNamespace_ = null;
-    }
 
     /// <summary>Field number for the "swift_prefix" field.</summary>
     public const int SwiftPrefixFieldNumber = 39;
-    private readonly static string SwiftPrefixDefaultValue = "";
-
-    private string swiftPrefix_;
+    private string swiftPrefix_ = "";
     /// <summary>
     /// By default Swift generators will take the proto package and CamelCase it
     /// replacing '.' with underscore and use that to prefix the types/symbols
@@ -4267,54 +3598,30 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string SwiftPrefix {
-      get { return swiftPrefix_ ?? SwiftPrefixDefaultValue; }
+      get { return swiftPrefix_; }
       set {
         swiftPrefix_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "swift_prefix" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasSwiftPrefix {
-      get { return swiftPrefix_ != null; }
-    }
-    /// <summary>Clears the value of the "swift_prefix" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearSwiftPrefix() {
-      swiftPrefix_ = null;
-    }
 
     /// <summary>Field number for the "php_class_prefix" field.</summary>
     public const int PhpClassPrefixFieldNumber = 40;
-    private readonly static string PhpClassPrefixDefaultValue = "";
-
-    private string phpClassPrefix_;
+    private string phpClassPrefix_ = "";
     /// <summary>
     /// Sets the php class prefix which is prepended to all php generated classes
     /// from this .proto. Default is empty.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string PhpClassPrefix {
-      get { return phpClassPrefix_ ?? PhpClassPrefixDefaultValue; }
+      get { return phpClassPrefix_; }
       set {
         phpClassPrefix_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "php_class_prefix" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasPhpClassPrefix {
-      get { return phpClassPrefix_ != null; }
-    }
-    /// <summary>Clears the value of the "php_class_prefix" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearPhpClassPrefix() {
-      phpClassPrefix_ = null;
-    }
 
     /// <summary>Field number for the "php_namespace" field.</summary>
     public const int PhpNamespaceFieldNumber = 41;
-    private readonly static string PhpNamespaceDefaultValue = "";
-
-    private string phpNamespace_;
+    private string phpNamespace_ = "";
     /// <summary>
     /// Use this option to change the namespace of php generated classes. Default
     /// is empty. When this option is empty, the package name will be used for
@@ -4322,27 +3629,15 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string PhpNamespace {
-      get { return phpNamespace_ ?? PhpNamespaceDefaultValue; }
+      get { return phpNamespace_; }
       set {
         phpNamespace_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "php_namespace" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasPhpNamespace {
-      get { return phpNamespace_ != null; }
-    }
-    /// <summary>Clears the value of the "php_namespace" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearPhpNamespace() {
-      phpNamespace_ = null;
-    }
 
     /// <summary>Field number for the "php_metadata_namespace" field.</summary>
     public const int PhpMetadataNamespaceFieldNumber = 44;
-    private readonly static string PhpMetadataNamespaceDefaultValue = "";
-
-    private string phpMetadataNamespace_;
+    private string phpMetadataNamespace_ = "";
     /// <summary>
     /// Use this option to change the namespace of php generated metadata classes.
     /// Default is empty. When this option is empty, the proto file name will be used
@@ -4350,27 +3645,15 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string PhpMetadataNamespace {
-      get { return phpMetadataNamespace_ ?? PhpMetadataNamespaceDefaultValue; }
+      get { return phpMetadataNamespace_; }
       set {
         phpMetadataNamespace_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "php_metadata_namespace" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasPhpMetadataNamespace {
-      get { return phpMetadataNamespace_ != null; }
-    }
-    /// <summary>Clears the value of the "php_metadata_namespace" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearPhpMetadataNamespace() {
-      phpMetadataNamespace_ = null;
-    }
 
     /// <summary>Field number for the "ruby_package" field.</summary>
     public const int RubyPackageFieldNumber = 45;
-    private readonly static string RubyPackageDefaultValue = "";
-
-    private string rubyPackage_;
+    private string rubyPackage_ = "";
     /// <summary>
     /// Use this option to change the package of ruby generated classes. Default
     /// is empty. When this option is not set, the package name will be used for
@@ -4378,20 +3661,10 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string RubyPackage {
-      get { return rubyPackage_ ?? RubyPackageDefaultValue; }
+      get { return rubyPackage_; }
       set {
         rubyPackage_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "ruby_package" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasRubyPackage {
-      get { return rubyPackage_ != null; }
-    }
-    /// <summary>Clears the value of the "ruby_package" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearRubyPackage() {
-      rubyPackage_ = null;
     }
 
     /// <summary>Field number for the "uninterpreted_option" field.</summary>
@@ -4448,26 +3721,26 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasJavaPackage) hash ^= JavaPackage.GetHashCode();
-      if (HasJavaOuterClassname) hash ^= JavaOuterClassname.GetHashCode();
-      if (HasJavaMultipleFiles) hash ^= JavaMultipleFiles.GetHashCode();
-      if (HasJavaGenerateEqualsAndHash) hash ^= JavaGenerateEqualsAndHash.GetHashCode();
-      if (HasJavaStringCheckUtf8) hash ^= JavaStringCheckUtf8.GetHashCode();
-      if (HasOptimizeFor) hash ^= OptimizeFor.GetHashCode();
-      if (HasGoPackage) hash ^= GoPackage.GetHashCode();
-      if (HasCcGenericServices) hash ^= CcGenericServices.GetHashCode();
-      if (HasJavaGenericServices) hash ^= JavaGenericServices.GetHashCode();
-      if (HasPyGenericServices) hash ^= PyGenericServices.GetHashCode();
-      if (HasPhpGenericServices) hash ^= PhpGenericServices.GetHashCode();
-      if (HasDeprecated) hash ^= Deprecated.GetHashCode();
-      if (HasCcEnableArenas) hash ^= CcEnableArenas.GetHashCode();
-      if (HasObjcClassPrefix) hash ^= ObjcClassPrefix.GetHashCode();
-      if (HasCsharpNamespace) hash ^= CsharpNamespace.GetHashCode();
-      if (HasSwiftPrefix) hash ^= SwiftPrefix.GetHashCode();
-      if (HasPhpClassPrefix) hash ^= PhpClassPrefix.GetHashCode();
-      if (HasPhpNamespace) hash ^= PhpNamespace.GetHashCode();
-      if (HasPhpMetadataNamespace) hash ^= PhpMetadataNamespace.GetHashCode();
-      if (HasRubyPackage) hash ^= RubyPackage.GetHashCode();
+      if (JavaPackage.Length != 0) hash ^= JavaPackage.GetHashCode();
+      if (JavaOuterClassname.Length != 0) hash ^= JavaOuterClassname.GetHashCode();
+      if (JavaMultipleFiles != false) hash ^= JavaMultipleFiles.GetHashCode();
+      if (JavaGenerateEqualsAndHash != false) hash ^= JavaGenerateEqualsAndHash.GetHashCode();
+      if (JavaStringCheckUtf8 != false) hash ^= JavaStringCheckUtf8.GetHashCode();
+      if (OptimizeFor != 0) hash ^= OptimizeFor.GetHashCode();
+      if (GoPackage.Length != 0) hash ^= GoPackage.GetHashCode();
+      if (CcGenericServices != false) hash ^= CcGenericServices.GetHashCode();
+      if (JavaGenericServices != false) hash ^= JavaGenericServices.GetHashCode();
+      if (PyGenericServices != false) hash ^= PyGenericServices.GetHashCode();
+      if (PhpGenericServices != false) hash ^= PhpGenericServices.GetHashCode();
+      if (Deprecated != false) hash ^= Deprecated.GetHashCode();
+      if (CcEnableArenas != false) hash ^= CcEnableArenas.GetHashCode();
+      if (ObjcClassPrefix.Length != 0) hash ^= ObjcClassPrefix.GetHashCode();
+      if (CsharpNamespace.Length != 0) hash ^= CsharpNamespace.GetHashCode();
+      if (SwiftPrefix.Length != 0) hash ^= SwiftPrefix.GetHashCode();
+      if (PhpClassPrefix.Length != 0) hash ^= PhpClassPrefix.GetHashCode();
+      if (PhpNamespace.Length != 0) hash ^= PhpNamespace.GetHashCode();
+      if (PhpMetadataNamespace.Length != 0) hash ^= PhpMetadataNamespace.GetHashCode();
+      if (RubyPackage.Length != 0) hash ^= RubyPackage.GetHashCode();
       hash ^= uninterpretedOption_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -4482,83 +3755,83 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasJavaPackage) {
+      if (JavaPackage.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(JavaPackage);
       }
-      if (HasJavaOuterClassname) {
+      if (JavaOuterClassname.Length != 0) {
         output.WriteRawTag(66);
         output.WriteString(JavaOuterClassname);
       }
-      if (HasOptimizeFor) {
+      if (OptimizeFor != 0) {
         output.WriteRawTag(72);
         output.WriteEnum((int) OptimizeFor);
       }
-      if (HasJavaMultipleFiles) {
+      if (JavaMultipleFiles != false) {
         output.WriteRawTag(80);
         output.WriteBool(JavaMultipleFiles);
       }
-      if (HasGoPackage) {
+      if (GoPackage.Length != 0) {
         output.WriteRawTag(90);
         output.WriteString(GoPackage);
       }
-      if (HasCcGenericServices) {
+      if (CcGenericServices != false) {
         output.WriteRawTag(128, 1);
         output.WriteBool(CcGenericServices);
       }
-      if (HasJavaGenericServices) {
+      if (JavaGenericServices != false) {
         output.WriteRawTag(136, 1);
         output.WriteBool(JavaGenericServices);
       }
-      if (HasPyGenericServices) {
+      if (PyGenericServices != false) {
         output.WriteRawTag(144, 1);
         output.WriteBool(PyGenericServices);
       }
-      if (HasJavaGenerateEqualsAndHash) {
+      if (JavaGenerateEqualsAndHash != false) {
         output.WriteRawTag(160, 1);
         output.WriteBool(JavaGenerateEqualsAndHash);
       }
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         output.WriteRawTag(184, 1);
         output.WriteBool(Deprecated);
       }
-      if (HasJavaStringCheckUtf8) {
+      if (JavaStringCheckUtf8 != false) {
         output.WriteRawTag(216, 1);
         output.WriteBool(JavaStringCheckUtf8);
       }
-      if (HasCcEnableArenas) {
+      if (CcEnableArenas != false) {
         output.WriteRawTag(248, 1);
         output.WriteBool(CcEnableArenas);
       }
-      if (HasObjcClassPrefix) {
+      if (ObjcClassPrefix.Length != 0) {
         output.WriteRawTag(162, 2);
         output.WriteString(ObjcClassPrefix);
       }
-      if (HasCsharpNamespace) {
+      if (CsharpNamespace.Length != 0) {
         output.WriteRawTag(170, 2);
         output.WriteString(CsharpNamespace);
       }
-      if (HasSwiftPrefix) {
+      if (SwiftPrefix.Length != 0) {
         output.WriteRawTag(186, 2);
         output.WriteString(SwiftPrefix);
       }
-      if (HasPhpClassPrefix) {
+      if (PhpClassPrefix.Length != 0) {
         output.WriteRawTag(194, 2);
         output.WriteString(PhpClassPrefix);
       }
-      if (HasPhpNamespace) {
+      if (PhpNamespace.Length != 0) {
         output.WriteRawTag(202, 2);
         output.WriteString(PhpNamespace);
       }
-      if (HasPhpGenericServices) {
+      if (PhpGenericServices != false) {
         output.WriteRawTag(208, 2);
         output.WriteBool(PhpGenericServices);
       }
-      if (HasPhpMetadataNamespace) {
+      if (PhpMetadataNamespace.Length != 0) {
         output.WriteRawTag(226, 2);
         output.WriteString(PhpMetadataNamespace);
       }
-      if (HasRubyPackage) {
+      if (RubyPackage.Length != 0) {
         output.WriteRawTag(234, 2);
         output.WriteString(RubyPackage);
       }
@@ -4571,64 +3844,64 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasJavaPackage) {
+      if (JavaPackage.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(JavaPackage);
       }
-      if (HasJavaOuterClassname) {
+      if (JavaOuterClassname.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(JavaOuterClassname);
       }
-      if (HasJavaMultipleFiles) {
+      if (JavaMultipleFiles != false) {
         size += 1 + 1;
       }
-      if (HasJavaGenerateEqualsAndHash) {
+      if (JavaGenerateEqualsAndHash != false) {
         size += 2 + 1;
       }
-      if (HasJavaStringCheckUtf8) {
+      if (JavaStringCheckUtf8 != false) {
         size += 2 + 1;
       }
-      if (HasOptimizeFor) {
+      if (OptimizeFor != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) OptimizeFor);
       }
-      if (HasGoPackage) {
+      if (GoPackage.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(GoPackage);
       }
-      if (HasCcGenericServices) {
+      if (CcGenericServices != false) {
         size += 2 + 1;
       }
-      if (HasJavaGenericServices) {
+      if (JavaGenericServices != false) {
         size += 2 + 1;
       }
-      if (HasPyGenericServices) {
+      if (PyGenericServices != false) {
         size += 2 + 1;
       }
-      if (HasPhpGenericServices) {
+      if (PhpGenericServices != false) {
         size += 2 + 1;
       }
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         size += 2 + 1;
       }
-      if (HasCcEnableArenas) {
+      if (CcEnableArenas != false) {
         size += 2 + 1;
       }
-      if (HasObjcClassPrefix) {
+      if (ObjcClassPrefix.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(ObjcClassPrefix);
       }
-      if (HasCsharpNamespace) {
+      if (CsharpNamespace.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(CsharpNamespace);
       }
-      if (HasSwiftPrefix) {
+      if (SwiftPrefix.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(SwiftPrefix);
       }
-      if (HasPhpClassPrefix) {
+      if (PhpClassPrefix.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(PhpClassPrefix);
       }
-      if (HasPhpNamespace) {
+      if (PhpNamespace.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(PhpNamespace);
       }
-      if (HasPhpMetadataNamespace) {
+      if (PhpMetadataNamespace.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(PhpMetadataNamespace);
       }
-      if (HasRubyPackage) {
+      if (RubyPackage.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(RubyPackage);
       }
       size += uninterpretedOption_.CalculateSize(_repeated_uninterpretedOption_codec);
@@ -4643,64 +3916,64 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasJavaPackage) {
+      if (other.JavaPackage.Length != 0) {
         JavaPackage = other.JavaPackage;
       }
-      if (other.HasJavaOuterClassname) {
+      if (other.JavaOuterClassname.Length != 0) {
         JavaOuterClassname = other.JavaOuterClassname;
       }
-      if (other.HasJavaMultipleFiles) {
+      if (other.JavaMultipleFiles != false) {
         JavaMultipleFiles = other.JavaMultipleFiles;
       }
-      if (other.HasJavaGenerateEqualsAndHash) {
+      if (other.JavaGenerateEqualsAndHash != false) {
         JavaGenerateEqualsAndHash = other.JavaGenerateEqualsAndHash;
       }
-      if (other.HasJavaStringCheckUtf8) {
+      if (other.JavaStringCheckUtf8 != false) {
         JavaStringCheckUtf8 = other.JavaStringCheckUtf8;
       }
-      if (other.HasOptimizeFor) {
+      if (other.OptimizeFor != 0) {
         OptimizeFor = other.OptimizeFor;
       }
-      if (other.HasGoPackage) {
+      if (other.GoPackage.Length != 0) {
         GoPackage = other.GoPackage;
       }
-      if (other.HasCcGenericServices) {
+      if (other.CcGenericServices != false) {
         CcGenericServices = other.CcGenericServices;
       }
-      if (other.HasJavaGenericServices) {
+      if (other.JavaGenericServices != false) {
         JavaGenericServices = other.JavaGenericServices;
       }
-      if (other.HasPyGenericServices) {
+      if (other.PyGenericServices != false) {
         PyGenericServices = other.PyGenericServices;
       }
-      if (other.HasPhpGenericServices) {
+      if (other.PhpGenericServices != false) {
         PhpGenericServices = other.PhpGenericServices;
       }
-      if (other.HasDeprecated) {
+      if (other.Deprecated != false) {
         Deprecated = other.Deprecated;
       }
-      if (other.HasCcEnableArenas) {
+      if (other.CcEnableArenas != false) {
         CcEnableArenas = other.CcEnableArenas;
       }
-      if (other.HasObjcClassPrefix) {
+      if (other.ObjcClassPrefix.Length != 0) {
         ObjcClassPrefix = other.ObjcClassPrefix;
       }
-      if (other.HasCsharpNamespace) {
+      if (other.CsharpNamespace.Length != 0) {
         CsharpNamespace = other.CsharpNamespace;
       }
-      if (other.HasSwiftPrefix) {
+      if (other.SwiftPrefix.Length != 0) {
         SwiftPrefix = other.SwiftPrefix;
       }
-      if (other.HasPhpClassPrefix) {
+      if (other.PhpClassPrefix.Length != 0) {
         PhpClassPrefix = other.PhpClassPrefix;
       }
-      if (other.HasPhpNamespace) {
+      if (other.PhpNamespace.Length != 0) {
         PhpNamespace = other.PhpNamespace;
       }
-      if (other.HasPhpMetadataNamespace) {
+      if (other.PhpMetadataNamespace.Length != 0) {
         PhpMetadataNamespace = other.PhpMetadataNamespace;
       }
-      if (other.HasRubyPackage) {
+      if (other.RubyPackage.Length != 0) {
         RubyPackage = other.RubyPackage;
       }
       uninterpretedOption_.Add(other.uninterpretedOption_);
@@ -4724,7 +3997,7 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 72: {
-            OptimizeFor = (global::Google.Protobuf.Reflection.FileOptions.Types.OptimizeMode) input.ReadEnum();
+            optimizeFor_ = (global::Google.Protobuf.Reflection.FileOptions.Types.OptimizeMode) input.ReadEnum();
             break;
           }
           case 80: {
@@ -4833,7 +4106,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class MessageOptions : pb::IMessage<MessageOptions> {
     private static readonly pb::MessageParser<MessageOptions> _parser = new pb::MessageParser<MessageOptions>(() => new MessageOptions());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<MessageOptions> Parser { get { return _parser; } }
 
@@ -4858,7 +4130,6 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public MessageOptions(MessageOptions other) : this() {
-      _hasBits0 = other._hasBits0;
       messageSetWireFormat_ = other.messageSetWireFormat_;
       noStandardDescriptorAccessor_ = other.noStandardDescriptorAccessor_;
       deprecated_ = other.deprecated_;
@@ -4874,8 +4145,6 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "message_set_wire_format" field.</summary>
     public const int MessageSetWireFormatFieldNumber = 1;
-    private readonly static bool MessageSetWireFormatDefaultValue = false;
-
     private bool messageSetWireFormat_;
     /// <summary>
     /// Set true to use the old proto1 MessageSet wire format for extensions.
@@ -4899,27 +4168,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool MessageSetWireFormat {
-      get { if ((_hasBits0 & 1) != 0) { return messageSetWireFormat_; } else { return MessageSetWireFormatDefaultValue; } }
+      get { return messageSetWireFormat_; }
       set {
-        _hasBits0 |= 1;
         messageSetWireFormat_ = value;
       }
-    }
-    /// <summary>Gets whether the "message_set_wire_format" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasMessageSetWireFormat {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "message_set_wire_format" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearMessageSetWireFormat() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "no_standard_descriptor_accessor" field.</summary>
     public const int NoStandardDescriptorAccessorFieldNumber = 2;
-    private readonly static bool NoStandardDescriptorAccessorDefaultValue = false;
-
     private bool noStandardDescriptorAccessor_;
     /// <summary>
     /// Disables the generation of the standard "descriptor()" accessor, which can
@@ -4928,27 +4184,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool NoStandardDescriptorAccessor {
-      get { if ((_hasBits0 & 2) != 0) { return noStandardDescriptorAccessor_; } else { return NoStandardDescriptorAccessorDefaultValue; } }
+      get { return noStandardDescriptorAccessor_; }
       set {
-        _hasBits0 |= 2;
         noStandardDescriptorAccessor_ = value;
       }
-    }
-    /// <summary>Gets whether the "no_standard_descriptor_accessor" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasNoStandardDescriptorAccessor {
-      get { return (_hasBits0 & 2) != 0; }
-    }
-    /// <summary>Clears the value of the "no_standard_descriptor_accessor" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearNoStandardDescriptorAccessor() {
-      _hasBits0 &= ~2;
     }
 
     /// <summary>Field number for the "deprecated" field.</summary>
     public const int DeprecatedFieldNumber = 3;
-    private readonly static bool DeprecatedDefaultValue = false;
-
     private bool deprecated_;
     /// <summary>
     /// Is this message deprecated?
@@ -4958,27 +4201,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Deprecated {
-      get { if ((_hasBits0 & 4) != 0) { return deprecated_; } else { return DeprecatedDefaultValue; } }
+      get { return deprecated_; }
       set {
-        _hasBits0 |= 4;
         deprecated_ = value;
       }
-    }
-    /// <summary>Gets whether the "deprecated" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasDeprecated {
-      get { return (_hasBits0 & 4) != 0; }
-    }
-    /// <summary>Clears the value of the "deprecated" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearDeprecated() {
-      _hasBits0 &= ~4;
     }
 
     /// <summary>Field number for the "map_entry" field.</summary>
     public const int MapEntryFieldNumber = 7;
-    private readonly static bool MapEntryDefaultValue = false;
-
     private bool mapEntry_;
     /// <summary>
     /// Whether the message is an automatically generated map entry type for the
@@ -5005,21 +4235,10 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool MapEntry {
-      get { if ((_hasBits0 & 8) != 0) { return mapEntry_; } else { return MapEntryDefaultValue; } }
+      get { return mapEntry_; }
       set {
-        _hasBits0 |= 8;
         mapEntry_ = value;
       }
-    }
-    /// <summary>Gets whether the "map_entry" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasMapEntry {
-      get { return (_hasBits0 & 8) != 0; }
-    }
-    /// <summary>Clears the value of the "map_entry" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearMapEntry() {
-      _hasBits0 &= ~8;
     }
 
     /// <summary>Field number for the "uninterpreted_option" field.</summary>
@@ -5059,10 +4278,10 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasMessageSetWireFormat) hash ^= MessageSetWireFormat.GetHashCode();
-      if (HasNoStandardDescriptorAccessor) hash ^= NoStandardDescriptorAccessor.GetHashCode();
-      if (HasDeprecated) hash ^= Deprecated.GetHashCode();
-      if (HasMapEntry) hash ^= MapEntry.GetHashCode();
+      if (MessageSetWireFormat != false) hash ^= MessageSetWireFormat.GetHashCode();
+      if (NoStandardDescriptorAccessor != false) hash ^= NoStandardDescriptorAccessor.GetHashCode();
+      if (Deprecated != false) hash ^= Deprecated.GetHashCode();
+      if (MapEntry != false) hash ^= MapEntry.GetHashCode();
       hash ^= uninterpretedOption_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -5077,19 +4296,19 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasMessageSetWireFormat) {
+      if (MessageSetWireFormat != false) {
         output.WriteRawTag(8);
         output.WriteBool(MessageSetWireFormat);
       }
-      if (HasNoStandardDescriptorAccessor) {
+      if (NoStandardDescriptorAccessor != false) {
         output.WriteRawTag(16);
         output.WriteBool(NoStandardDescriptorAccessor);
       }
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         output.WriteRawTag(24);
         output.WriteBool(Deprecated);
       }
-      if (HasMapEntry) {
+      if (MapEntry != false) {
         output.WriteRawTag(56);
         output.WriteBool(MapEntry);
       }
@@ -5102,16 +4321,16 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasMessageSetWireFormat) {
+      if (MessageSetWireFormat != false) {
         size += 1 + 1;
       }
-      if (HasNoStandardDescriptorAccessor) {
+      if (NoStandardDescriptorAccessor != false) {
         size += 1 + 1;
       }
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         size += 1 + 1;
       }
-      if (HasMapEntry) {
+      if (MapEntry != false) {
         size += 1 + 1;
       }
       size += uninterpretedOption_.CalculateSize(_repeated_uninterpretedOption_codec);
@@ -5126,16 +4345,16 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasMessageSetWireFormat) {
+      if (other.MessageSetWireFormat != false) {
         MessageSetWireFormat = other.MessageSetWireFormat;
       }
-      if (other.HasNoStandardDescriptorAccessor) {
+      if (other.NoStandardDescriptorAccessor != false) {
         NoStandardDescriptorAccessor = other.NoStandardDescriptorAccessor;
       }
-      if (other.HasDeprecated) {
+      if (other.Deprecated != false) {
         Deprecated = other.Deprecated;
       }
-      if (other.HasMapEntry) {
+      if (other.MapEntry != false) {
         MapEntry = other.MapEntry;
       }
       uninterpretedOption_.Add(other.uninterpretedOption_);
@@ -5179,7 +4398,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class FieldOptions : pb::IMessage<FieldOptions> {
     private static readonly pb::MessageParser<FieldOptions> _parser = new pb::MessageParser<FieldOptions>(() => new FieldOptions());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<FieldOptions> Parser { get { return _parser; } }
 
@@ -5204,7 +4422,6 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public FieldOptions(FieldOptions other) : this() {
-      _hasBits0 = other._hasBits0;
       ctype_ = other.ctype_;
       packed_ = other.packed_;
       jstype_ = other.jstype_;
@@ -5222,9 +4439,7 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "ctype" field.</summary>
     public const int CtypeFieldNumber = 1;
-    private readonly static global::Google.Protobuf.Reflection.FieldOptions.Types.CType CtypeDefaultValue = global::Google.Protobuf.Reflection.FieldOptions.Types.CType.String;
-
-    private global::Google.Protobuf.Reflection.FieldOptions.Types.CType ctype_;
+    private global::Google.Protobuf.Reflection.FieldOptions.Types.CType ctype_ = 0;
     /// <summary>
     /// The ctype option instructs the C++ code generator to use a different
     /// representation of the field than it normally would.  See the specific
@@ -5233,27 +4448,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Reflection.FieldOptions.Types.CType Ctype {
-      get { if ((_hasBits0 & 1) != 0) { return ctype_; } else { return CtypeDefaultValue; } }
+      get { return ctype_; }
       set {
-        _hasBits0 |= 1;
         ctype_ = value;
       }
-    }
-    /// <summary>Gets whether the "ctype" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasCtype {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "ctype" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearCtype() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "packed" field.</summary>
     public const int PackedFieldNumber = 2;
-    private readonly static bool PackedDefaultValue = false;
-
     private bool packed_;
     /// <summary>
     /// The packed option can be enabled for repeated primitive fields to enable
@@ -5264,28 +4466,15 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Packed {
-      get { if ((_hasBits0 & 2) != 0) { return packed_; } else { return PackedDefaultValue; } }
+      get { return packed_; }
       set {
-        _hasBits0 |= 2;
         packed_ = value;
       }
-    }
-    /// <summary>Gets whether the "packed" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasPacked {
-      get { return (_hasBits0 & 2) != 0; }
-    }
-    /// <summary>Clears the value of the "packed" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearPacked() {
-      _hasBits0 &= ~2;
     }
 
     /// <summary>Field number for the "jstype" field.</summary>
     public const int JstypeFieldNumber = 6;
-    private readonly static global::Google.Protobuf.Reflection.FieldOptions.Types.JSType JstypeDefaultValue = global::Google.Protobuf.Reflection.FieldOptions.Types.JSType.JsNormal;
-
-    private global::Google.Protobuf.Reflection.FieldOptions.Types.JSType jstype_;
+    private global::Google.Protobuf.Reflection.FieldOptions.Types.JSType jstype_ = 0;
     /// <summary>
     /// The jstype option determines the JavaScript type used for values of the
     /// field.  The option is permitted only for 64 bit integral and fixed types
@@ -5301,27 +4490,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Reflection.FieldOptions.Types.JSType Jstype {
-      get { if ((_hasBits0 & 16) != 0) { return jstype_; } else { return JstypeDefaultValue; } }
+      get { return jstype_; }
       set {
-        _hasBits0 |= 16;
         jstype_ = value;
       }
-    }
-    /// <summary>Gets whether the "jstype" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasJstype {
-      get { return (_hasBits0 & 16) != 0; }
-    }
-    /// <summary>Clears the value of the "jstype" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearJstype() {
-      _hasBits0 &= ~16;
     }
 
     /// <summary>Field number for the "lazy" field.</summary>
     public const int LazyFieldNumber = 5;
-    private readonly static bool LazyDefaultValue = false;
-
     private bool lazy_;
     /// <summary>
     /// Should this field be parsed lazily?  Lazy applies only to message-type
@@ -5354,27 +4530,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Lazy {
-      get { if ((_hasBits0 & 8) != 0) { return lazy_; } else { return LazyDefaultValue; } }
+      get { return lazy_; }
       set {
-        _hasBits0 |= 8;
         lazy_ = value;
       }
-    }
-    /// <summary>Gets whether the "lazy" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasLazy {
-      get { return (_hasBits0 & 8) != 0; }
-    }
-    /// <summary>Clears the value of the "lazy" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearLazy() {
-      _hasBits0 &= ~8;
     }
 
     /// <summary>Field number for the "deprecated" field.</summary>
     public const int DeprecatedFieldNumber = 3;
-    private readonly static bool DeprecatedDefaultValue = false;
-
     private bool deprecated_;
     /// <summary>
     /// Is this field deprecated?
@@ -5384,48 +4547,24 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Deprecated {
-      get { if ((_hasBits0 & 4) != 0) { return deprecated_; } else { return DeprecatedDefaultValue; } }
+      get { return deprecated_; }
       set {
-        _hasBits0 |= 4;
         deprecated_ = value;
       }
-    }
-    /// <summary>Gets whether the "deprecated" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasDeprecated {
-      get { return (_hasBits0 & 4) != 0; }
-    }
-    /// <summary>Clears the value of the "deprecated" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearDeprecated() {
-      _hasBits0 &= ~4;
     }
 
     /// <summary>Field number for the "weak" field.</summary>
     public const int WeakFieldNumber = 10;
-    private readonly static bool WeakDefaultValue = false;
-
     private bool weak_;
     /// <summary>
     /// For Google-internal migration only. Do not use.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Weak {
-      get { if ((_hasBits0 & 32) != 0) { return weak_; } else { return WeakDefaultValue; } }
+      get { return weak_; }
       set {
-        _hasBits0 |= 32;
         weak_ = value;
       }
-    }
-    /// <summary>Gets whether the "weak" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasWeak {
-      get { return (_hasBits0 & 32) != 0; }
-    }
-    /// <summary>Clears the value of the "weak" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearWeak() {
-      _hasBits0 &= ~32;
     }
 
     /// <summary>Field number for the "uninterpreted_option" field.</summary>
@@ -5467,12 +4606,12 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasCtype) hash ^= Ctype.GetHashCode();
-      if (HasPacked) hash ^= Packed.GetHashCode();
-      if (HasJstype) hash ^= Jstype.GetHashCode();
-      if (HasLazy) hash ^= Lazy.GetHashCode();
-      if (HasDeprecated) hash ^= Deprecated.GetHashCode();
-      if (HasWeak) hash ^= Weak.GetHashCode();
+      if (Ctype != 0) hash ^= Ctype.GetHashCode();
+      if (Packed != false) hash ^= Packed.GetHashCode();
+      if (Jstype != 0) hash ^= Jstype.GetHashCode();
+      if (Lazy != false) hash ^= Lazy.GetHashCode();
+      if (Deprecated != false) hash ^= Deprecated.GetHashCode();
+      if (Weak != false) hash ^= Weak.GetHashCode();
       hash ^= uninterpretedOption_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -5487,27 +4626,27 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasCtype) {
+      if (Ctype != 0) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Ctype);
       }
-      if (HasPacked) {
+      if (Packed != false) {
         output.WriteRawTag(16);
         output.WriteBool(Packed);
       }
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         output.WriteRawTag(24);
         output.WriteBool(Deprecated);
       }
-      if (HasLazy) {
+      if (Lazy != false) {
         output.WriteRawTag(40);
         output.WriteBool(Lazy);
       }
-      if (HasJstype) {
+      if (Jstype != 0) {
         output.WriteRawTag(48);
         output.WriteEnum((int) Jstype);
       }
-      if (HasWeak) {
+      if (Weak != false) {
         output.WriteRawTag(80);
         output.WriteBool(Weak);
       }
@@ -5520,22 +4659,22 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasCtype) {
+      if (Ctype != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Ctype);
       }
-      if (HasPacked) {
+      if (Packed != false) {
         size += 1 + 1;
       }
-      if (HasJstype) {
+      if (Jstype != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Jstype);
       }
-      if (HasLazy) {
+      if (Lazy != false) {
         size += 1 + 1;
       }
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         size += 1 + 1;
       }
-      if (HasWeak) {
+      if (Weak != false) {
         size += 1 + 1;
       }
       size += uninterpretedOption_.CalculateSize(_repeated_uninterpretedOption_codec);
@@ -5550,22 +4689,22 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasCtype) {
+      if (other.Ctype != 0) {
         Ctype = other.Ctype;
       }
-      if (other.HasPacked) {
+      if (other.Packed != false) {
         Packed = other.Packed;
       }
-      if (other.HasJstype) {
+      if (other.Jstype != 0) {
         Jstype = other.Jstype;
       }
-      if (other.HasLazy) {
+      if (other.Lazy != false) {
         Lazy = other.Lazy;
       }
-      if (other.HasDeprecated) {
+      if (other.Deprecated != false) {
         Deprecated = other.Deprecated;
       }
-      if (other.HasWeak) {
+      if (other.Weak != false) {
         Weak = other.Weak;
       }
       uninterpretedOption_.Add(other.uninterpretedOption_);
@@ -5581,7 +4720,7 @@ namespace Google.Protobuf.Reflection {
             CustomOptions = CustomOptions.ReadOrSkipUnknownField(input);
             break;
           case 8: {
-            Ctype = (global::Google.Protobuf.Reflection.FieldOptions.Types.CType) input.ReadEnum();
+            ctype_ = (global::Google.Protobuf.Reflection.FieldOptions.Types.CType) input.ReadEnum();
             break;
           }
           case 16: {
@@ -5597,7 +4736,7 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 48: {
-            Jstype = (global::Google.Protobuf.Reflection.FieldOptions.Types.JSType) input.ReadEnum();
+            jstype_ = (global::Google.Protobuf.Reflection.FieldOptions.Types.JSType) input.ReadEnum();
             break;
           }
           case 80: {
@@ -5774,7 +4913,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class EnumOptions : pb::IMessage<EnumOptions> {
     private static readonly pb::MessageParser<EnumOptions> _parser = new pb::MessageParser<EnumOptions>(() => new EnumOptions());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<EnumOptions> Parser { get { return _parser; } }
 
@@ -5799,7 +4937,6 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public EnumOptions(EnumOptions other) : this() {
-      _hasBits0 = other._hasBits0;
       allowAlias_ = other.allowAlias_;
       deprecated_ = other.deprecated_;
       uninterpretedOption_ = other.uninterpretedOption_.Clone();
@@ -5813,8 +4950,6 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "allow_alias" field.</summary>
     public const int AllowAliasFieldNumber = 2;
-    private readonly static bool AllowAliasDefaultValue = false;
-
     private bool allowAlias_;
     /// <summary>
     /// Set this option to true to allow mapping different tag names to the same
@@ -5822,27 +4957,14 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool AllowAlias {
-      get { if ((_hasBits0 & 1) != 0) { return allowAlias_; } else { return AllowAliasDefaultValue; } }
+      get { return allowAlias_; }
       set {
-        _hasBits0 |= 1;
         allowAlias_ = value;
       }
-    }
-    /// <summary>Gets whether the "allow_alias" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasAllowAlias {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "allow_alias" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearAllowAlias() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "deprecated" field.</summary>
     public const int DeprecatedFieldNumber = 3;
-    private readonly static bool DeprecatedDefaultValue = false;
-
     private bool deprecated_;
     /// <summary>
     /// Is this enum deprecated?
@@ -5852,21 +4974,10 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Deprecated {
-      get { if ((_hasBits0 & 2) != 0) { return deprecated_; } else { return DeprecatedDefaultValue; } }
+      get { return deprecated_; }
       set {
-        _hasBits0 |= 2;
         deprecated_ = value;
       }
-    }
-    /// <summary>Gets whether the "deprecated" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasDeprecated {
-      get { return (_hasBits0 & 2) != 0; }
-    }
-    /// <summary>Clears the value of the "deprecated" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearDeprecated() {
-      _hasBits0 &= ~2;
     }
 
     /// <summary>Field number for the "uninterpreted_option" field.</summary>
@@ -5904,8 +5015,8 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasAllowAlias) hash ^= AllowAlias.GetHashCode();
-      if (HasDeprecated) hash ^= Deprecated.GetHashCode();
+      if (AllowAlias != false) hash ^= AllowAlias.GetHashCode();
+      if (Deprecated != false) hash ^= Deprecated.GetHashCode();
       hash ^= uninterpretedOption_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -5920,11 +5031,11 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasAllowAlias) {
+      if (AllowAlias != false) {
         output.WriteRawTag(16);
         output.WriteBool(AllowAlias);
       }
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         output.WriteRawTag(24);
         output.WriteBool(Deprecated);
       }
@@ -5937,10 +5048,10 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasAllowAlias) {
+      if (AllowAlias != false) {
         size += 1 + 1;
       }
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         size += 1 + 1;
       }
       size += uninterpretedOption_.CalculateSize(_repeated_uninterpretedOption_codec);
@@ -5955,10 +5066,10 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasAllowAlias) {
+      if (other.AllowAlias != false) {
         AllowAlias = other.AllowAlias;
       }
-      if (other.HasDeprecated) {
+      if (other.Deprecated != false) {
         Deprecated = other.Deprecated;
       }
       uninterpretedOption_.Add(other.uninterpretedOption_);
@@ -5994,7 +5105,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class EnumValueOptions : pb::IMessage<EnumValueOptions> {
     private static readonly pb::MessageParser<EnumValueOptions> _parser = new pb::MessageParser<EnumValueOptions>(() => new EnumValueOptions());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<EnumValueOptions> Parser { get { return _parser; } }
 
@@ -6019,7 +5129,6 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public EnumValueOptions(EnumValueOptions other) : this() {
-      _hasBits0 = other._hasBits0;
       deprecated_ = other.deprecated_;
       uninterpretedOption_ = other.uninterpretedOption_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -6032,8 +5141,6 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "deprecated" field.</summary>
     public const int DeprecatedFieldNumber = 1;
-    private readonly static bool DeprecatedDefaultValue = false;
-
     private bool deprecated_;
     /// <summary>
     /// Is this enum value deprecated?
@@ -6043,21 +5150,10 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Deprecated {
-      get { if ((_hasBits0 & 1) != 0) { return deprecated_; } else { return DeprecatedDefaultValue; } }
+      get { return deprecated_; }
       set {
-        _hasBits0 |= 1;
         deprecated_ = value;
       }
-    }
-    /// <summary>Gets whether the "deprecated" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasDeprecated {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "deprecated" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearDeprecated() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "uninterpreted_option" field.</summary>
@@ -6094,7 +5190,7 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasDeprecated) hash ^= Deprecated.GetHashCode();
+      if (Deprecated != false) hash ^= Deprecated.GetHashCode();
       hash ^= uninterpretedOption_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -6109,7 +5205,7 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         output.WriteRawTag(8);
         output.WriteBool(Deprecated);
       }
@@ -6122,7 +5218,7 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         size += 1 + 1;
       }
       size += uninterpretedOption_.CalculateSize(_repeated_uninterpretedOption_codec);
@@ -6137,7 +5233,7 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasDeprecated) {
+      if (other.Deprecated != false) {
         Deprecated = other.Deprecated;
       }
       uninterpretedOption_.Add(other.uninterpretedOption_);
@@ -6169,7 +5265,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class ServiceOptions : pb::IMessage<ServiceOptions> {
     private static readonly pb::MessageParser<ServiceOptions> _parser = new pb::MessageParser<ServiceOptions>(() => new ServiceOptions());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<ServiceOptions> Parser { get { return _parser; } }
 
@@ -6194,7 +5289,6 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ServiceOptions(ServiceOptions other) : this() {
-      _hasBits0 = other._hasBits0;
       deprecated_ = other.deprecated_;
       uninterpretedOption_ = other.uninterpretedOption_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -6207,8 +5301,6 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "deprecated" field.</summary>
     public const int DeprecatedFieldNumber = 33;
-    private readonly static bool DeprecatedDefaultValue = false;
-
     private bool deprecated_;
     /// <summary>
     /// Is this service deprecated?
@@ -6218,21 +5310,10 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Deprecated {
-      get { if ((_hasBits0 & 1) != 0) { return deprecated_; } else { return DeprecatedDefaultValue; } }
+      get { return deprecated_; }
       set {
-        _hasBits0 |= 1;
         deprecated_ = value;
       }
-    }
-    /// <summary>Gets whether the "deprecated" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasDeprecated {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "deprecated" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearDeprecated() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "uninterpreted_option" field.</summary>
@@ -6269,7 +5350,7 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasDeprecated) hash ^= Deprecated.GetHashCode();
+      if (Deprecated != false) hash ^= Deprecated.GetHashCode();
       hash ^= uninterpretedOption_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -6284,7 +5365,7 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         output.WriteRawTag(136, 2);
         output.WriteBool(Deprecated);
       }
@@ -6297,7 +5378,7 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         size += 2 + 1;
       }
       size += uninterpretedOption_.CalculateSize(_repeated_uninterpretedOption_codec);
@@ -6312,7 +5393,7 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasDeprecated) {
+      if (other.Deprecated != false) {
         Deprecated = other.Deprecated;
       }
       uninterpretedOption_.Add(other.uninterpretedOption_);
@@ -6344,7 +5425,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class MethodOptions : pb::IMessage<MethodOptions> {
     private static readonly pb::MessageParser<MethodOptions> _parser = new pb::MessageParser<MethodOptions>(() => new MethodOptions());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<MethodOptions> Parser { get { return _parser; } }
 
@@ -6369,7 +5449,6 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public MethodOptions(MethodOptions other) : this() {
-      _hasBits0 = other._hasBits0;
       deprecated_ = other.deprecated_;
       idempotencyLevel_ = other.idempotencyLevel_;
       uninterpretedOption_ = other.uninterpretedOption_.Clone();
@@ -6383,8 +5462,6 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "deprecated" field.</summary>
     public const int DeprecatedFieldNumber = 33;
-    private readonly static bool DeprecatedDefaultValue = false;
-
     private bool deprecated_;
     /// <summary>
     /// Is this method deprecated?
@@ -6394,45 +5471,21 @@ namespace Google.Protobuf.Reflection {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Deprecated {
-      get { if ((_hasBits0 & 1) != 0) { return deprecated_; } else { return DeprecatedDefaultValue; } }
+      get { return deprecated_; }
       set {
-        _hasBits0 |= 1;
         deprecated_ = value;
       }
-    }
-    /// <summary>Gets whether the "deprecated" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasDeprecated {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "deprecated" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearDeprecated() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "idempotency_level" field.</summary>
     public const int IdempotencyLevelFieldNumber = 34;
-    private readonly static global::Google.Protobuf.Reflection.MethodOptions.Types.IdempotencyLevel IdempotencyLevelDefaultValue = global::Google.Protobuf.Reflection.MethodOptions.Types.IdempotencyLevel.IdempotencyUnknown;
-
-    private global::Google.Protobuf.Reflection.MethodOptions.Types.IdempotencyLevel idempotencyLevel_;
+    private global::Google.Protobuf.Reflection.MethodOptions.Types.IdempotencyLevel idempotencyLevel_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Reflection.MethodOptions.Types.IdempotencyLevel IdempotencyLevel {
-      get { if ((_hasBits0 & 2) != 0) { return idempotencyLevel_; } else { return IdempotencyLevelDefaultValue; } }
+      get { return idempotencyLevel_; }
       set {
-        _hasBits0 |= 2;
         idempotencyLevel_ = value;
       }
-    }
-    /// <summary>Gets whether the "idempotency_level" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasIdempotencyLevel {
-      get { return (_hasBits0 & 2) != 0; }
-    }
-    /// <summary>Clears the value of the "idempotency_level" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearIdempotencyLevel() {
-      _hasBits0 &= ~2;
     }
 
     /// <summary>Field number for the "uninterpreted_option" field.</summary>
@@ -6470,8 +5523,8 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasDeprecated) hash ^= Deprecated.GetHashCode();
-      if (HasIdempotencyLevel) hash ^= IdempotencyLevel.GetHashCode();
+      if (Deprecated != false) hash ^= Deprecated.GetHashCode();
+      if (IdempotencyLevel != 0) hash ^= IdempotencyLevel.GetHashCode();
       hash ^= uninterpretedOption_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -6486,11 +5539,11 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         output.WriteRawTag(136, 2);
         output.WriteBool(Deprecated);
       }
-      if (HasIdempotencyLevel) {
+      if (IdempotencyLevel != 0) {
         output.WriteRawTag(144, 2);
         output.WriteEnum((int) IdempotencyLevel);
       }
@@ -6503,10 +5556,10 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasDeprecated) {
+      if (Deprecated != false) {
         size += 2 + 1;
       }
-      if (HasIdempotencyLevel) {
+      if (IdempotencyLevel != 0) {
         size += 2 + pb::CodedOutputStream.ComputeEnumSize((int) IdempotencyLevel);
       }
       size += uninterpretedOption_.CalculateSize(_repeated_uninterpretedOption_codec);
@@ -6521,10 +5574,10 @@ namespace Google.Protobuf.Reflection {
       if (other == null) {
         return;
       }
-      if (other.HasDeprecated) {
+      if (other.Deprecated != false) {
         Deprecated = other.Deprecated;
       }
-      if (other.HasIdempotencyLevel) {
+      if (other.IdempotencyLevel != 0) {
         IdempotencyLevel = other.IdempotencyLevel;
       }
       uninterpretedOption_.Add(other.uninterpretedOption_);
@@ -6544,7 +5597,7 @@ namespace Google.Protobuf.Reflection {
             break;
           }
           case 272: {
-            IdempotencyLevel = (global::Google.Protobuf.Reflection.MethodOptions.Types.IdempotencyLevel) input.ReadEnum();
+            idempotencyLevel_ = (global::Google.Protobuf.Reflection.MethodOptions.Types.IdempotencyLevel) input.ReadEnum();
             break;
           }
           case 7994: {
@@ -6592,7 +5645,6 @@ namespace Google.Protobuf.Reflection {
   internal sealed partial class UninterpretedOption : pb::IMessage<UninterpretedOption> {
     private static readonly pb::MessageParser<UninterpretedOption> _parser = new pb::MessageParser<UninterpretedOption>(() => new UninterpretedOption());
     private pb::UnknownFieldSet _unknownFields;
-    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pb::MessageParser<UninterpretedOption> Parser { get { return _parser; } }
 
@@ -6615,7 +5667,6 @@ namespace Google.Protobuf.Reflection {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public UninterpretedOption(UninterpretedOption other) : this() {
-      _hasBits0 = other._hasBits0;
       name_ = other.name_.Clone();
       identifierValue_ = other.identifierValue_;
       positiveIntValue_ = other.positiveIntValue_;
@@ -6643,147 +5694,72 @@ namespace Google.Protobuf.Reflection {
 
     /// <summary>Field number for the "identifier_value" field.</summary>
     public const int IdentifierValueFieldNumber = 3;
-    private readonly static string IdentifierValueDefaultValue = "";
-
-    private string identifierValue_;
+    private string identifierValue_ = "";
     /// <summary>
     /// The value of the uninterpreted option, in whatever type the tokenizer
     /// identified it as during parsing. Exactly one of these should be set.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string IdentifierValue {
-      get { return identifierValue_ ?? IdentifierValueDefaultValue; }
+      get { return identifierValue_; }
       set {
         identifierValue_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "identifier_value" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasIdentifierValue {
-      get { return identifierValue_ != null; }
-    }
-    /// <summary>Clears the value of the "identifier_value" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearIdentifierValue() {
-      identifierValue_ = null;
-    }
 
     /// <summary>Field number for the "positive_int_value" field.</summary>
     public const int PositiveIntValueFieldNumber = 4;
-    private readonly static ulong PositiveIntValueDefaultValue = 0UL;
-
     private ulong positiveIntValue_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ulong PositiveIntValue {
-      get { if ((_hasBits0 & 1) != 0) { return positiveIntValue_; } else { return PositiveIntValueDefaultValue; } }
+      get { return positiveIntValue_; }
       set {
-        _hasBits0 |= 1;
         positiveIntValue_ = value;
       }
-    }
-    /// <summary>Gets whether the "positive_int_value" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasPositiveIntValue {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "positive_int_value" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearPositiveIntValue() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "negative_int_value" field.</summary>
     public const int NegativeIntValueFieldNumber = 5;
-    private readonly static long NegativeIntValueDefaultValue = 0L;
-
     private long negativeIntValue_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long NegativeIntValue {
-      get { if ((_hasBits0 & 2) != 0) { return negativeIntValue_; } else { return NegativeIntValueDefaultValue; } }
+      get { return negativeIntValue_; }
       set {
-        _hasBits0 |= 2;
         negativeIntValue_ = value;
       }
-    }
-    /// <summary>Gets whether the "negative_int_value" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasNegativeIntValue {
-      get { return (_hasBits0 & 2) != 0; }
-    }
-    /// <summary>Clears the value of the "negative_int_value" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearNegativeIntValue() {
-      _hasBits0 &= ~2;
     }
 
     /// <summary>Field number for the "double_value" field.</summary>
     public const int DoubleValueFieldNumber = 6;
-    private readonly static double DoubleValueDefaultValue = 0D;
-
     private double doubleValue_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public double DoubleValue {
-      get { if ((_hasBits0 & 4) != 0) { return doubleValue_; } else { return DoubleValueDefaultValue; } }
+      get { return doubleValue_; }
       set {
-        _hasBits0 |= 4;
         doubleValue_ = value;
       }
-    }
-    /// <summary>Gets whether the "double_value" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasDoubleValue {
-      get { return (_hasBits0 & 4) != 0; }
-    }
-    /// <summary>Clears the value of the "double_value" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearDoubleValue() {
-      _hasBits0 &= ~4;
     }
 
     /// <summary>Field number for the "string_value" field.</summary>
     public const int StringValueFieldNumber = 7;
-    private readonly static pb::ByteString StringValueDefaultValue = pb::ByteString.Empty;
-
-    private pb::ByteString stringValue_;
+    private pb::ByteString stringValue_ = pb::ByteString.Empty;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pb::ByteString StringValue {
-      get { return stringValue_ ?? StringValueDefaultValue; }
+      get { return stringValue_; }
       set {
         stringValue_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "string_value" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasStringValue {
-      get { return stringValue_ != null; }
-    }
-    /// <summary>Clears the value of the "string_value" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearStringValue() {
-      stringValue_ = null;
-    }
 
     /// <summary>Field number for the "aggregate_value" field.</summary>
     public const int AggregateValueFieldNumber = 8;
-    private readonly static string AggregateValueDefaultValue = "";
-
-    private string aggregateValue_;
+    private string aggregateValue_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string AggregateValue {
-      get { return aggregateValue_ ?? AggregateValueDefaultValue; }
+      get { return aggregateValue_; }
       set {
         aggregateValue_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-    /// <summary>Gets whether the "aggregate_value" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasAggregateValue {
-      get { return aggregateValue_ != null; }
-    }
-    /// <summary>Clears the value of the "aggregate_value" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearAggregateValue() {
-      aggregateValue_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6813,12 +5789,12 @@ namespace Google.Protobuf.Reflection {
     public override int GetHashCode() {
       int hash = 1;
       hash ^= name_.GetHashCode();
-      if (HasIdentifierValue) hash ^= IdentifierValue.GetHashCode();
-      if (HasPositiveIntValue) hash ^= PositiveIntValue.GetHashCode();
-      if (HasNegativeIntValue) hash ^= NegativeIntValue.GetHashCode();
-      if (HasDoubleValue) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(DoubleValue);
-      if (HasStringValue) hash ^= StringValue.GetHashCode();
-      if (HasAggregateValue) hash ^= AggregateValue.GetHashCode();
+      if (IdentifierValue.Length != 0) hash ^= IdentifierValue.GetHashCode();
+      if (PositiveIntValue != 0UL) hash ^= PositiveIntValue.GetHashCode();
+      if (NegativeIntValue != 0L) hash ^= NegativeIntValue.GetHashCode();
+      if (DoubleValue != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(DoubleValue);
+      if (StringValue.Length != 0) hash ^= StringValue.GetHashCode();
+      if (AggregateValue.Length != 0) hash ^= AggregateValue.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -6833,27 +5809,27 @@ namespace Google.Protobuf.Reflection {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
       name_.WriteTo(output, _repeated_name_codec);
-      if (HasIdentifierValue) {
+      if (IdentifierValue.Length != 0) {
         output.WriteRawTag(26);
         output.WriteString(IdentifierValue);
       }
-      if (HasPositiveIntValue) {
+      if (PositiveIntValue != 0UL) {
         output.WriteRawTag(32);
         output.WriteUInt64(PositiveIntValue);
       }
-      if (HasNegativeIntValue) {
+      if (NegativeIntValue != 0L) {
         output.WriteRawTag(40);
         output.WriteInt64(NegativeIntValue);
       }
-      if (HasDoubleValue) {
+      if (DoubleValue != 0D) {
         output.WriteRawTag(49);
         output.WriteDouble(DoubleValue);
       }
-      if (HasStringValue) {
+      if (StringValue.Length != 0) {
         output.WriteRawTag(58);
         output.WriteBytes(StringValue);
       }
-      if (HasAggregateValue) {
+      if (AggregateValue.Length != 0) {
         output.WriteRawTag(66);
         output.WriteString(AggregateValue);
       }
@@ -6866,22 +5842,22 @@ namespace Google.Protobuf.Reflection {
     public int CalculateSize() {
       int size = 0;
       size += name_.CalculateSize(_repeated_name_codec);
-      if (HasIdentifierValue) {
+      if (IdentifierValue.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(IdentifierValue);
       }
-      if (HasPositiveIntValue) {
+      if (PositiveIntValue != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(PositiveIntValue);
       }
-      if (HasNegativeIntValue) {
+      if (NegativeIntValue != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(NegativeIntValue);
       }
-      if (HasDoubleValue) {
+      if (DoubleValue != 0D) {
         size += 1 + 8;
       }
-      if (HasStringValue) {
+      if (StringValue.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(StringValue);
       }
-      if (HasAggregateValue) {
+      if (AggregateValue.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AggregateValue);
       }
       if (_unknownFields != null) {
@@ -6896,22 +5872,22 @@ namespace Google.Protobuf.Reflection {
         return;
       }
       name_.Add(other.name_);
-      if (other.HasIdentifierValue) {
+      if (other.IdentifierValue.Length != 0) {
         IdentifierValue = other.IdentifierValue;
       }
-      if (other.HasPositiveIntValue) {
+      if (other.PositiveIntValue != 0UL) {
         PositiveIntValue = other.PositiveIntValue;
       }
-      if (other.HasNegativeIntValue) {
+      if (other.NegativeIntValue != 0L) {
         NegativeIntValue = other.NegativeIntValue;
       }
-      if (other.HasDoubleValue) {
+      if (other.DoubleValue != 0D) {
         DoubleValue = other.DoubleValue;
       }
-      if (other.HasStringValue) {
+      if (other.StringValue.Length != 0) {
         StringValue = other.StringValue;
       }
-      if (other.HasAggregateValue) {
+      if (other.AggregateValue.Length != 0) {
         AggregateValue = other.AggregateValue;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -6971,7 +5947,6 @@ namespace Google.Protobuf.Reflection {
       internal sealed partial class NamePart : pb::IMessage<NamePart> {
         private static readonly pb::MessageParser<NamePart> _parser = new pb::MessageParser<NamePart>(() => new NamePart());
         private pb::UnknownFieldSet _unknownFields;
-        private int _hasBits0;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pb::MessageParser<NamePart> Parser { get { return _parser; } }
 
@@ -6994,7 +5969,6 @@ namespace Google.Protobuf.Reflection {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public NamePart(NamePart other) : this() {
-          _hasBits0 = other._hasBits0;
           namePart_ = other.namePart_;
           isExtension_ = other.isExtension_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -7007,49 +5981,24 @@ namespace Google.Protobuf.Reflection {
 
         /// <summary>Field number for the "name_part" field.</summary>
         public const int NamePart_FieldNumber = 1;
-        private readonly static string NamePart_DefaultValue = "";
-
-        private string namePart_;
+        private string namePart_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string NamePart_ {
-          get { return namePart_ ?? NamePart_DefaultValue; }
+          get { return namePart_; }
           set {
             namePart_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
           }
         }
-        /// <summary>Gets whether the "name_part" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasNamePart_ {
-          get { return namePart_ != null; }
-        }
-        /// <summary>Clears the value of the "name_part" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearNamePart_() {
-          namePart_ = null;
-        }
 
         /// <summary>Field number for the "is_extension" field.</summary>
         public const int IsExtensionFieldNumber = 2;
-        private readonly static bool IsExtensionDefaultValue = false;
-
         private bool isExtension_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public bool IsExtension {
-          get { if ((_hasBits0 & 1) != 0) { return isExtension_; } else { return IsExtensionDefaultValue; } }
+          get { return isExtension_; }
           set {
-            _hasBits0 |= 1;
             isExtension_ = value;
           }
-        }
-        /// <summary>Gets whether the "is_extension" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasIsExtension {
-          get { return (_hasBits0 & 1) != 0; }
-        }
-        /// <summary>Clears the value of the "is_extension" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearIsExtension() {
-          _hasBits0 &= ~1;
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7073,8 +6022,8 @@ namespace Google.Protobuf.Reflection {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override int GetHashCode() {
           int hash = 1;
-          if (HasNamePart_) hash ^= NamePart_.GetHashCode();
-          if (HasIsExtension) hash ^= IsExtension.GetHashCode();
+          if (NamePart_.Length != 0) hash ^= NamePart_.GetHashCode();
+          if (IsExtension != false) hash ^= IsExtension.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -7088,11 +6037,11 @@ namespace Google.Protobuf.Reflection {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
-          if (HasNamePart_) {
+          if (NamePart_.Length != 0) {
             output.WriteRawTag(10);
             output.WriteString(NamePart_);
           }
-          if (HasIsExtension) {
+          if (IsExtension != false) {
             output.WriteRawTag(16);
             output.WriteBool(IsExtension);
           }
@@ -7104,10 +6053,10 @@ namespace Google.Protobuf.Reflection {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize() {
           int size = 0;
-          if (HasNamePart_) {
+          if (NamePart_.Length != 0) {
             size += 1 + pb::CodedOutputStream.ComputeStringSize(NamePart_);
           }
-          if (HasIsExtension) {
+          if (IsExtension != false) {
             size += 1 + 1;
           }
           if (_unknownFields != null) {
@@ -7121,10 +6070,10 @@ namespace Google.Protobuf.Reflection {
           if (other == null) {
             return;
           }
-          if (other.HasNamePart_) {
+          if (other.NamePart_.Length != 0) {
             NamePart_ = other.NamePart_;
           }
-          if (other.HasIsExtension) {
+          if (other.IsExtension != false) {
             IsExtension = other.IsExtension;
           }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -7421,9 +6370,7 @@ namespace Google.Protobuf.Reflection {
 
         /// <summary>Field number for the "leading_comments" field.</summary>
         public const int LeadingCommentsFieldNumber = 3;
-        private readonly static string LeadingCommentsDefaultValue = "";
-
-        private string leadingComments_;
+        private string leadingComments_ = "";
         /// <summary>
         /// If this SourceCodeInfo represents a complete declaration, these are any
         /// comments appearing before and after the declaration which appear to be
@@ -7475,43 +6422,21 @@ namespace Google.Protobuf.Reflection {
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string LeadingComments {
-          get { return leadingComments_ ?? LeadingCommentsDefaultValue; }
+          get { return leadingComments_; }
           set {
             leadingComments_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
           }
         }
-        /// <summary>Gets whether the "leading_comments" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasLeadingComments {
-          get { return leadingComments_ != null; }
-        }
-        /// <summary>Clears the value of the "leading_comments" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearLeadingComments() {
-          leadingComments_ = null;
-        }
 
         /// <summary>Field number for the "trailing_comments" field.</summary>
         public const int TrailingCommentsFieldNumber = 4;
-        private readonly static string TrailingCommentsDefaultValue = "";
-
-        private string trailingComments_;
+        private string trailingComments_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string TrailingComments {
-          get { return trailingComments_ ?? TrailingCommentsDefaultValue; }
+          get { return trailingComments_; }
           set {
             trailingComments_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
           }
-        }
-        /// <summary>Gets whether the "trailing_comments" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasTrailingComments {
-          get { return trailingComments_ != null; }
-        }
-        /// <summary>Clears the value of the "trailing_comments" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearTrailingComments() {
-          trailingComments_ = null;
         }
 
         /// <summary>Field number for the "leading_detached_comments" field.</summary>
@@ -7550,8 +6475,8 @@ namespace Google.Protobuf.Reflection {
           int hash = 1;
           hash ^= path_.GetHashCode();
           hash ^= span_.GetHashCode();
-          if (HasLeadingComments) hash ^= LeadingComments.GetHashCode();
-          if (HasTrailingComments) hash ^= TrailingComments.GetHashCode();
+          if (LeadingComments.Length != 0) hash ^= LeadingComments.GetHashCode();
+          if (TrailingComments.Length != 0) hash ^= TrailingComments.GetHashCode();
           hash ^= leadingDetachedComments_.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
@@ -7568,11 +6493,11 @@ namespace Google.Protobuf.Reflection {
         public void WriteTo(pb::CodedOutputStream output) {
           path_.WriteTo(output, _repeated_path_codec);
           span_.WriteTo(output, _repeated_span_codec);
-          if (HasLeadingComments) {
+          if (LeadingComments.Length != 0) {
             output.WriteRawTag(26);
             output.WriteString(LeadingComments);
           }
-          if (HasTrailingComments) {
+          if (TrailingComments.Length != 0) {
             output.WriteRawTag(34);
             output.WriteString(TrailingComments);
           }
@@ -7587,10 +6512,10 @@ namespace Google.Protobuf.Reflection {
           int size = 0;
           size += path_.CalculateSize(_repeated_path_codec);
           size += span_.CalculateSize(_repeated_span_codec);
-          if (HasLeadingComments) {
+          if (LeadingComments.Length != 0) {
             size += 1 + pb::CodedOutputStream.ComputeStringSize(LeadingComments);
           }
-          if (HasTrailingComments) {
+          if (TrailingComments.Length != 0) {
             size += 1 + pb::CodedOutputStream.ComputeStringSize(TrailingComments);
           }
           size += leadingDetachedComments_.CalculateSize(_repeated_leadingDetachedComments_codec);
@@ -7607,10 +6532,10 @@ namespace Google.Protobuf.Reflection {
           }
           path_.Add(other.path_);
           span_.Add(other.span_);
-          if (other.HasLeadingComments) {
+          if (other.LeadingComments.Length != 0) {
             LeadingComments = other.LeadingComments;
           }
-          if (other.HasTrailingComments) {
+          if (other.TrailingComments.Length != 0) {
             TrailingComments = other.TrailingComments;
           }
           leadingDetachedComments_.Add(other.leadingDetachedComments_);
@@ -7793,7 +6718,6 @@ namespace Google.Protobuf.Reflection {
       internal sealed partial class Annotation : pb::IMessage<Annotation> {
         private static readonly pb::MessageParser<Annotation> _parser = new pb::MessageParser<Annotation>(() => new Annotation());
         private pb::UnknownFieldSet _unknownFields;
-        private int _hasBits0;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pb::MessageParser<Annotation> Parser { get { return _parser; } }
 
@@ -7816,7 +6740,6 @@ namespace Google.Protobuf.Reflection {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public Annotation(Annotation other) : this() {
-          _hasBits0 = other._hasBits0;
           path_ = other.path_.Clone();
           sourceFile_ = other.sourceFile_;
           begin_ = other.begin_;
@@ -7845,34 +6768,20 @@ namespace Google.Protobuf.Reflection {
 
         /// <summary>Field number for the "source_file" field.</summary>
         public const int SourceFileFieldNumber = 2;
-        private readonly static string SourceFileDefaultValue = "";
-
-        private string sourceFile_;
+        private string sourceFile_ = "";
         /// <summary>
         /// Identifies the filesystem path to the original source .proto.
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string SourceFile {
-          get { return sourceFile_ ?? SourceFileDefaultValue; }
+          get { return sourceFile_; }
           set {
             sourceFile_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
           }
         }
-        /// <summary>Gets whether the "source_file" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasSourceFile {
-          get { return sourceFile_ != null; }
-        }
-        /// <summary>Clears the value of the "source_file" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearSourceFile() {
-          sourceFile_ = null;
-        }
 
         /// <summary>Field number for the "begin" field.</summary>
         public const int BeginFieldNumber = 3;
-        private readonly static int BeginDefaultValue = 0;
-
         private int begin_;
         /// <summary>
         /// Identifies the starting offset in bytes in the generated code
@@ -7880,27 +6789,14 @@ namespace Google.Protobuf.Reflection {
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int Begin {
-          get { if ((_hasBits0 & 1) != 0) { return begin_; } else { return BeginDefaultValue; } }
+          get { return begin_; }
           set {
-            _hasBits0 |= 1;
             begin_ = value;
           }
-        }
-        /// <summary>Gets whether the "begin" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasBegin {
-          get { return (_hasBits0 & 1) != 0; }
-        }
-        /// <summary>Clears the value of the "begin" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearBegin() {
-          _hasBits0 &= ~1;
         }
 
         /// <summary>Field number for the "end" field.</summary>
         public const int EndFieldNumber = 4;
-        private readonly static int EndDefaultValue = 0;
-
         private int end_;
         /// <summary>
         /// Identifies the ending offset in bytes in the generated code that
@@ -7909,21 +6805,10 @@ namespace Google.Protobuf.Reflection {
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int End {
-          get { if ((_hasBits0 & 2) != 0) { return end_; } else { return EndDefaultValue; } }
+          get { return end_; }
           set {
-            _hasBits0 |= 2;
             end_ = value;
           }
-        }
-        /// <summary>Gets whether the "end" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasEnd {
-          get { return (_hasBits0 & 2) != 0; }
-        }
-        /// <summary>Clears the value of the "end" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearEnd() {
-          _hasBits0 &= ~2;
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7950,9 +6835,9 @@ namespace Google.Protobuf.Reflection {
         public override int GetHashCode() {
           int hash = 1;
           hash ^= path_.GetHashCode();
-          if (HasSourceFile) hash ^= SourceFile.GetHashCode();
-          if (HasBegin) hash ^= Begin.GetHashCode();
-          if (HasEnd) hash ^= End.GetHashCode();
+          if (SourceFile.Length != 0) hash ^= SourceFile.GetHashCode();
+          if (Begin != 0) hash ^= Begin.GetHashCode();
+          if (End != 0) hash ^= End.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -7967,15 +6852,15 @@ namespace Google.Protobuf.Reflection {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
           path_.WriteTo(output, _repeated_path_codec);
-          if (HasSourceFile) {
+          if (SourceFile.Length != 0) {
             output.WriteRawTag(18);
             output.WriteString(SourceFile);
           }
-          if (HasBegin) {
+          if (Begin != 0) {
             output.WriteRawTag(24);
             output.WriteInt32(Begin);
           }
-          if (HasEnd) {
+          if (End != 0) {
             output.WriteRawTag(32);
             output.WriteInt32(End);
           }
@@ -7988,13 +6873,13 @@ namespace Google.Protobuf.Reflection {
         public int CalculateSize() {
           int size = 0;
           size += path_.CalculateSize(_repeated_path_codec);
-          if (HasSourceFile) {
+          if (SourceFile.Length != 0) {
             size += 1 + pb::CodedOutputStream.ComputeStringSize(SourceFile);
           }
-          if (HasBegin) {
+          if (Begin != 0) {
             size += 1 + pb::CodedOutputStream.ComputeInt32Size(Begin);
           }
-          if (HasEnd) {
+          if (End != 0) {
             size += 1 + pb::CodedOutputStream.ComputeInt32Size(End);
           }
           if (_unknownFields != null) {
@@ -8009,13 +6894,13 @@ namespace Google.Protobuf.Reflection {
             return;
           }
           path_.Add(other.path_);
-          if (other.HasSourceFile) {
+          if (other.SourceFile.Length != 0) {
             SourceFile = other.SourceFile;
           }
-          if (other.HasBegin) {
+          if (other.Begin != 0) {
             Begin = other.Begin;
           }
-          if (other.HasEnd) {
+          if (other.End != 0) {
             End = other.End;
           }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);

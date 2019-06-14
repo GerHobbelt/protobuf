@@ -125,10 +125,5 @@ namespace Google.Protobuf
             return new InvalidProtocolBufferException(
                 "Stream of protocol messages had invalid tag. Expected tag is length-delimited field 1.");
         }
-
-        internal static InvalidProtocolBufferException MissingFields()
-        {
-            return new InvalidProtocolBufferException("Message was missing required fields");
-        }
-}
+    }
 }
