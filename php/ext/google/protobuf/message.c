@@ -469,11 +469,14 @@ void Message_construct(zval* msg, zval* array_wrapper) {
       if (upb_fielddef_containingoneof(field)) {
         void* memory = slot_memory(intern->descriptor->layout,
                                    message_data(intern), field);
+        uint32_t* oneof_case = slot_oneof_case(intern->descriptor->layout,
+                                               message_data(intern), field);
         int property_cache_index =
             intern->descriptor->layout->fields[upb_fielddef_index(field)]
                 .cache_index;
         cached = OBJ_PROP(Z_OBJ_P(msg), property_cache_index);
         *(CACHED_VALUE**)(memory) = cached;
+        *oneof_case = upb_fielddef_number(field);
       } else {
         zend_property_info* property_info;
         PHP_PROTO_FAKE_SCOPE_BEGIN(Z_OBJCE_P(msg));
@@ -494,7 +497,7 @@ void Message_construct(zval* msg, zval* array_wrapper) {
       ZVAL_OBJ(submsg, desc->klass->create_object(desc->klass TSRMLS_CC));
       Message_construct(submsg, NULL);
       MessageHeader* to = UNBOX(MessageHeader, submsg);
-      const upb_filedef *file = upb_def_file(upb_msgdef_upcast(submsgdef));
+      const upb_filedef *file = upb_msgdef_file(submsgdef);
       if (!strcmp(upb_filedef_name(file), "google/protobuf/wrappers.proto") &&
           Z_TYPE_P(CACHED_PTR_TO_ZVAL_PTR((CACHED_VALUE*)value)) != IS_OBJECT) {
         const upb_fielddef *value_field = upb_msgdef_itof(submsgdef, 1);

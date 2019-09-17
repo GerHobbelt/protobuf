@@ -678,14 +678,14 @@ void GenerateFieldAccessor(const FieldDescriptor* field, bool is_descriptor,
         field->name());
   }
 
-  // For wrapper types, generate an additional getXXXValue getter
+  // For wrapper types, generate an additional getXXXUnwrapped getter
   if (!field->is_map() &&
       !field->is_repeated() &&
       field->cpp_type() == FieldDescriptor::CPPTYPE_MESSAGE &&
       IsWrapperType(field)) {
     GenerateWrapperFieldGetterDocComment(printer, field);
     printer->Print(
-        "public function get^camel_name^Value()\n"
+        "public function get^camel_name^Unwrapped()\n"
         "{\n"
         "    $wrapper = $this->get^camel_name^();\n"
         "    return is_null($wrapper) ? null : $wrapper->getValue();\n"
@@ -798,7 +798,7 @@ void GenerateFieldAccessor(const FieldDescriptor* field, bool is_descriptor,
       IsWrapperType(field)) {
     GenerateWrapperFieldSetterDocComment(printer, field);
     printer->Print(
-        "public function set^camel_name^Value($var)\n"
+        "public function set^camel_name^Unwrapped($var)\n"
         "{\n"
         "    $wrappedVar = is_null($var) ? null : new \\^wrapper_type^(['value' => $var]);\n"
         "    return $this->set^camel_name^($wrappedVar);\n"
@@ -879,7 +879,7 @@ void GenerateMessageToPool(const string& name_prefix, const Descriptor* message,
           "field", field->name(),
           "key", ToUpper(key->type_name()),
           "value", ToUpper(val->type_name()),
-          "number", SimpleItoa(field->number()),
+          "number", StrCat(field->number()),
           "other", EnumOrMessageSuffix(val, true));
     } else if (!field->containing_oneof()) {
       printer->Print(
@@ -888,7 +888,7 @@ void GenerateMessageToPool(const string& name_prefix, const Descriptor* message,
           "field", field->name(),
           "label", LabelForField(field),
           "type", ToUpper(field->type_name()),
-          "number", SimpleItoa(field->number()),
+          "number", StrCat(field->number()),
           "other", EnumOrMessageSuffix(field, true));
     }
   }
@@ -906,7 +906,7 @@ void GenerateMessageToPool(const string& name_prefix, const Descriptor* message,
           "\\Google\\Protobuf\\Internal\\GPBType::^type^, ^number^^other^)\n",
           "field", field->name(),
           "type", ToUpper(field->type_name()),
-          "number", SimpleItoa(field->number()),
+          "number", StrCat(field->number()),
           "other", EnumOrMessageSuffix(field, true));
     }
     printer->Print("->finish()\n");
