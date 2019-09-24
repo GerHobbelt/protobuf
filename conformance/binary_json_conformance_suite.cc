@@ -681,6 +681,20 @@ void BinaryAndJsonConformanceSuite::TestUnknownMessage(
 }
 
 void BinaryAndJsonConformanceSuite::RunSuiteImpl() {
+  // Hack to get the list of test failures based on whether
+  // GOOGLE3_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER is enabled or not.
+  conformance::FailureSet failure_set;
+  ConformanceRequest req;
+  ConformanceResponse res;
+  req.set_message_type(failure_set.GetTypeName());
+  req.set_protobuf_payload("");
+  req.set_requested_output_format(conformance::WireFormat::PROTOBUF);
+  RunTest("FindFailures", req, &res);
+  GOOGLE_CHECK(failure_set.MergeFromString(res.protobuf_payload()));
+  for (const string& failure : failure_set.failure()) {
+    AddExpectedFailedTest(failure);
+  }
+
   type_resolver_.reset(NewTypeResolverForDescriptorPool(
       kTypeUrlPrefix, DescriptorPool::generated_pool()));
   type_url_ = GetTypeUrl(TestAllTypesProto3::descriptor());
@@ -1966,12 +1980,12 @@ void BinaryAndJsonConformanceSuite::RunSuiteImpl() {
       "repeated_timestamp: {seconds: 253402300799 nanos: 999999999}");
   RunValidJsonTest(
       "TimestampWithPositiveOffset", REQUIRED,
-      R"({"optionalTimestamp": "1970-01-01T08:00:00+08:00"})",
-      "optional_timestamp: {seconds: 0}");
+      R"({"optionalTimestamp": "1970-01-01T08:00:01+08:00"})",
+      "optional_timestamp: {seconds: 1}");
   RunValidJsonTest(
       "TimestampWithNegativeOffset", REQUIRED,
-      R"({"optionalTimestamp": "1969-12-31T16:00:00-08:00"})",
-      "optional_timestamp: {seconds: 0}");
+      R"({"optionalTimestamp": "1969-12-31T16:00:01-08:00"})",
+      "optional_timestamp: {seconds: 1}");
   RunValidJsonTest(
       "TimestampNull", REQUIRED,
       R"({"optionalTimestamp": null})",
@@ -2438,6 +2452,8 @@ void BinaryAndJsonConformanceSuite::RunSuiteImpl() {
         "unknown": {"a": 1}
       })",
       "");
+
+  ExpectParseFailureForJson("RejectTopLevelNull", REQUIRED, "null");
 }
 
 }  // namespace protobuf

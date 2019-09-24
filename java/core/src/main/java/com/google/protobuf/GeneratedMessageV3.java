@@ -126,6 +126,21 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
     return internalGetFieldAccessorTable().descriptor;
   }
 
+  protected void mergeFromAndMakeImmutableInternal(
+      CodedInputStream input, ExtensionRegistryLite extensionRegistry)
+      throws InvalidProtocolBufferException {
+    Schema<GeneratedMessageV3> schema =
+        (Schema<GeneratedMessageV3>) Protobuf.getInstance().schemaFor(this);
+    try {
+      schema.mergeFrom(this, CodedInputStreamReader.forCodedInput(input), extensionRegistry);
+    } catch (InvalidProtocolBufferException e) {
+      throw e.setUnfinishedMessage(this);
+    } catch (IOException e) {
+      throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+    }
+    schema.makeImmutable(this);
+  }
+
   /**
    * Internal helper to return a modifiable map containing all the fields.
    * The returned Map is modifialbe so that the caller can add additional
@@ -364,7 +379,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
       throw e.unwrapIOException();
     }
   }
-  
+
   protected static boolean canUseUnsafe() {
     return UnsafeUtil.hasUnsafeArrayOperations() && UnsafeUtil.hasUnsafeByteBufferOperations();
   }
@@ -439,6 +454,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
         size == 0 ? AbstractProtobufList.DEFAULT_CAPACITY : size * 2);
   }
 
+
   @Override
   public void writeTo(final CodedOutputStream output) throws IOException {
     MessageReflection.writeMessageTo(this, getAllFieldsRaw(), output, false);
@@ -457,6 +473,29 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
   }
 
 
+
+  /**
+   * This class is used to make a generated protected method inaccessible from user's code (e.g.,
+   * the {@link #newInstance} method below). When this class is used as a parameter's type in a
+   * generated protected method, the method is visible to user's code in the same package, but
+   * since the constructor of this class is private to protobuf runtime, user's code can't obtain
+   * an instance of this class and as such can't actually make a method call on the protected
+   * method.
+   */
+  protected static final class UnusedPrivateParameter {
+    static final UnusedPrivateParameter INSTANCE = new UnusedPrivateParameter();
+
+    private UnusedPrivateParameter() {
+    }
+  }
+
+  /**
+   * Creates a new instance of this message type. Overridden in the generated code.
+   */
+  @SuppressWarnings({"unused"})
+  protected Object newInstance(UnusedPrivateParameter unused) {
+    throw new UnsupportedOperationException("This method must be overridden by the subclass.");
+  }
 
   /**
    * Used by parsing constructors in generated classes.

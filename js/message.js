@@ -44,8 +44,6 @@ goog.require('goog.crypt.base64');
 goog.require('jspb.BinaryReader');
 goog.require('jspb.Map');
 
-// Not needed in compilation units that have no protos with xids.
-goog.forwardDeclare('xid.String');
 
 
 
@@ -172,7 +170,8 @@ jspb.Message = function() {
  *     dead code eliminate fields used in protocol buffers that are never used
  *     in an application.
  */
-goog.define('jspb.Message.GENERATE_TO_OBJECT', true);
+jspb.Message.GENERATE_TO_OBJECT =
+    goog.define('jspb.Message.GENERATE_TO_OBJECT', true);
 
 
 /**
@@ -182,12 +181,10 @@ goog.define('jspb.Message.GENERATE_TO_OBJECT', true);
  *     calling fromObject. Enabling this might disable the JSCompiler's ability
  *     to dead code eliminate fields used in protocol buffers that are never
  *     used in an application.
- *     NOTE: By default no protos actually have a fromObject method. You need to
- *     add the jspb.generate_from_object options to the proto definition to
- *     activate the feature.
  *     By default this is enabled for test code only.
  */
-goog.define('jspb.Message.GENERATE_FROM_OBJECT', !goog.DISALLOW_TEST_ONLY_CODE);
+jspb.Message.GENERATE_FROM_OBJECT = goog.define(
+    'jspb.Message.GENERATE_FROM_OBJECT', !goog.DISALLOW_TEST_ONLY_CODE);
 
 
 /**
@@ -195,7 +192,8 @@ goog.define('jspb.Message.GENERATE_FROM_OBJECT', !goog.DISALLOW_TEST_ONLY_CODE);
  *     this off if you do not use toString in your project and want to trim it
  *     from the compiled JS.
  */
-goog.define('jspb.Message.GENERATE_TO_STRING', true);
+jspb.Message.GENERATE_TO_STRING =
+    goog.define('jspb.Message.GENERATE_TO_STRING', true);
 
 
 /**
@@ -203,7 +201,8 @@ goog.define('jspb.Message.GENERATE_TO_STRING', true);
  *     local (e.g. not from another iframe) and thus safely classified with
  *     instanceof Array.
  */
-goog.define('jspb.Message.ASSUME_LOCAL_ARRAYS', false);
+jspb.Message.ASSUME_LOCAL_ARRAYS =
+    goog.define('jspb.Message.ASSUME_LOCAL_ARRAYS', false);
 
 
 // TODO(jakubvrana): Turn this off by default.
@@ -213,7 +212,8 @@ goog.define('jspb.Message.ASSUME_LOCAL_ARRAYS', false);
  *     the proto before serialization. This is enabled by default to be
  *     backwards compatible. Projects are advised to turn this flag always off.
  */
-goog.define('jspb.Message.SERIALIZE_EMPTY_TRAILING_FIELDS', true);
+jspb.Message.SERIALIZE_EMPTY_TRAILING_FIELDS =
+    goog.define('jspb.Message.SERIALIZE_EMPTY_TRAILING_FIELDS', true);
 
 
 /**
@@ -270,30 +270,18 @@ jspb.Message.prototype.messageId_;
 
 
 /**
- * Repeated float or double fields which have been converted to include only
- * numbers and not strings holding "NaN", "Infinity" and "-Infinity".
+ * Repeated fields that have been converted to their proper type. This is used
+ * for numbers stored as strings (typically "NaN", "Infinity" and "-Infinity")
+ * and for booleans stored as numbers (0 or 1).
  * @private {!Object<number,boolean>|undefined}
  */
-jspb.Message.prototype.convertedFloatingPointFields_;
-
+jspb.Message.prototype.convertedPrimitiveFields_;
 
 /**
  * Repeated fields numbers.
  * @protected {?Array<number>|undefined}
  */
 jspb.Message.prototype.repeatedFields;
-
-
-/**
- * The xid of this proto type (The same for all instances of a proto). Provides
- * a way to identify a proto by stable obfuscated name.
- * @see {xid}.
- * Available if {@link jspb.generate_xid} is added as a Message option to
- * a protocol buffer.
- * @const {!xid.String|undefined} The xid or undefined if message is
- *     annotated to generate the xid.
- */
-jspb.Message.prototype.messageXid;
 
 
 
@@ -328,6 +316,10 @@ jspb.Message.prototype.arrayIndexOffset_;
 jspb.Message.getIndex_ = function(msg, fieldNumber) {
   return fieldNumber + msg.arrayIndexOffset_;
 };
+
+// This is only here to ensure we are not back sliding on ES6 requiements for
+// protos in g3.
+jspb.Message.hiddenES6Property_ = class {};
 
 
 /**
@@ -370,7 +362,7 @@ jspb.Message.initialize = function(
   msg.arrayIndexOffset_ = messageId === 0 ? -1 : 0;
   msg.array = data;
   jspb.Message.initPivotAndExtensionObject_(msg, suggestedPivot);
-  msg.convertedFloatingPointFields_ = {};
+  msg.convertedPrimitiveFields_ = {};
 
   if (!jspb.Message.SERIALIZE_EMPTY_TRAILING_FIELDS) {
     // TODO(jakubvrana): This is same for all instances, move to prototype.
@@ -702,20 +694,7 @@ jspb.Message.getField = function(msg, fieldNumber) {
  * @protected
  */
 jspb.Message.getRepeatedField = function(msg, fieldNumber) {
-  if (fieldNumber < msg.pivot_) {
-    var index = jspb.Message.getIndex_(msg, fieldNumber);
-    var val = msg.array[index];
-    if (val === jspb.Message.EMPTY_LIST_SENTINEL_) {
-      return msg.array[index] = [];
-    }
-    return val;
-  }
-
-  var val = msg.extensionObject_[fieldNumber];
-  if (val === jspb.Message.EMPTY_LIST_SENTINEL_) {
-    return msg.extensionObject_[fieldNumber] = [];
-  }
-  return val;
+  return /** @type {!Array} */ (jspb.Message.getField(msg, fieldNumber));
 };
 
 
@@ -734,6 +713,20 @@ jspb.Message.getOptionalFloatingPointField = function(msg, fieldNumber) {
 
 
 /**
+ * Gets the value of an optional boolean field.
+ * @param {!jspb.Message} msg A jspb proto.
+ * @param {number} fieldNumber The field number.
+ * @return {?boolean|undefined} The field's value.
+ * @protected
+ */
+jspb.Message.getBooleanField = function(msg, fieldNumber) {
+  var value = jspb.Message.getField(msg, fieldNumber);
+  // TODO(b/122673075): always return null when the value is null-ish.
+  return value == null ? (value) : !!value;
+};
+
+
+/**
  * Gets the value of a repeated float or double field.
  * @param {!jspb.Message} msg A jspb proto.
  * @param {number} fieldNumber The field number.
@@ -742,18 +735,40 @@ jspb.Message.getOptionalFloatingPointField = function(msg, fieldNumber) {
  */
 jspb.Message.getRepeatedFloatingPointField = function(msg, fieldNumber) {
   var values = jspb.Message.getRepeatedField(msg, fieldNumber);
-  if (!msg.convertedFloatingPointFields_) {
-    msg.convertedFloatingPointFields_ = {};
+  if (!msg.convertedPrimitiveFields_) {
+    msg.convertedPrimitiveFields_ = {};
   }
-  if (!msg.convertedFloatingPointFields_[fieldNumber]) {
+  if (!msg.convertedPrimitiveFields_[fieldNumber]) {
     for (var i = 0; i < values.length; i++) {
       // Converts "NaN", "Infinity" and "-Infinity" to their corresponding
       // numbers.
       values[i] = +values[i];
     }
-    msg.convertedFloatingPointFields_[fieldNumber] = true;
+    msg.convertedPrimitiveFields_[fieldNumber] = true;
   }
   return /** @type {!Array<number>} */ (values);
+};
+
+/**
+ * Gets the value of a repeated boolean field.
+ * @param {!jspb.Message} msg A jspb proto.
+ * @param {number} fieldNumber The field number.
+ * @return {!Array<boolean>} The field's value.
+ * @protected
+ */
+jspb.Message.getRepeatedBooleanField = function(msg, fieldNumber) {
+  var values = jspb.Message.getRepeatedField(msg, fieldNumber);
+  if (!msg.convertedPrimitiveFields_) {
+    msg.convertedPrimitiveFields_ = {};
+  }
+  if (!msg.convertedPrimitiveFields_[fieldNumber]) {
+    for (var i = 0; i < values.length; i++) {
+      // Converts 0 and 1 to their corresponding booleans.
+      values[i] = !!values[i];
+    }
+    msg.convertedPrimitiveFields_[fieldNumber] = true;
+  }
+  return /** @type {!Array<boolean>} */ (values);
 };
 
 
@@ -865,6 +880,49 @@ jspb.Message.getFieldWithDefault = function(msg, fieldNumber, defaultValue) {
 
 
 /**
+ * Gets the value of a boolean field, with proto3 (non-nullable primitives)
+ * semantics. Returns `defaultValue` if the field is not otherwise set.
+ * @template T
+ * @param {!jspb.Message} msg A jspb proto.
+ * @param {number} fieldNumber The field number.
+ * @param {boolean} defaultValue The default value.
+ * @return {boolean} The field's value.
+ * @protected
+ */
+jspb.Message.getBooleanFieldWithDefault = function(
+    msg, fieldNumber, defaultValue) {
+  var value = jspb.Message.getBooleanField(msg, fieldNumber);
+  if (value == null) {
+    return defaultValue;
+  } else {
+    return value;
+  }
+};
+
+
+/**
+ * Gets the value of a floating point field, with proto3 (non-nullable
+ * primitives) semantics. Returns `defaultValue` if the field is not otherwise
+ * set.
+ * @template T
+ * @param {!jspb.Message} msg A jspb proto.
+ * @param {number} fieldNumber The field number.
+ * @param {number} defaultValue The default value.
+ * @return {number} The field's value.
+ * @protected
+ */
+jspb.Message.getFloatingPointFieldWithDefault = function(
+    msg, fieldNumber, defaultValue) {
+  var value = jspb.Message.getOptionalFloatingPointField(msg, fieldNumber);
+  if (value == null) {
+    return defaultValue;
+  } else {
+    return value;
+  }
+};
+
+
+/**
  * Alias for getFieldWithDefault used by older generated code.
  * @template T
  * @param {!jspb.Message} msg A jspb proto.
@@ -900,19 +958,19 @@ jspb.Message.getMapField = function(msg, fieldNumber, noLazyCreate,
   // If we already have a map in the map wrappers, return that.
   if (fieldNumber in msg.wrappers_) {
     return msg.wrappers_[fieldNumber];
-  } else if (noLazyCreate) {
-    return undefined;
-  } else {
-    // Wrap the underlying elements array with a Map.
-    var arr = jspb.Message.getField(msg, fieldNumber);
-    if (!arr) {
-      arr = [];
-      jspb.Message.setField(msg, fieldNumber, arr);
-    }
-    return msg.wrappers_[fieldNumber] =
-        new jspb.Map(
-            /** @type {!Array<!Array<!Object>>} */ (arr), opt_valueCtor);
   }
+  var arr = jspb.Message.getField(msg, fieldNumber);
+  // Wrap the underlying elements array with a Map.
+  if (!arr) {
+    if (noLazyCreate) {
+      return undefined;
+    }
+    arr = [];
+    jspb.Message.setField(msg, fieldNumber, arr);
+  }
+  return msg.wrappers_[fieldNumber] =
+      new jspb.Map(
+          /** @type {!Array<!Array<!Object>>} */ (arr), opt_valueCtor);
 };
 
 
