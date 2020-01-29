@@ -86,7 +86,7 @@ namespace Google.Protobuf
         /// Adds the specified extensions to the reigstry
         /// </summary>
         public void AddRange(IEnumerable<Extension> extensions)
-
+        {
             ProtoPreconditions.CheckNotNull(extensions, nameof(extensions));
 
             foreach (var extension in extensions)

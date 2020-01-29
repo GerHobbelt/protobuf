@@ -54,7 +54,6 @@ project "protobuf"
     prjDir .. "/src/google/protobuf/struct.pb.cc",
     prjDir .. "/src/google/protobuf/stubs/common.cc",
     prjDir .. "/src/google/protobuf/stubs/int128.cc",
-    prjDir .. "/src/google/protobuf/stubs/mathlimits.cc",
     prjDir .. "/src/google/protobuf/stubs/status.cc",
     prjDir .. "/src/google/protobuf/stubs/statusor.cc",
     prjDir .. "/src/google/protobuf/stubs/stringpiece.cc",
