@@ -17,7 +17,6 @@ module BasicTest
     add_message "BadFieldNames" do
       optional :dup, :int32, 1
       optional :class, :int32, 2
-      optional :"a.b", :int32, 3
     end
   end
 
@@ -204,6 +203,20 @@ module BasicTest
       end
     end
 
+    def test_map_field_with_symbol
+      m = MapMessage.new
+      assert m.map_string_int32 == {}
+      assert m.map_string_msg == {}
+
+      m = MapMessage.new(
+        :map_string_int32 => {a: 1, "b" => 2},
+        :map_string_msg => {a: TestMessage2.new(:foo => 1),
+                            b: TestMessage2.new(:foo => 10)})
+      assert_equal 1, m.map_string_int32[:a]
+      assert_equal 2, m.map_string_int32[:b]
+      assert_equal 10, m.map_string_msg[:b].foo
+    end
+
     def test_map_inspect
       m = MapMessage.new(
         :map_string_int32 => {"a" => 1, "b" => 2},
@@ -219,6 +232,48 @@ module BasicTest
       m = MapMessage.new(map_string_int32: { "aaa" => 1 })
       m.map_string_int32['podid'] = 2
       m.map_string_int32['aaa'] = 3
+    end
+
+    def test_map_wrappers
+      run_asserts = ->(m) {
+        assert_equal 2.0, m.map_double[0].value
+        assert_equal 4.0, m.map_float[0].value
+        assert_equal 3, m.map_int32[0].value
+        assert_equal 4, m.map_int64[0].value
+        assert_equal 5, m.map_uint32[0].value
+        assert_equal 6, m.map_uint64[0].value
+        assert_equal true, m.map_bool[0].value
+        assert_equal 'str', m.map_string[0].value
+        assert_equal 'fun', m.map_bytes[0].value
+      }
+
+      m = proto_module::Wrapper.new(
+        map_double: {0 => Google::Protobuf::DoubleValue.new(value: 2.0)},
+        map_float: {0 => Google::Protobuf::FloatValue.new(value: 4.0)},
+        map_int32: {0 => Google::Protobuf::Int32Value.new(value: 3)},
+        map_int64: {0 => Google::Protobuf::Int64Value.new(value: 4)},
+        map_uint32: {0 => Google::Protobuf::UInt32Value.new(value: 5)},
+        map_uint64: {0 => Google::Protobuf::UInt64Value.new(value: 6)},
+        map_bool: {0 => Google::Protobuf::BoolValue.new(value: true)},
+        map_string: {0 => Google::Protobuf::StringValue.new(value: 'str')},
+        map_bytes: {0 => Google::Protobuf::BytesValue.new(value: 'fun')},
+      )
+
+      run_asserts.call(m)
+      serialized = proto_module::Wrapper::encode(m)
+      m2 = proto_module::Wrapper::decode(serialized)
+      run_asserts.call(m2)
+
+      # Test the case where we are serializing directly from the parsed form
+      # (before anything lazy is materialized).
+      m3 = proto_module::Wrapper::decode(serialized)
+      serialized2 = proto_module::Wrapper::encode(m3)
+      m4 = proto_module::Wrapper::decode(serialized2)
+      run_asserts.call(m4)
+
+      # Test that the lazy form compares equal to the expanded form.
+      m5 = proto_module::Wrapper::decode(serialized2)
+      assert_equal m5, m
     end
 
     def test_concurrent_decoding
@@ -270,6 +325,14 @@ module BasicTest
       end
       assert_match(/No such field: not_in_message/, e.message)
     end
+
+    #def test_json_quoted_string
+    #  m = TestMessage.decode_json(%q(
+    #    "optionalInt64": "1",,
+    #  }))
+    #  puts(m)
+    #  assert_equal 1, m.optional_int32
+    #end
 
     def test_to_h
       m = TestMessage.new(:optional_bool => true, :optional_double => -10.100001, :optional_string => 'foo', :repeated_string => ['bar1', 'bar2'], :repeated_msg => [TestMessage2.new(:foo => 100)])
@@ -356,11 +419,6 @@ module BasicTest
       file_descriptor = TestEnum.descriptor.file_descriptor
       assert nil != file_descriptor
       assert_equal "tests/basic_test.proto", file_descriptor.name
-      assert_equal :proto3, file_descriptor.syntax
-
-      file_descriptor = BadFieldNames.descriptor.file_descriptor
-      assert nil != file_descriptor
-      assert_equal nil, file_descriptor.name
       assert_equal :proto3, file_descriptor.syntax
     end
 

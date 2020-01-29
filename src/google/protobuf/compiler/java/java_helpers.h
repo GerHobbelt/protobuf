@@ -160,6 +160,7 @@ inline bool MultipleJavaFiles(const FileDescriptor* descriptor,
   return descriptor->options().java_multiple_files();
 }
 
+
 // Returns true if `descriptor` will be written to its own .java file.
 // `immutable` should be set to true if we're generating for the immutable API.
 template <typename Descriptor>
@@ -369,7 +370,7 @@ inline bool SupportUnknownEnumValue(const FileDescriptor* descriptor) {
   return descriptor->syntax() == FileDescriptor::SYNTAX_PROTO3;
 }
 
-// Check whether a mesasge has repeated fields.
+// Check whether a message has repeated fields.
 bool HasRepeatedFields(const Descriptor* descriptor);
 
 inline bool IsMapEntry(const Descriptor* descriptor) {

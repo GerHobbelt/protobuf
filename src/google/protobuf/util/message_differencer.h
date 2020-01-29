@@ -112,11 +112,11 @@ typedef std::vector<const FieldDescriptor*> FieldDescriptorArray;
 // unpacks Any::value into a Message and compares its individual fields.
 // Messages encoded in a repeated Any cannot be compared using TreatAsMap.
 //
-//
 // Note on thread-safety: MessageDifferencer is *not* thread-safe. You need to
 // guard it with a lock to use the same MessageDifferencer instance from
 // multiple threads. Note that it's fine to call static comparison methods
-// (like MessageDifferencer::Equals) concurrently.
+// (like MessageDifferencer::Equals) concurrently, but it's not recommended for
+// performance critical code as it leads to extra allocations.
 class PROTOBUF_EXPORT MessageDifferencer {
  public:
   // Determines whether the supplied messages are equal. Equality is defined as
@@ -569,6 +569,9 @@ class PROTOBUF_EXPORT MessageDifferencer {
   // RepeatedFieldComparison enumeration above) that is used by this
   // differencer when compare repeated fields in messages.
   void set_repeated_field_comparison(RepeatedFieldComparison comparison);
+
+  // Returns the current repeated field comparison used by this differencer.
+  RepeatedFieldComparison repeated_field_comparison();
 
   // Compares the two specified messages, returning true if they are the same,
   // false otherwise. If this method returns false, any changes between the
