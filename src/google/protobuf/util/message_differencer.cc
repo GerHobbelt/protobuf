@@ -35,14 +35,13 @@
 #include <google/protobuf/util/message_differencer.h>
 
 #include <algorithm>
+#include <functional>
 #include <memory>
 #include <utility>
 
-#include <google/protobuf/stubs/callback.h>
-#include <google/protobuf/stubs/common.h>
 #include <google/protobuf/stubs/logging.h>
+#include <google/protobuf/stubs/common.h>
 #include <google/protobuf/stubs/stringprintf.h>
-#include <google/protobuf/any.h>
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/io/zero_copy_stream.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
@@ -51,7 +50,6 @@
 #include <google/protobuf/text_format.h>
 #include <google/protobuf/util/field_comparator.h>
 #include <google/protobuf/stubs/strutil.h>
-
 
 // Always include as last one, otherwise it can break compilation
 #include <google/protobuf/port_def.inc>
@@ -310,6 +308,11 @@ void MessageDifferencer::set_repeated_field_comparison(
   repeated_field_comparison_ = comparison;
 }
 
+MessageDifferencer::RepeatedFieldComparison
+MessageDifferencer::repeated_field_comparison() {
+  return repeated_field_comparison_;
+}
+
 void MessageDifferencer::CheckRepeatedFieldComparisons(
     const FieldDescriptor* field,
     const RepeatedFieldComparison& new_comparison) {
@@ -455,7 +458,7 @@ void MessageDifferencer::ReportDifferencesToString(std::string* output) {
 
 void MessageDifferencer::ReportDifferencesTo(Reporter* reporter) {
   // If an output string is set, clear it to prevent
-  // it superceding the specified reporter.
+  // it superseding the specified reporter.
   if (output_string_) {
     output_string_ = NULL;
   }
@@ -581,7 +584,7 @@ bool MessageDifferencer::Compare(const Message& message1,
                               *unknown_field_set2, parent_fields)) {
       if (reporter_ == NULL) {
         return false;
-      };
+      }
       unknown_compare_result = false;
     }
   }
@@ -862,7 +865,7 @@ bool MessageDifferencer::CompareWithFieldsInternal(
         parent_fields->pop_back();
       }
     }
-    // Increment the field indicies.
+    // Increment the field indices.
     ++field_index1;
     ++field_index2;
   }
@@ -1463,7 +1466,7 @@ namespace {
 // Find maximum bipartite matching using the argumenting path algorithm.
 class MaximumMatcher {
  public:
-  typedef ResultCallback2<bool, int, int> NodeMatchCallback;
+  typedef std::function<bool(int, int)> NodeMatchCallback;
   // MaximumMatcher takes ownership of the passed in callback and uses it to
   // determine whether a node on the left side of the bipartial graph matches
   // a node on the right side. count1 is the number of nodes on the left side
@@ -1474,7 +1477,7 @@ class MaximumMatcher {
   // matched to the j-th node on the right side and match_list2[x] == y means
   // the x-th node on the right side is matched to y-th node on the left side.
   // match_list1[i] == -1 means the node is not matched. Same with match_list2.
-  MaximumMatcher(int count1, int count2, NodeMatchCallback* callback,
+  MaximumMatcher(int count1, int count2, NodeMatchCallback callback,
                  std::vector<int>* match_list1, std::vector<int>* match_list2);
   // Find a maximum match and return the number of matched node pairs.
   // If early_return is true, this method will return 0 immediately when it
@@ -1492,7 +1495,7 @@ class MaximumMatcher {
 
   int count1_;
   int count2_;
-  std::unique_ptr<NodeMatchCallback> match_callback_;
+  NodeMatchCallback match_callback_;
   std::map<std::pair<int, int>, bool> cached_match_results_;
   std::vector<int>* match_list1_;
   std::vector<int>* match_list2_;
@@ -1500,11 +1503,14 @@ class MaximumMatcher {
 };
 
 MaximumMatcher::MaximumMatcher(int count1, int count2,
-                               NodeMatchCallback* callback,
+                               NodeMatchCallback callback,
                                std::vector<int>* match_list1,
                                std::vector<int>* match_list2)
-    : count1_(count1), count2_(count2), match_callback_(callback),
-      match_list1_(match_list1), match_list2_(match_list2) {
+    : count1_(count1),
+      count2_(count2),
+      match_callback_(std::move(callback)),
+      match_list1_(match_list1),
+      match_list2_(match_list2) {
   match_list1_->assign(count1, -1);
   match_list2_->assign(count2, -1);
 }
@@ -1536,7 +1542,7 @@ bool MaximumMatcher::Match(int left, int right) {
   if (it != cached_match_results_.end()) {
     return it->second;
   }
-  cached_match_results_[p] = match_callback_->Run(left, right);
+  cached_match_results_[p] = match_callback_(left, right);
   return cached_match_results_[p];
 }
 
@@ -1605,10 +1611,12 @@ bool MessageDifferencer::MatchRepeatedFieldIndices(
     // doesn't necessarily imply Compare(b, c). Therefore a naive greedy
     // algorithm will fail to find a maximum matching.
     // Here we use the augmenting path algorithm.
-    MaximumMatcher::NodeMatchCallback* callback = ::google::protobuf::NewPermanentCallback(
-        this, &MessageDifferencer::IsMatch, repeated_field, key_comparator,
-        &message1, &message2, parent_fields, nullptr);
-    MaximumMatcher matcher(count1, count2, callback, match_list1, match_list2);
+    auto callback = [&](int i1, int i2) {
+      return IsMatch(repeated_field, key_comparator, &message1, &message2,
+                     parent_fields, nullptr, i1, i2);
+    };
+    MaximumMatcher matcher(count1, count2, std::move(callback), match_list1,
+                           match_list2);
     // If diff info is not needed, we should end the matching process as
     // soon as possible if not all items can be matched.
     bool early_return = (reporter == nullptr);

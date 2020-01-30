@@ -1,6 +1,5 @@
-﻿#region Copyright notice and license
 // Protocol Buffers - Google's data interchange format
-// Copyright 2016 Google Inc.  All rights reserved.
+// Copyright 2008 Google Inc.  All rights reserved.
 // https://developers.google.com/protocol-buffers/
 //
 // Redistribution and use in source and binary forms, with or without
@@ -28,18 +27,44 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#endregion
 
-namespace Google.Protobuf.TestProtos
-{
-    /// <summary>
-    /// A message with custom diagnostics (to test that they work).
-    /// </summary>
-    public partial class ForeignMessage : ICustomDiagnosticMessage
-    {
-        public string ToDiagnosticString()
-        {
-            return $"{{ \"c\": {C}, \"@cInHex\": \"{C:x}\" }}";
-        }
-    }
+package com.google.protobuf;
+
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+
+import com.google.protobuf.Descriptors.Descriptor;
+import protobuf_unittest.UnittestProto;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
+public final class TypeRegistryTest {
+
+  @Test
+  public void findDescriptorByFullName() throws Exception {
+    Descriptor descriptor = UnittestProto.TestAllTypes.getDescriptor();
+    assertNull(TypeRegistry.getEmptyTypeRegistry().find(descriptor.getFullName()));
+
+    assertSame(
+        descriptor,
+        TypeRegistry.newBuilder().add(descriptor).build().find(descriptor.getFullName()));
+  }
+
+  @Test
+  public void findDescriptorByTypeUrl() throws Exception {
+    Descriptor descriptor = UnittestProto.TestAllTypes.getDescriptor();
+    assertNull(
+        TypeRegistry.getEmptyTypeRegistry()
+            .getDescriptorForTypeUrl("type.googleapis.com/" + descriptor.getFullName()));
+
+    assertSame(
+        descriptor,
+        TypeRegistry.newBuilder()
+            .add(descriptor)
+            .build()
+            .getDescriptorForTypeUrl("type.googleapis.com/" + descriptor.getFullName()));
+  }
+
 }

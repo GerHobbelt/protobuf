@@ -56,7 +56,6 @@
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/stubs/strutil.h>
-
 #include <google/protobuf/stubs/map_util.h>
 #include <google/protobuf/stubs/stl_util.h>
 #include <google/protobuf/stubs/hash.h>
@@ -137,13 +136,6 @@ void Message::DiscardUnknownFields() {
   return ReflectionOps::DiscardUnknownFields(this);
 }
 
-#if !GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-bool Message::MergePartialFromCodedStream(io::CodedInputStream* input) {
-  return WireFormat::ParseAndMergePartial(input, this);
-}
-#endif
-
-#if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 namespace internal {
 
 class ReflectionAccessor {
@@ -249,10 +241,11 @@ const char* ParsePackedField(const FieldDescriptor* field, Message* msg,
                              const Reflection* reflection, const char* ptr,
                              internal::ParseContext* ctx) {
   switch (field->type()) {
-#define HANDLE_PACKED_TYPE(TYPE, CPPTYPE, METHOD_NAME) \
-  case FieldDescriptor::TYPE_##TYPE:                   \
-    return internal::Packed##METHOD_NAME##Parser(      \
-        reflection->MutableRepeatedField<CPPTYPE>(msg, field), ptr, ctx)
+#define HANDLE_PACKED_TYPE(TYPE, CPPTYPE, METHOD_NAME)                      \
+  case FieldDescriptor::TYPE_##TYPE:                                        \
+    return internal::Packed##METHOD_NAME##Parser(                           \
+        reflection->MutableRepeatedFieldInternal<CPPTYPE>(msg, field), ptr, \
+        ctx)
     HANDLE_PACKED_TYPE(INT32, int32, Int32);
     HANDLE_PACKED_TYPE(INT64, int64, Int64);
     HANDLE_PACKED_TYPE(SINT32, int32, SInt32);
@@ -297,16 +290,15 @@ const char* ParseLenDelim(int field_number, const FieldDescriptor* field,
   }
   enum { kNone = 0, kVerify, kStrict } utf8_level = kNone;
   const char* field_name = nullptr;
-  auto parse_string = [ptr, ctx, &utf8_level, &field_name](std::string* s) {
-    switch (utf8_level) {
-      case kNone:
-        return internal::InlineGreedyStringParser(s, ptr, ctx);
-      case kVerify:
-        return internal::InlineGreedyStringParserUTF8Verify(s, ptr, ctx,
-                                                            field_name);
-      case kStrict:
-        return internal::InlineGreedyStringParserUTF8(s, ptr, ctx, field_name);
+  auto parse_string = [ptr, ctx, &utf8_level,
+                       &field_name](std::string* s) -> const char* {
+    auto res = internal::InlineGreedyStringParser(s, ptr, ctx);
+    if (utf8_level != kNone) {
+      if (!internal::VerifyUTF8(s, field_name) && utf8_level == kStrict) {
+        return nullptr;
+      }
     }
+    return res;
   };
   switch (field->type()) {
     case FieldDescriptor::TYPE_STRING: {
@@ -329,12 +321,14 @@ const char* ParseLenDelim(int field_number, const FieldDescriptor* field,
         if (field->options().ctype() == FieldOptions::STRING ||
             field->is_extension()) {
           auto object =
-              reflection->MutableRepeatedPtrField<std::string>(msg, field)
+              reflection
+                  ->MutableRepeatedPtrFieldInternal<std::string>(msg, field)
                   ->Mutable(index);
           return parse_string(object);
         } else {
           auto object =
-              reflection->MutableRepeatedPtrField<std::string>(msg, field)
+              reflection
+                  ->MutableRepeatedPtrFieldInternal<std::string>(msg, field)
                   ->Mutable(index);
           return parse_string(object);
         }
@@ -495,7 +489,7 @@ const char* Message::_InternalParse(const char* ptr,
       // If that failed, check if the field is an extension.
       if (field == nullptr && descriptor_->IsExtensionNumber(num)) {
         const DescriptorPool* pool = ctx_->data().pool;
-        if (pool == NULL) {
+        if (pool == nullptr) {
           field = reflection_->FindKnownExtensionByNumber(num);
         } else {
           field = pool->FindExtensionByNumber(descriptor_, num);
@@ -525,16 +519,10 @@ const char* Message::_InternalParse(const char* ptr,
   ReflectiveFieldParser field_parser(this, ctx);
   return internal::WireFormatParser(field_parser, ptr, ctx);
 }
-#endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 
-void Message::SerializeWithCachedSizes(io::CodedOutputStream* output) const {
-  const internal::SerializationTable* table =
-      static_cast<const internal::SerializationTable*>(InternalGetTable());
-  if (table == 0) {
-    WireFormat::SerializeWithCachedSizes(*this, GetCachedSize(), output);
-  } else {
-    internal::TableSerialize(*this, table, output);
-  }
+uint8* Message::_InternalSerialize(uint8* target,
+                                   io::EpsCopyOutputStream* stream) const {
+  return WireFormat::_InternalSerialize(*this, target, stream);
 }
 
 size_t Message::ByteSizeLong() const {

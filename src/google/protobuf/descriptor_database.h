@@ -47,7 +47,7 @@
 #include <google/protobuf/port_def.inc>
 
 #ifdef SWIG
-#define PROTOBUF_EXPORT
+#error "You cannot SWIG proto headers"
 #endif
 
 namespace google {
@@ -116,7 +116,7 @@ class PROTOBUF_EXPORT DescriptorDatabase {
   //
   // This method has a default implementation that always returns
   // false.
-  virtual bool FindAllFileNames(std::vector<std::string>* output) {
+  virtual bool FindAllFileNames(std::vector<std::string>* /*output*/) {
     return false;
   }
 
@@ -284,7 +284,7 @@ class PROTOBUF_EXPORT SimpleDescriptorDatabase : public DescriptorDatabase {
   };
 
   DescriptorIndex<const FileDescriptorProto*> index_;
-  std::vector<const FileDescriptorProto*> files_to_delete_;
+  std::vector<std::unique_ptr<const FileDescriptorProto>> files_to_delete_;
 
   // If file is non-NULL, copy it into *output and return true, otherwise
   // return false.
