@@ -72,25 +72,35 @@ class GeneratorResponseContext : public GeneratorContext {
 
   // implements GeneratorContext --------------------------------------
 
-  virtual io::ZeroCopyOutputStream* Open(const std::string& filename) {
+  virtual io::ZeroCopyOutputStream* Open(const std::string& filename) override {
     CodeGeneratorResponse::File* file = response_->add_file();
     file->set_name(filename);
     return new io::StringOutputStream(file->mutable_content());
   }
 
   virtual io::ZeroCopyOutputStream* OpenForInsert(
-      const std::string& filename, const std::string& insertion_point) {
+      const std::string& filename, const std::string& insertion_point) override {
     CodeGeneratorResponse::File* file = response_->add_file();
     file->set_name(filename);
     file->set_insertion_point(insertion_point);
     return new io::StringOutputStream(file->mutable_content());
   }
 
-  void ListParsedFiles(std::vector<const FileDescriptor*>* output) {
+  virtual io::ZeroCopyOutputStream* OpenForInsertWithGeneratedCodeInfo(
+      const std::string& filename, const std::string& insertion_point,
+      const google::protobuf::GeneratedCodeInfo& info) override {
+    CodeGeneratorResponse::File* file = response_->add_file();
+    file->set_name(filename);
+    file->set_insertion_point(insertion_point);
+    *file->mutable_generated_code_info() = info;
+    return new io::StringOutputStream(file->mutable_content());
+  }
+
+  void ListParsedFiles(std::vector<const FileDescriptor*>* output) override {
     *output = parsed_files_;
   }
 
-  void GetCompilerVersion(Version* version) const {
+  void GetCompilerVersion(Version* version) const override {
     *version = compiler_version_;
   }
 
@@ -132,6 +142,8 @@ bool GenerateCode(const CodeGeneratorRequest& request,
   bool succeeded = generator.GenerateAll(parsed_files, request.parameter(),
                                          &context, &error);
 
+  response->set_supported_features(generator.GetSupportedFeatures());
+
   if (!succeeded && error.empty()) {
     error =
         "Code generator returned false but provided no error "
@@ -162,6 +174,7 @@ int PluginMain(int argc, char* argv[], const CodeGenerator* generator) {
               << std::endl;
     return 1;
   }
+
 
   std::string error_msg;
   CodeGeneratorResponse response;
