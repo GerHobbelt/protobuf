@@ -57,8 +57,9 @@ std::string ExtendeeClassName(const FieldDescriptor* descriptor) {
 }  // anonymous namespace
 
 ExtensionGenerator::ExtensionGenerator(const FieldDescriptor* descriptor,
-                                       const Options& options)
-    : descriptor_(descriptor), options_(options) {
+                                       const Options& options,
+                                       MessageSCCAnalyzer* scc_analyzer)
+    : descriptor_(descriptor), options_(options), scc_analyzer_(scc_analyzer) {
   // Construct type_traits_.
   if (descriptor_->is_repeated()) {
     type_traits_ = "Repeated";
@@ -94,13 +95,12 @@ ExtensionGenerator::ExtensionGenerator(const FieldDescriptor* descriptor,
   variables_["constant_name"] = FieldConstantName(descriptor_);
   variables_["field_type"] =
       StrCat(static_cast<int>(descriptor_->type()));
-  variables_["packed"] = descriptor_->options().packed() ? "true" : "false";
+  variables_["packed"] = descriptor_->is_packed() ? "true" : "false";
 
   std::string scope =
       IsScoped() ? ClassName(descriptor_->extension_scope(), false) + "::" : "";
   variables_["scope"] = scope;
-  std::string scoped_name = scope + ResolveKeyword(name);
-  variables_["scoped_name"] = scoped_name;
+  variables_["scoped_name"] = ExtensionName(descriptor_);
   variables_["number"] = StrCat(descriptor_->number());
 }
 
@@ -157,6 +157,11 @@ void ExtensionGenerator::GenerateDefinition(io::Printer* printer) {
         StringReplace(variables_["scoped_name"], "::", "_", true) + "_default";
     format("const std::string $1$($2$);\n", default_str,
            DefaultValue(options_, descriptor_));
+  } else if (descriptor_->message_type()) {
+    // We have to initialize the default instance for extensions at registration
+    // time.
+    default_str =
+        FieldMessageTypeName(descriptor_, options_) + "::default_instance()";
   } else {
     default_str = DefaultValue(options_, descriptor_);
   }
@@ -170,10 +175,23 @@ void ExtensionGenerator::GenerateDefinition(io::Printer* printer) {
   }
 
   format(
+      "PROTOBUF_ATTRIBUTE_INIT_PRIORITY "
       "::$proto_ns$::internal::ExtensionIdentifier< $extendee$,\n"
       "    ::$proto_ns$::internal::$type_traits$, $field_type$, $packed$ >\n"
       "  $scoped_name$($constant_name$, $1$);\n",
       default_str);
+
+  // Register extension verify function if needed.
+  if (descriptor_->cpp_type() == FieldDescriptor::CPPTYPE_MESSAGE &&
+      ShouldVerify(descriptor_->message_type(), options_, scc_analyzer_) &&
+      ShouldVerify(descriptor_->containing_type(), options_, scc_analyzer_)) {
+    format(
+        "PROTOBUF_ATTRIBUTE_INIT_PRIORITY "
+        "::$proto_ns$::internal::RegisterExtensionVerify< $extendee$,\n"
+        "    $1$, $number$> $2$_$name$_register;\n",
+        ClassName(descriptor_->message_type(), true),
+        IsScoped() ? ClassName(descriptor_->extension_scope(), false) : "");
+  }
 }
 
 }  // namespace cpp

@@ -41,6 +41,7 @@ import static com.google.protobuf.WireFormat.MAX_VARINT_SIZE;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,14 +61,14 @@ import java.util.List;
  */
 public abstract class CodedInputStream {
   private static final int DEFAULT_BUFFER_SIZE = 4096;
-  private static final int DEFAULT_RECURSION_LIMIT = 100;
   // Integer.MAX_VALUE == 0x7FFFFFF == INT_MAX from limits.h
   private static final int DEFAULT_SIZE_LIMIT = Integer.MAX_VALUE;
+  private static volatile int defaultRecursionLimit = 100;
 
   /** Visible for subclasses. See setRecursionLimit() */
   int recursionDepth;
 
-  int recursionLimit = DEFAULT_RECURSION_LIMIT;
+  int recursionLimit = defaultRecursionLimit;
 
   /** Visible for subclasses. See setSizeLimit() */
   int sizeLimit = DEFAULT_SIZE_LIMIT;
@@ -194,6 +195,11 @@ public abstract class CodedInputStream {
     return newInstance(buffer, 0, buffer.length, true);
   }
 
+  public void checkRecursionLimit() throws InvalidProtocolBufferException {
+    if (recursionDepth >= recursionLimit) {
+      throw InvalidProtocolBufferException.recursionLimitExceeded();
+    }
+  }
   /** Disable construction/inheritance outside of this class. */
   private CodedInputStream() {}
 
@@ -484,7 +490,7 @@ public abstract class CodedInputStream {
    * Returns true if the stream has reached the end of the input. This is the case if either the end
    * of the underlying input source has been reached or if the stream has reached a limit created
    * using {@link #pushLimit(int)}. This function may get blocked when using StreamDecoder as it
-   * invokes {@link #StreamDecoder.tryRefillBuffer(int)} in this function which will try to read
+   * invokes {@link StreamDecoder#tryRefillBuffer(int)} in this function which will try to read
    * bytes from input.
    */
   public abstract boolean isAtEnd() throws IOException;
@@ -826,9 +832,7 @@ public abstract class CodedInputStream {
         final MessageLite.Builder builder,
         final ExtensionRegistryLite extensionRegistry)
         throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       ++recursionDepth;
       builder.mergeFrom(this, extensionRegistry);
       checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
@@ -842,9 +846,7 @@ public abstract class CodedInputStream {
         final Parser<T> parser,
         final ExtensionRegistryLite extensionRegistry)
         throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       ++recursionDepth;
       T result = parser.parsePartialFrom(this, extensionRegistry);
       checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
@@ -864,14 +866,15 @@ public abstract class CodedInputStream {
         final MessageLite.Builder builder, final ExtensionRegistryLite extensionRegistry)
         throws IOException {
       final int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       final int oldLimit = pushLimit(length);
       ++recursionDepth;
       builder.mergeFrom(this, extensionRegistry);
       checkLastTagWas(0);
       --recursionDepth;
+      if (getBytesUntilLimit() != 0) {
+        throw InvalidProtocolBufferException.truncatedMessage();
+      }
       popLimit(oldLimit);
     }
 
@@ -880,14 +883,15 @@ public abstract class CodedInputStream {
     public <T extends MessageLite> T readMessage(
         final Parser<T> parser, final ExtensionRegistryLite extensionRegistry) throws IOException {
       int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       final int oldLimit = pushLimit(length);
       ++recursionDepth;
       T result = parser.parsePartialFrom(this, extensionRegistry);
       checkLastTagWas(0);
       --recursionDepth;
+      if (getBytesUntilLimit() != 0) {
+        throw InvalidProtocolBufferException.truncatedMessage();
+      }
       popLimit(oldLimit);
       return result;
     }
@@ -1184,6 +1188,9 @@ public abstract class CodedInputStream {
         throw InvalidProtocolBufferException.negativeSize();
       }
       byteLimit += getTotalBytesRead();
+      if (byteLimit < 0) {
+        throw InvalidProtocolBufferException.parseFailure();
+      }
       final int oldLimit = currentLimit;
       if (byteLimit > oldLimit) {
         throw InvalidProtocolBufferException.truncatedMessage();
@@ -1545,9 +1552,7 @@ public abstract class CodedInputStream {
         final MessageLite.Builder builder,
         final ExtensionRegistryLite extensionRegistry)
         throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       ++recursionDepth;
       builder.mergeFrom(this, extensionRegistry);
       checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
@@ -1561,9 +1566,7 @@ public abstract class CodedInputStream {
         final Parser<T> parser,
         final ExtensionRegistryLite extensionRegistry)
         throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       ++recursionDepth;
       T result = parser.parsePartialFrom(this, extensionRegistry);
       checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
@@ -1583,14 +1586,15 @@ public abstract class CodedInputStream {
         final MessageLite.Builder builder, final ExtensionRegistryLite extensionRegistry)
         throws IOException {
       final int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       final int oldLimit = pushLimit(length);
       ++recursionDepth;
       builder.mergeFrom(this, extensionRegistry);
       checkLastTagWas(0);
       --recursionDepth;
+      if (getBytesUntilLimit() != 0) {
+        throw InvalidProtocolBufferException.truncatedMessage();
+      }
       popLimit(oldLimit);
     }
 
@@ -1599,14 +1603,15 @@ public abstract class CodedInputStream {
     public <T extends MessageLite> T readMessage(
         final Parser<T> parser, final ExtensionRegistryLite extensionRegistry) throws IOException {
       int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       final int oldLimit = pushLimit(length);
       ++recursionDepth;
       T result = parser.parsePartialFrom(this, extensionRegistry);
       checkLastTagWas(0);
       --recursionDepth;
+      if (getBytesUntilLimit() != 0) {
+        throw InvalidProtocolBufferException.truncatedMessage();
+      }
       popLimit(oldLimit);
       return result;
     }
@@ -2009,14 +2014,14 @@ public abstract class CodedInputStream {
       int prevPos = buffer.position();
       int prevLimit = buffer.limit();
       try {
-        buffer.position(bufferPos(begin));
-        buffer.limit(bufferPos(end));
+        ((Buffer) buffer).position(bufferPos(begin));
+        ((Buffer) buffer).limit(bufferPos(end));
         return buffer.slice();
       } catch (IllegalArgumentException e) {
         throw InvalidProtocolBufferException.truncatedMessage();
       } finally {
-        buffer.position(prevPos);
-        buffer.limit(prevLimit);
+        ((Buffer) buffer).position(prevPos);
+        ((Buffer) buffer).limit(prevLimit);
       }
     }
   }
@@ -2052,6 +2057,44 @@ public abstract class CodedInputStream {
       this.bufferSize = 0;
       pos = 0;
       totalBytesRetired = 0;
+    }
+
+    /*
+     * The following wrapper methods exist so that InvalidProtocolBufferExceptions thrown by the
+     * InputStream can be differentiated from ones thrown by CodedInputStream itself. Each call to
+     * an InputStream method that can throw IOException must be wrapped like this. We do this
+     * because we sometimes need to modify IPBE instances after they are thrown far away from where
+     * they are thrown (ex. to add unfinished messages) and we use this signal elsewhere in the
+     * exception catch chain to know when to perform these operations directly or to wrap the
+     * exception in their own IPBE so the extra information can be communicated without trampling
+     * downstream information.
+     */
+    private static int read(InputStream input, byte[] data, int offset, int length)
+        throws IOException {
+      try {
+        return input.read(data, offset, length);
+      } catch (InvalidProtocolBufferException e) {
+        e.setThrownFromInputStream();
+        throw e;
+      }
+    }
+
+    private static long skip(InputStream input, long length) throws IOException {
+      try {
+        return input.skip(length);
+      } catch (InvalidProtocolBufferException e) {
+        e.setThrownFromInputStream();
+        throw e;
+      }
+    }
+
+    private static int available(InputStream input) throws IOException {
+      try {
+        return input.available();
+      } catch (InvalidProtocolBufferException e) {
+        e.setThrownFromInputStream();
+        throw e;
+      }
     }
 
     @Override
@@ -2304,9 +2347,7 @@ public abstract class CodedInputStream {
         final MessageLite.Builder builder,
         final ExtensionRegistryLite extensionRegistry)
         throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       ++recursionDepth;
       builder.mergeFrom(this, extensionRegistry);
       checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
@@ -2320,9 +2361,7 @@ public abstract class CodedInputStream {
         final Parser<T> parser,
         final ExtensionRegistryLite extensionRegistry)
         throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       ++recursionDepth;
       T result = parser.parsePartialFrom(this, extensionRegistry);
       checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
@@ -2342,14 +2381,15 @@ public abstract class CodedInputStream {
         final MessageLite.Builder builder, final ExtensionRegistryLite extensionRegistry)
         throws IOException {
       final int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       final int oldLimit = pushLimit(length);
       ++recursionDepth;
       builder.mergeFrom(this, extensionRegistry);
       checkLastTagWas(0);
       --recursionDepth;
+      if (getBytesUntilLimit() != 0) {
+        throw InvalidProtocolBufferException.truncatedMessage();
+      }
       popLimit(oldLimit);
     }
 
@@ -2358,14 +2398,15 @@ public abstract class CodedInputStream {
     public <T extends MessageLite> T readMessage(
         final Parser<T> parser, final ExtensionRegistryLite extensionRegistry) throws IOException {
       int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       final int oldLimit = pushLimit(length);
       ++recursionDepth;
       T result = parser.parsePartialFrom(this, extensionRegistry);
       checkLastTagWas(0);
       --recursionDepth;
+      if (getBytesUntilLimit() != 0) {
+        throw InvalidProtocolBufferException.truncatedMessage();
+      }
       popLimit(oldLimit);
       return result;
     }
@@ -2782,7 +2823,8 @@ public abstract class CodedInputStream {
 
       // Here we should refill the buffer as many bytes as possible.
       int bytesRead =
-          input.read(
+          read(
+              input,
               buffer,
               bufferSize,
               Math.min(
@@ -2904,7 +2946,7 @@ public abstract class CodedInputStream {
       // Determine the number of bytes we need to read from the input stream.
       int sizeLeft = size - bufferedBytes;
       // TODO(nathanmittler): Consider using a value larger than DEFAULT_BUFFER_SIZE.
-      if (sizeLeft < DEFAULT_BUFFER_SIZE || sizeLeft <= input.available()) {
+      if (sizeLeft < DEFAULT_BUFFER_SIZE || sizeLeft <= available(input)) {
         // Either the bytes we need are known to be available, or the required buffer is
         // within an allowed threshold - go ahead and allocate the buffer now.
         final byte[] bytes = new byte[size];
@@ -2918,7 +2960,7 @@ public abstract class CodedInputStream {
         // Fill the remaining bytes from the input stream.
         int tempPos = bufferedBytes;
         while (tempPos < bytes.length) {
-          int n = input.read(bytes, tempPos, size - tempPos);
+          int n = read(input, bytes, tempPos, size - tempPos);
           if (n == -1) {
             throw InvalidProtocolBufferException.truncatedMessage();
           }
@@ -3046,7 +3088,7 @@ public abstract class CodedInputStream {
         try {
           while (totalSkipped < size) {
             int toSkip = size - totalSkipped;
-            long skipped = input.skip(toSkip);
+            long skipped = skip(input, toSkip);
             if (skipped < 0 || skipped > toSkip) {
               throw new IllegalStateException(
                   input.getClass()
@@ -3400,9 +3442,7 @@ public abstract class CodedInputStream {
         final MessageLite.Builder builder,
         final ExtensionRegistryLite extensionRegistry)
         throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       ++recursionDepth;
       builder.mergeFrom(this, extensionRegistry);
       checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
@@ -3416,9 +3456,7 @@ public abstract class CodedInputStream {
         final Parser<T> parser,
         final ExtensionRegistryLite extensionRegistry)
         throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       ++recursionDepth;
       T result = parser.parsePartialFrom(this, extensionRegistry);
       checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
@@ -3438,14 +3476,15 @@ public abstract class CodedInputStream {
         final MessageLite.Builder builder, final ExtensionRegistryLite extensionRegistry)
         throws IOException {
       final int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       final int oldLimit = pushLimit(length);
       ++recursionDepth;
       builder.mergeFrom(this, extensionRegistry);
       checkLastTagWas(0);
       --recursionDepth;
+      if (getBytesUntilLimit() != 0) {
+        throw InvalidProtocolBufferException.truncatedMessage();
+      }
       popLimit(oldLimit);
     }
 
@@ -3454,14 +3493,15 @@ public abstract class CodedInputStream {
     public <T extends MessageLite> T readMessage(
         final Parser<T> parser, final ExtensionRegistryLite extensionRegistry) throws IOException {
       int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
+      checkRecursionLimit();
       final int oldLimit = pushLimit(length);
       ++recursionDepth;
       T result = parser.parsePartialFrom(this, extensionRegistry);
       checkLastTagWas(0);
       --recursionDepth;
+      if (getBytesUntilLimit() != 0) {
+        throw InvalidProtocolBufferException.truncatedMessage();
+      }
       popLimit(oldLimit);
       return result;
     }
@@ -3483,9 +3523,25 @@ public abstract class CodedInputStream {
           return ByteString.wrap(bytes);
         }
       } else if (size > 0 && size <= remaining()) {
-        byte[] temp = new byte[size];
-        readRawBytesTo(temp, 0, size);
-        return ByteString.wrap(temp);
+        if (immutable && enableAliasing) {
+          ArrayList<ByteString> byteStrings = new ArrayList<>();
+          int l = size;
+          while (l > 0) {
+            if (currentRemaining() == 0) {
+              getNextByteBuffer();
+            }
+            int bytesToCopy = Math.min(l, (int) currentRemaining());
+            int idx = (int) (currentByteBufferPos - currentAddress);
+            byteStrings.add(ByteString.wrap(slice(idx, idx + bytesToCopy)));
+            l -= bytesToCopy;
+            currentByteBufferPos += bytesToCopy;
+          }
+          return ByteString.copyFrom(byteStrings);
+        } else {
+          byte[] temp = new byte[size];
+          readRawBytesTo(temp, 0, size);
+          return ByteString.wrap(temp);
+        }
       }
 
       if (size == 0) {
@@ -3910,14 +3966,14 @@ public abstract class CodedInputStream {
       int prevPos = currentByteBuffer.position();
       int prevLimit = currentByteBuffer.limit();
       try {
-        currentByteBuffer.position(begin);
-        currentByteBuffer.limit(end);
+        ((Buffer) currentByteBuffer).position(begin);
+        ((Buffer) currentByteBuffer).limit(end);
         return currentByteBuffer.slice();
       } catch (IllegalArgumentException e) {
         throw InvalidProtocolBufferException.truncatedMessage();
       } finally {
-        currentByteBuffer.position(prevPos);
-        currentByteBuffer.limit(prevLimit);
+        ((Buffer) currentByteBuffer).position(prevPos);
+        ((Buffer) currentByteBuffer).limit(prevLimit);
       }
     }
   }
