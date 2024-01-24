@@ -8,7 +8,7 @@ uuid "1A92AB33-0DCB-4953-BCB9-467862B5FE1F"
 
 includedirs {
   "src",
-  _3RDPARTY_DIR .. "/zlib",
+  _3RDPARTY_DIR .. "/zlib-ng",
 }
 
 files {
