@@ -1,32 +1,9 @@
 // Protocol Buffers - Google's data interchange format
 // Copyright 2008 Google Inc.  All rights reserved.
-// https://developers.google.com/protocol-buffers/
 //
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are
-// met:
-//
-//     * Redistributions of source code must retain the above copyright
-// notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above
-// copyright notice, this list of conditions and the following disclaimer
-// in the documentation and/or other materials provided with the
-// distribution.
-//     * Neither the name of Google Inc. nor the names of its
-// contributors may be used to endorse or promote products derived from
-// this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file or at
+// https://developers.google.com/open-source/licenses/bsd
 
 package com.google.protobuf;
 
@@ -56,7 +33,9 @@ import protobuf_unittest.UnittestProto.TestAllTypes;
 import protobuf_unittest.UnittestProto.TestAllTypes.NestedMessage;
 import protobuf_unittest.UnittestProto.TestEmptyMessage;
 import protobuf_unittest.UnittestProto.TestOneof2;
+import protobuf_unittest.UnittestProto.TestRecursiveMessage;
 import protobuf_unittest.UnittestProto.TestRequired;
+import protobuf_unittest.UnittestProto.TestReservedFields;
 import proto2_wireformat_unittest.UnittestMsetWireFormat.TestMessageSet;
 import java.io.StringReader;
 import java.util.Arrays;
@@ -67,9 +46,7 @@ import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Test case for {@link TextFormat}.
- */
+/** Test case for {@link TextFormat}. */
 @RunWith(JUnit4.class)
 public class TextFormatTest {
 
@@ -81,11 +58,6 @@ public class TextFormatTest {
   private static final String ESCAPE_TEST_STRING_ESCAPED =
       "\\\"A string with \\' characters \\n and \\r newlines "
           + "and \\t tabs and \\001 slashes \\\\";
-
-  private static final String ALL_FIELDS_SET_TEXT =
-      TestUtil.readTextFromFile("text_format_unittest_data_oneof_implemented.txt");
-  private static final String ALL_EXTENSIONS_SET_TEXT =
-      TestUtil.readTextFromFile("text_format_unittest_extensions_data.txt");
 
   private static final String EXOTIC_TEXT =
       ""
@@ -162,12 +134,7 @@ public class TextFormatTest {
   public void testPrintMessage() throws Exception {
     String javaText = TextFormat.printer().printToString(TestUtil.getAllSet());
 
-    // Java likes to add a trailing ".0" to floats and doubles.  C printf
-    // (with %g format) does not.  Our golden files are used for both
-    // C++ and Java TextFormat classes, so we need to conform.
-    javaText = javaText.replace(".0\n", "\n");
-
-    assertThat(javaText).isEqualTo(ALL_FIELDS_SET_TEXT);
+    assertThat(javaText).isEqualTo(TestUtil.ALL_FIELDS_SET_TEXT);
   }
 
   @Test
@@ -182,12 +149,7 @@ public class TextFormatTest {
   public void testPrintMessageBuilder() throws Exception {
     String javaText = TextFormat.printer().printToString(TestUtil.getAllSetBuilder());
 
-    // Java likes to add a trailing ".0" to floats and doubles.  C printf
-    // (with %g format) does not.  Our golden files are used for both
-    // C++ and Java TextFormat classes, so we need to conform.
-    javaText = javaText.replace(".0\n", "\n");
-
-    assertThat(javaText).isEqualTo(ALL_FIELDS_SET_TEXT);
+    assertThat(javaText).isEqualTo(TestUtil.ALL_FIELDS_SET_TEXT);
   }
 
   /** Print TestAllExtensions and compare with golden file. */
@@ -195,12 +157,7 @@ public class TextFormatTest {
   public void testPrintExtensions() throws Exception {
     String javaText = TextFormat.printer().printToString(TestUtil.getAllExtensionsSet());
 
-    // Java likes to add a trailing ".0" to floats and doubles.  C printf
-    // (with %g format) does not.  Our golden files are used for both
-    // C++ and Java TextFormat classes, so we need to conform.
-    javaText = javaText.replace(".0\n", "\n");
-
-    assertThat(javaText).isEqualTo(ALL_EXTENSIONS_SET_TEXT);
+    assertThat(javaText).isEqualTo(TestUtil.ALL_EXTENSIONS_SET_TEXT);
   }
 
   // Creates an example unknown field set.
@@ -376,13 +333,13 @@ public class TextFormatTest {
   @Test
   public void testMerge() throws Exception {
     TestAllTypes.Builder builder = TestAllTypes.newBuilder();
-    TextFormat.merge(ALL_FIELDS_SET_TEXT, builder);
+    TextFormat.merge(TestUtil.ALL_FIELDS_SET_TEXT, builder);
     TestUtil.assertAllFieldsSet(builder.build());
   }
 
   @Test
   public void testParse() throws Exception {
-    TestUtil.assertAllFieldsSet(TextFormat.parse(ALL_FIELDS_SET_TEXT, TestAllTypes.class));
+    TestUtil.assertAllFieldsSet(TextFormat.parse(TestUtil.ALL_FIELDS_SET_TEXT, TestAllTypes.class));
   }
 
   @Test
@@ -422,14 +379,15 @@ public class TextFormatTest {
   @Test
   public void testMergeReader() throws Exception {
     TestAllTypes.Builder builder = TestAllTypes.newBuilder();
-    TextFormat.merge(new StringReader(ALL_FIELDS_SET_TEXT), builder);
+    TextFormat.merge(new StringReader(TestUtil.ALL_FIELDS_SET_TEXT), builder);
     TestUtil.assertAllFieldsSet(builder.build());
   }
 
   @Test
   public void testMergeExtensions() throws Exception {
     TestAllExtensions.Builder builder = TestAllExtensions.newBuilder();
-    TextFormat.merge(ALL_EXTENSIONS_SET_TEXT, TestUtil.getFullExtensionRegistry(), builder);
+    TextFormat.merge(
+        TestUtil.ALL_EXTENSIONS_SET_TEXT, TestUtil.getFullExtensionRegistry(), builder);
     TestUtil.assertAllExtensionsSet(builder.build());
   }
 
@@ -437,7 +395,9 @@ public class TextFormatTest {
   public void testParseExtensions() throws Exception {
     TestUtil.assertAllExtensionsSet(
         TextFormat.parse(
-            ALL_EXTENSIONS_SET_TEXT, TestUtil.getFullExtensionRegistry(), TestAllExtensions.class));
+            TestUtil.ALL_EXTENSIONS_SET_TEXT,
+            TestUtil.getFullExtensionRegistry(),
+            TestAllExtensions.class));
   }
 
   @Test
@@ -726,7 +686,6 @@ public class TextFormatTest {
     assertThat(actual).isEqualTo(expected);
   }
 
-
   @Test
   public void testMergeAny_customBuiltTypeRegistry() throws Exception {
     TestAny.Builder builder = TestAny.newBuilder();
@@ -760,7 +719,6 @@ public class TextFormatTest {
                         .build())
                 .build());
   }
-
 
   private void assertParseError(String error, String text) {
     // Test merge().
@@ -825,6 +783,7 @@ public class TextFormatTest {
     }
   }
 
+  @CanIgnoreReturnValue
   private TestAllTypes assertParseSuccessWithOverwriteForbidden(String text)
       throws TextFormat.ParseException {
     TestAllTypes.Builder builder = TestAllTypes.newBuilder();
@@ -1400,7 +1359,6 @@ public class TextFormatTest {
         .isEqualTo("1: \"\\343\\201\\202\"\n");
   }
 
-
   @Test
   public void testParseUnknownExtensions() throws Exception {
     TestUtil.TestLogHandler logHandler = new TestUtil.TestLogHandler();
@@ -1448,6 +1406,18 @@ public class TextFormatTest {
             + "unknown_field2: 2\n"
             + "[unknown_extension]: 12345\n"
             + "unknown_field3: 3\n");
+  }
+
+  @Test
+  public void testParseUnknownExtensionWithAnyMessage() throws Exception {
+    assertParseSuccessWithUnknownExtensions(
+        "[unknown_extension]: { "
+            + "  any_value { "
+            + "    [type.googleapis.com/protobuf_unittest.OneString] { "
+            + "      data: 123 "
+            + "    } "
+            + " } "
+            + "}");
   }
 
   // See additional coverage in testOneofOverwriteForbidden and testMapOverwriteForbidden.
@@ -1667,7 +1637,7 @@ public class TextFormatTest {
 
     {
       // With overwrite forbidden, same behavior.
-      // TODO(b/29122459): Expect parse exception here.
+      // TODO: Expect parse exception here.
       TestMap.Builder builder = TestMap.newBuilder();
       PARSER_WITH_OVERWRITE_FORBIDDEN.merge(text, builder);
       TestMap map = builder.build();
@@ -1677,7 +1647,7 @@ public class TextFormatTest {
 
     {
       // With overwrite forbidden and a dynamic message, same behavior.
-      // TODO(b/29122459): Expect parse exception here.
+      // TODO: Expect parse exception here.
       Message.Builder builder = DynamicMessage.newBuilder(TestMap.getDescriptor());
       PARSER_WITH_OVERWRITE_FORBIDDEN.merge(text, builder);
       TestMap map =
@@ -1762,6 +1732,7 @@ public class TextFormatTest {
     }
   }
 
+  @SuppressWarnings("LenientFormatStringValidation")
   private void assertLocation(
       TextFormatParseInfoTree tree,
       final Descriptor descriptor,
@@ -1775,6 +1746,7 @@ public class TextFormatTest {
       TextFormatParseLocation expected = TextFormatParseLocation.create(line, column);
       assertThat(location).isEqualTo(expected);
     } else if (line != -1 && column != -1) {
+      // Expected 0 args, but got 3.
       assertWithMessage(
               "Tree/descriptor/fieldname did not contain index %d, line %d column %d expected",
               index, line, column)
@@ -1832,4 +1804,99 @@ public class TextFormatTest {
         .isEqualTo("optional_float: -0.0\noptional_double: -0.0\n");
   }
 
+  private TestRecursiveMessage makeRecursiveMessage(int depth) {
+    if (depth == 0) {
+      return TestRecursiveMessage.newBuilder().setI(5).build();
+    } else {
+      return TestRecursiveMessage.newBuilder().setA(makeRecursiveMessage(depth - 1)).build();
+    }
+  }
+
+  @Test
+  public void testDefaultRecursionLimit() throws Exception {
+    String depth100 = TextFormat.printer().printToString(makeRecursiveMessage(100));
+    String depth101 = TextFormat.printer().printToString(makeRecursiveMessage(101));
+    TextFormat.parse(depth100, TestRecursiveMessage.class);
+    try {
+      TextFormat.parse(depth101, TestRecursiveMessage.class);
+      assertWithMessage("Parsing deep message should have failed").fail();
+    } catch (TextFormat.ParseException e) {
+      assertThat(e).hasMessageThat().contains("too deep");
+    }
+  }
+
+  @Test
+  public void testRecursionLimitWithUnknownFields() throws Exception {
+    TextFormat.Parser parser =
+        TextFormat.Parser.newBuilder().setAllowUnknownFields(true).setRecursionLimit(2).build();
+    TestRecursiveMessage.Builder depth2 = TestRecursiveMessage.newBuilder();
+    parser.merge("u { u { i: 0 } }", depth2);
+    try {
+      TestRecursiveMessage.Builder depth3 = TestRecursiveMessage.newBuilder();
+      parser.merge("u { u { u { } } }", depth3);
+      assertWithMessage("Parsing deep message should have failed").fail();
+    } catch (TextFormat.ParseException e) {
+      assertThat(e).hasMessageThat().contains("too deep");
+    }
+  }
+
+  @Test
+  public void testRecursionLimitWithKnownAndUnknownFields() throws Exception {
+    TextFormat.Parser parser =
+        TextFormat.Parser.newBuilder().setAllowUnknownFields(true).setRecursionLimit(2).build();
+    TestRecursiveMessage.Builder depth2 = TestRecursiveMessage.newBuilder();
+    parser.merge("a { u { i: 0 } }", depth2);
+    try {
+      TestRecursiveMessage.Builder depth3 = TestRecursiveMessage.newBuilder();
+      parser.merge("a { u { u { } } }", depth3);
+      assertWithMessage("Parsing deep message should have failed").fail();
+    } catch (TextFormat.ParseException e) {
+      assertThat(e).hasMessageThat().contains("too deep");
+    }
+  }
+
+  @Test
+  public void testRecursionLimitWithAny() throws Exception {
+    TextFormat.Parser parser =
+        TextFormat.Parser.newBuilder()
+            .setRecursionLimit(2)
+            .setTypeRegistry(TypeRegistry.newBuilder().add(TestAllTypes.getDescriptor()).build())
+            .build();
+    TestAny.Builder depth2 = TestAny.newBuilder();
+    parser.merge(
+        "value { [type.googleapis.com/protobuf_unittest.TestAllTypes] { optional_int32: 1 } }",
+        depth2);
+    try {
+      TestAny.Builder depth3 = TestAny.newBuilder();
+      parser.merge(
+          "value { [type.googleapis.com/protobuf_unittest.TestAllTypes] { optional_nested_message {"
+              + "} } }",
+          depth3);
+      assertWithMessage("Parsing deep message should have failed").fail();
+    } catch (TextFormat.ParseException e) {
+      assertThat(e).hasMessageThat().contains("too deep");
+    }
+  }
+
+  @Test
+  public void testRecursionLimitWithTopLevelAny() throws Exception {
+    TextFormat.Parser parser =
+        TextFormat.Parser.newBuilder()
+            .setRecursionLimit(2)
+            .setTypeRegistry(
+                TypeRegistry.newBuilder().add(TestRecursiveMessage.getDescriptor()).build())
+            .build();
+    Any.Builder depth2 = Any.newBuilder();
+    parser.merge(
+        "[type.googleapis.com/protobuf_unittest.TestRecursiveMessage] { a { i: 0 } }", depth2);
+    try {
+      Any.Builder depth3 = Any.newBuilder();
+      parser.merge(
+          "[type.googleapis.com/protobuf_unittest.TestRecursiveMessage] { a { a { i: 0 } } }",
+          depth3);
+      assertWithMessage("Parsing deep message should have failed").fail();
+    } catch (TextFormat.ParseException e) {
+      assertThat(e).hasMessageThat().contains("too deep");
+    }
+  }
 }
