@@ -8,6 +8,8 @@ uuid "1A92AB33-0DCB-4953-BCB9-467862B5FE1F"
 
 includedirs {
   "src",
+  _3RDPARTY_DIR .. "/abseil-cpp",
+  _3RDPARTY_DIR .. "/protobuf/third_party/utf8_range",
   _3RDPARTY_DIR .. "/zlib-ng",
 }
 
@@ -31,19 +33,13 @@ files {
   "src/google/protobuf/map.cc",
   "src/google/protobuf/message_lite.cc",
   "src/google/protobuf/parse_context.cc",
+  "src/google/protobuf/port.cc",
+  "src/google/protobuf/raw_ptr.cc",  
   "src/google/protobuf/repeated_field.cc",
   "src/google/protobuf/repeated_ptr_field.cc",
-  "src/google/protobuf/stubs/bytestream.cc",
   "src/google/protobuf/stubs/common.cc",
-  "src/google/protobuf/stubs/int128.cc",
-  "src/google/protobuf/stubs/status.cc",
-  "src/google/protobuf/stubs/statusor.cc",
-  "src/google/protobuf/stubs/stringpiece.cc",
-  "src/google/protobuf/stubs/stringprintf.cc",
-  "src/google/protobuf/stubs/structurally_valid.cc",
-  "src/google/protobuf/stubs/strutil.cc",
-  "src/google/protobuf/stubs/time.cc",
   "src/google/protobuf/wire_format_lite.cc",
+  "third_party/utf8_range/utf8_validity.cc",
 }
 
 if (_PLATFORM_ANDROID) then
