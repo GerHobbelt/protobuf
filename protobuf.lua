@@ -6,6 +6,10 @@ configuration { "*" }
 
 uuid "1A92AB33-0DCB-4953-BCB9-467862B5FE1F"
 
+defines {
+  "STRIP_LOG=1", -- Prevent abseil-cpp making restricted windows calls for stack tracing
+}
+
 includedirs {
   "src",
   _3RDPARTY_DIR .. "/abseil-cpp",
