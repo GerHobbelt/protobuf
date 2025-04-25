@@ -13,6 +13,7 @@ defines {
 includedirs {
   "src",
   _3RDPARTY_DIR .. "/abseil-cpp",
+  _3RDPARTY_DIR .. "/protobuf/third_party/utf8_range",
   _3RDPARTY_DIR .. "/zlib-ng",
 }
 
