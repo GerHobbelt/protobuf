@@ -43,7 +43,7 @@ files {
   "src/google/protobuf/repeated_ptr_field.cc",
   "src/google/protobuf/stubs/common.cc",
   "src/google/protobuf/wire_format_lite.cc",
-  "third_party/utf8_range/utf8_validity.cc",  
+  "third_party/utf8_range/utf8_validity.cc",
 }
 
 if (_PLATFORM_ANDROID) then
