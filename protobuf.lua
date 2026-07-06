@@ -60,6 +60,7 @@ files {
   "src/google/protobuf/repeated_field.cc",
   "src/google/protobuf/repeated_ptr_field.cc",
   "src/google/protobuf/stubs/common.cc",
+  "src/google/protobuf/symbol_checker.cc",
   "src/google/protobuf/text_format.cc",
   "src/google/protobuf/unknown_field_set.cc",
   "src/google/protobuf/wire_format.cc",
